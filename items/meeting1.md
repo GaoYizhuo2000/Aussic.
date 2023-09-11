@@ -39,18 +39,12 @@ Lead/scribe:
 
 ## Agenda Items
 
-| Number | Item |
-
+| Number   |        Item |
 |:---------|------------:|
-
 | [1] | [Reading through assignment handout] |
-
 | [2] | [Themes Discussing] |
-
 | [3] | [structure of the whole project] |
-
 | [4] | [Talking about software features] |
-
 | [5] | [Discussing the data structure in the future implementations] |
 
 ## Meeting Minutes
@@ -75,15 +69,10 @@ Lead/scribe:
 ## Action Items
 
 | Task | Assigned To | Due Date |
-
 |:---------------------------------------|:-----------:|:----------:|
-
 | [Search - relative studying] | [Yizhuo] | [13/09/2023] |
-
 | [UI design and testing] | [Jiawei] | [13/09/2023] |
-
 | [Research on data manipulation] | [Oscar] | [13/09/2023] |
-
 | [Setup of Firebase] | [Evan] | [13/09/2023] |
 
 ## Scribe Rotation
@@ -91,13 +80,8 @@ Lead/scribe:
 The following dictates who will scribe in this and the next meeting.
 
 | Name |
-
 | :---: |
-
 | [Evan Cheung] |
-
 | [Yizhuo Gao] |
-
 | [Jiawei Niu] |
-
 | [Oscar Wei] |
