@@ -56,14 +56,14 @@ Lead/scribe:
 ## Meeting Minutes
 
 - Reading and talking about the assignment handout
-- Discussing about the theme of the apps
-  - Music app: AussicMusic or Aussic - (could change later) (chosen)
-  - Local restaurant app: NewSearchingWhere
-  - Wikipedia-like app: Whadapedia
-- Talking about the structure of the whole project
-  - Tree style data structure for saving data
-  - Android UI design
-  - http and p2p messaging
+- Discussing about the theme of the apps:
+    - Music app: AussicMusic or Aussic - (could change later) (chosen)
+    - Local restaurant app: NewSearchingWhere
+    - Wikipedia-like app: Whadapedia
+- Talking about the structure of the whole project:
+    - Tree style data structure for saving data
+    - Android UI design
+    - http and p2p messaging
 - Token and parsing
 - Software features discussing
 - some basic thoughts of LoadShowData
