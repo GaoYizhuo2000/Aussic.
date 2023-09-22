@@ -20,6 +20,7 @@ def randomContent():
 
 def generateLikeData():
     data = {
+        "actionType": "like",
         "userName": randomEmail(),
         "tagetSong": randomSong()
         }
@@ -27,6 +28,7 @@ def generateLikeData():
     
 def generateCommentData():
     data = {
+        "actionType": "comment",
         "userName": randomEmail(),
         "tagetSong": randomSong(),
         "content": randomContent()

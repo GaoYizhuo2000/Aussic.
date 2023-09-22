@@ -3,8 +3,8 @@ package au.edu.anu.Aussic.models.userAction;
 import java.util.Date;
 
 public class Like extends UserAction{
-    public Like(String username, String targetSong, Date actionTime) {
-        super(username, targetSong);
+    public Like(String username, String targetSong, String actionType) {
+        super(username, targetSong, actionType);
     }
 
     @Override

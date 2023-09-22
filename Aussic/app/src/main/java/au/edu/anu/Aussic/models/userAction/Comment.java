@@ -5,8 +5,8 @@ import java.util.Date;
 public class Comment extends UserAction{
     protected String content;
 
-    public Comment(String username, String targetSong, Date actionTime, String content) {
-        super(username, targetSong);
+    public Comment(String username, String targetSong, String content, String actionType) {
+        super(username, targetSong, actionType);
         this.content = content;
     }
 
