@@ -1,7 +1,10 @@
 package au.edu.anu.Aussic.models.userAction;
 
-import java.util.Date;
-
+/**
+ *
+ *
+ * @author Yizhuo Gao
+ */
 public class Comment extends UserAction{
     protected String content;
 

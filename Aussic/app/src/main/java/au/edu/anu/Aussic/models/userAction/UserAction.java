@@ -1,7 +1,10 @@
 package au.edu.anu.Aussic.models.userAction;
 
-import java.util.Date;
-
+/**
+ *
+ *
+ * @author Yizhuo Gao
+ */
 public abstract class UserAction {
     protected String actionType;
     protected String username;
