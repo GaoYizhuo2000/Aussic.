@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "290439850069",
+    "project_id": "aussic-52582",
+    "storage_bucket": "aussic-52582.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290439850069:android:5474372701b5c9fff9ccdc",
+        "android_client_info": {
+          "package_name": "au.edu.anu.Aussic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClidy15CtqpJdkn8DRHytbeAODnkT9daY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
