@@ -20,10 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.homePages.homePageActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
-    private Button buttonSignIn, buttonSignUp;
+    private Button buttonSignIn, buttonSignUp, buttonNoLoginIn;
     private FirebaseAuth mAuth;
 
     private static final String TAG = "EmailPassword";
@@ -41,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.UserPassword);
         buttonSignIn = (Button) findViewById(R.id.SignIN);
         buttonSignUp = (Button) findViewById(R.id.SignUP);
+        buttonNoLoginIn = (Button) findViewById(R.id.noLogin);
+
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +70,8 @@ public class LoginActivity extends AppCompatActivity {
                     password.requestFocus();
                     return;
                 }
-                mAuth.signInWithEmailAndPassword(user_name, pass_word)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(user_name, pass_word).addOnCompleteListener(
+                                new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
@@ -89,7 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                                     updateUI(null);
                                 }
                             }
-                        });
+                        }
+                        );
             }
         });
 
@@ -97,6 +101,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonNoLoginIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, homePageActivity.class);
                 startActivity(intent);
             }
         });
