@@ -14,7 +14,7 @@ public class Comment extends UserAction{
     }
 
     @Override
-    String getToastMessage() {
+    public String getToastMessage() {
         return String.format("User %s commented on the song \"%s\": %s", username, targetSong, content);
     }
 }

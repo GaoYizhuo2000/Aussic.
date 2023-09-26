@@ -12,7 +12,7 @@ public class Like extends UserAction{
     }
 
     @Override
-    String getToastMessage() {
+    public String getToastMessage() {
         return String.format("User %s liked the song \"%s\"", username, targetSong);
     }
 }

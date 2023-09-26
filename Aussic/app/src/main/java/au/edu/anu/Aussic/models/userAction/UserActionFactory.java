@@ -14,13 +14,13 @@ public class UserActionFactory {
         if ("like".equals(actionType)) {
             return new Like(
                     jsonObject.get("userName").getAsString(),
-                    jsonObject.get("targetSong").getAsString(),
+                    jsonObject.get("tagetSong").getAsString(),
                     actionType
             );
         } else if ("comment".equals(actionType)) {
             return new Comment(
                     jsonObject.get("userName").getAsString(),
-                    jsonObject.get("targetSong").getAsString(),
+                    jsonObject.get("tagetSong").getAsString(),
                     jsonObject.get("content").getAsString(),
                     actionType
             );

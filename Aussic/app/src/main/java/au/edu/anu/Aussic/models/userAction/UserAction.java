@@ -15,6 +15,6 @@ public abstract class UserAction {
         this.targetSong = targetSong;
         this.actionType = actionType;
     }
-    abstract String getToastMessage();
+    public abstract String getToastMessage();
 
 }
