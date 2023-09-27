@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.avl;
+package au.edu.anu.Aussic.models.avl;
 
 /**
  * An AVL tree is actually an extension of a Binary Search Tree

@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.avl;
+package au.edu.anu.Aussic.models.avl;
 
 /**
  * To avoid null pointer errors (and because this implementation is immutable)
@@ -44,7 +44,6 @@ public abstract class EmptyTree<T extends Comparable<T>> extends Tree<T> {
         return "{}";
     }
 
-    @Override
     public String display(int tabs) {
         return "null";
     }

@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.avl;
+package au.edu.anu.Aussic.models.avl;
 
 public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
     public AVLTree(T value) {

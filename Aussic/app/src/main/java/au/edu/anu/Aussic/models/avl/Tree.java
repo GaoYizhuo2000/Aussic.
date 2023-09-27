@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.avl;
+package au.edu.anu.Aussic.models.avl;
 
 import java.util.LinkedList;
 import java.util.List;
