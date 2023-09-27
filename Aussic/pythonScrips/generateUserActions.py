@@ -13,7 +13,8 @@ def randomEmail():
 def randomSong():
     with open('../app/src/main/java/au/edu/anu/Aussic/models/entity/songs.json', 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
-        return random.choice(data)
+
+        return random.choice(data)["attributes"]["name"]
 
 def randomContent():
     return random.choice(["Nice!", "Good!!", "I like this song so much", "Wonderful!"])
