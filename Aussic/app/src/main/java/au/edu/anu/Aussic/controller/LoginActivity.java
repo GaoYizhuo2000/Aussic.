@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.homePageActivity;
+import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
 
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonNoLoginIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
