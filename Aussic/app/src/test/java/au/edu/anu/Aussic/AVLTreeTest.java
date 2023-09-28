@@ -3,8 +3,7 @@ package au.edu.anu.Aussic;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-import au.edu.anu.Aussic.avl.AVLTree;
+import au.edu.anu.Aussic.models.avl.AVLTree;
 
 public class AVLTreeTest {
     /*
