@@ -40,14 +40,15 @@ def generateCommentData():
 userActionList = []
 functionList = ['generateLikeData', 'generateCommentData']
 
-for i in range(10):
+for i in range(2500):
     function = random.choice(functionList)
     if function == 'generateLikeData':
         userActionList.append(generateLikeData())
     if function == 'generateCommentData':
         userActionList.append(generateCommentData())
+    print(i)
     
 
-print(userActionList)
+
 with open("../app/src/main/java/au/edu/anu/Aussic/models/userAction/userActions.json", "w") as json_file:
     json.dump(userActionList, json_file)
