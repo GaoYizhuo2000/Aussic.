@@ -1,5 +1,7 @@
 package au.edu.anu.Aussic.models.search;
 
+import java.util.List;
+
 import au.edu.anu.Aussic.models.entity.Song;
 
 public class MusicSearchEngine {
@@ -11,5 +13,6 @@ public class MusicSearchEngine {
 
     public List<Song> search(Query query) {
         // Implement search logic here
+        return null;
     }
 }
