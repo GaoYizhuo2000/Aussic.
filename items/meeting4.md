@@ -41,10 +41,10 @@ Lead/scribe:
 
 | Task                                                                           | Assigned To |  Due Date  |
 | :----------------------------------------------------------------------------- | :---------: | :--------: |
-| Implement the login and sign-in features.                                      |   Jiawei   | 21/09/2023 |
-| Implement the like and comment parts, class "Song", backend of user activities |   Yizhuo   | 21/09/2023 |
-| Design the UI, homepage, and other pages                                       |    Evan    | 21/09/2023 |
-| Research on Search, parser, toenizer, and filter                               |    Oscar    | 21/09/2023 |
+| Implement the login and sign-in features.                                      |   Jiawei   | 05/10/2023 |
+| Implement the like and comment parts, class "Song", backend of user activities |   Yizhuo   | 05/10/2023 |
+| Design the UI, homepage, and other pages                                       |    Evan    | 05/10/2023 |
+| Research on Search, parser, toenizer, and filter                               |    Oscar   | 05/10/2023 |
 
 ## Meeting Minutes
 
