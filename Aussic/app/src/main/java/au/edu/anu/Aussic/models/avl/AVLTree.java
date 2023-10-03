@@ -196,6 +196,18 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
         }
     }
 
+    public void inorderTraversal() {
+        if (this.value != null) {
+            if (this.leftNode instanceof AVLTree) {
+                ((AVLTree<T>) this.leftNode).inorderTraversal();
+            }
+            System.out.println(this.value);
+            if (this.rightNode instanceof AVLTree) {
+                ((AVLTree<T>) this.rightNode).inorderTraversal();
+            }
+        }
+    }
+
 
 
     /**
