@@ -1,6 +1,11 @@
 package au.edu.anu.Aussic.models.userAction;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Date;
+
+import au.edu.anu.Aussic.models.firestoreSingleton.Firestore;
+
 /**
  *
  *
@@ -20,6 +25,7 @@ public class Like extends UserAction{
 
     @Override
     public void update() {
+        FirebaseFirestore db = Firestore.getInstance();
 
     }
 }

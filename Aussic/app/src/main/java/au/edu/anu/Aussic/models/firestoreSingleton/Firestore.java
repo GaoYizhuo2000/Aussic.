@@ -6,7 +6,6 @@ public class Firestore {
     private static FirebaseFirestore firestore;
 
     private Firestore() {
-        // 私有构造函数
     }
 
     public static FirebaseFirestore getInstance() {

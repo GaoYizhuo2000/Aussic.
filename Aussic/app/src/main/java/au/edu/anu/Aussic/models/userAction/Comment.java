@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.userAction;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import au.edu.anu.Aussic.models.firestoreSingleton.Firestore;
+
 /**
  *
  *
@@ -20,6 +24,7 @@ public class Comment extends UserAction{
 
     @Override
     public void update() {
-
+        FirebaseFirestore db = Firestore.getInstance();
+        System.out.println(db + "");
     }
 }

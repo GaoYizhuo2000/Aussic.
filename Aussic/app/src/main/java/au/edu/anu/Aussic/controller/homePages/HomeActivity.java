@@ -187,7 +187,7 @@ public class HomeActivity extends AppCompatActivity {
             loadShowData();
 
             // Schedule the next execution
-            timerHandler.postDelayed(this, 10000);
+            timerHandler.postDelayed(this, 5000);
         }
     };
     public void loadJsonObjectFromRawResource(int resourceId) {
@@ -208,7 +208,9 @@ public class HomeActivity extends AppCompatActivity {
         // mimic user behavior every 10 seconds
         jsonObject = jsonArray.get(currentID).getAsJsonObject();
         UserAction userAction = UserActionFactory.createUserAction(jsonObject);
+        userAction.update();
         Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
+
         currentID += 1;
         if(currentID >= arrayLength) currentID = currentID % arrayLength;
     }
