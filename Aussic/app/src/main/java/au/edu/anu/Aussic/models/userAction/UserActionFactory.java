@@ -13,16 +13,28 @@ public class UserActionFactory {
         String actionType = jsonObject.get("actionType").getAsString();
         if ("like".equals(actionType)) {
             return new Like(
+                    actionType,
                     jsonObject.get("userName").getAsString(),
-                    jsonObject.get("tagetSong").getAsString(),
-                    actionType
+                    jsonObject.get("targetSong").getAsString(),
+                    jsonObject.get("targetSongId").getAsInt()
+
             );
         } else if ("comment".equals(actionType)) {
             return new Comment(
+                    actionType,
                     jsonObject.get("userName").getAsString(),
-                    jsonObject.get("tagetSong").getAsString(),
-                    jsonObject.get("content").getAsString(),
-                    actionType
+                    jsonObject.get("targetSong").getAsString(),
+                    jsonObject.get("targetSongId").getAsInt(),
+                    jsonObject.get("content").getAsString()
+
+            );
+        }
+        else if ("favorite".equals(actionType)) {
+            return new Favorites(
+                    actionType,
+                    jsonObject.get("userName").getAsString(),
+                    jsonObject.get("targetSong").getAsString(),
+                    jsonObject.get("targetSongId").getAsInt()
             );
         }
 

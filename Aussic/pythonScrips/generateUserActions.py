@@ -11,10 +11,11 @@ def randomEmail():
     return username + "@" + random_domain
 
 def randomSong():
-    with open('../app/src/main/java/au/edu/anu/Aussic/models/entity/songs.json', 'r', encoding='utf-8') as json_file:
+    with open('../pythonScrips/backup/songs.json', 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
+        song = random.choice(data)
 
-        return random.choice(data)["attributes"]["name"]
+        return {"targetSongId": song["id"], "targetSong": song["attributes"]["name"]}
 
 def randomContent():
     return random.choice(["Nice!", "Good!!", "I like this song so much", "Wonderful!"])
@@ -23,22 +24,32 @@ def generateLikeData():
     data = {
         "actionType": "like",
         "userName": randomEmail(),
-        "tagetSong": randomSong()
+        "targetSong": randomSong()["targetSong"],
+        "targetSongId": randomSong()["targetSongId"],
         }
     return data
-    
+
+def generateFavoriteData():
+    data = {
+        "actionType": "favorite",
+        "userName": randomEmail(),
+        "targetSong": randomSong()["targetSong"],
+        "targetSongId": randomSong()["targetSongId"],
+    }
+    return data
 def generateCommentData():
     data = {
         "actionType": "comment",
         "userName": randomEmail(),
-        "tagetSong": randomSong(),
+        "targetSong": randomSong()["targetSong"],
+        "targetSongId": randomSong()["targetSongId"],
         "content": randomContent()
         }
     return data
     
     
 userActionList = []
-functionList = ['generateLikeData', 'generateCommentData']
+functionList = ['generateLikeData', 'generateCommentData', "generateFavoriteData"]
 
 for i in range(2500):
     function = random.choice(functionList)
@@ -46,9 +57,11 @@ for i in range(2500):
         userActionList.append(generateLikeData())
     if function == 'generateCommentData':
         userActionList.append(generateCommentData())
+    if function == 'generateFavoriteData':
+        userActionList.append(generateFavoriteData())
     print(i)
     
 
 
-with open("../app/src/main/java/au/edu/anu/Aussic/models/userAction/userActions.json", "w") as json_file:
+with open("../app/src/main/res/raw/useractions.json", "w") as json_file:
     json.dump(userActionList, json_file)
