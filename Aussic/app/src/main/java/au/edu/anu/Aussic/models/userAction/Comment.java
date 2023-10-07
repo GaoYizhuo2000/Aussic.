@@ -1,10 +1,7 @@
 package au.edu.anu.Aussic.models.userAction;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Source;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,13 +30,13 @@ public class Comment extends UserAction{
     @Override
     public void update() {
         FirebaseFirestore db = Firestore.getInstance();
-        DocumentReference docRef = db.collection("songs").document(targetSongId + "");
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Map<String, Object> data = documentSnapshot.getData();
+        DocumentReference docRef = db.collection("Songs").document("" + targetSongId);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> data = task.getResult().getData();
                 Map<String, Object> comments = (Map<String, Object>) data.get("comments");
-                comments.put("num", Integer.parseInt((String) comments.get("num")) + 1);
+                Long num = (Long) comments.get("num");
+                comments.put("num", num + 1);
                 List<Map<String, Object>> details = (List<Map<String, Object>>) comments.get("details");
                 Map<String, Object> newComment = new HashMap<>();
                 newComment.put("uid", username);

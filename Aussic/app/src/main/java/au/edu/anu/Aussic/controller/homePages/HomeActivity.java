@@ -208,7 +208,7 @@ public class HomeActivity extends AppCompatActivity {
         // mimic user behavior every 10 seconds
         jsonObject = jsonArray.get(currentID).getAsJsonObject();
         UserAction userAction = UserActionFactory.createUserAction(jsonObject);
-    //    userAction.update();
+        userAction.update();
         Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
 
         currentID += 1;

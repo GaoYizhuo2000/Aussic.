@@ -2,10 +2,7 @@ package au.edu.anu.Aussic.models.userAction;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Source;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import au.edu.anu.Aussic.models.firestoreSingleton.Firestore;
@@ -30,10 +27,14 @@ public class Like extends UserAction{
     @Override
     public void update() {
         FirebaseFirestore db = Firestore.getInstance();
-        DocumentReference docRef = db.collection("songs").document(targetSongId + "");
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("likes", Integer.parseInt(docRef.get(Source.valueOf("likes")).toString()) + 1);
-        docRef.update(updates);
+        DocumentReference docRef = db.collection("Songs").document(targetSongId + "");
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> data = task.getResult().getData();
+                Long likes = (Long) data.get("likes") + 1;
+                docRef.update("likes", likes);
+            }
+        });
         //之后在listview中添加监听器，同步显示数据变化
     }
 }
