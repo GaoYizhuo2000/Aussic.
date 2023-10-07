@@ -59,9 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:src="@drawable/baseline_add_24"
+            android:src="@drawable/ic_bottom_play"
             app:layout_anchor="@id/bottomAppBar"
-            app:maxImageSize="40dp"
+            app:maxImageSize="50dp"
             android:id="@+id/fab"
             app:tint="@color/sky_blue" />
 
