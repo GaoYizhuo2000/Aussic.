@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        FirebaseApp.initializeApp(getBaseContext());
+        mAuth = FirebaseAuth.getInstance();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
