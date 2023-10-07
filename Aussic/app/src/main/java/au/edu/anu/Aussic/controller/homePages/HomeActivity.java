@@ -39,6 +39,7 @@ import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
+import au.edu.anu.Aussic.models.entity.Media;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
@@ -55,10 +56,8 @@ public class HomeActivity extends AppCompatActivity {
     private LibraryFragment libraryFragment = new LibraryFragment();
     private FavoritesFragment favoritesFragment = new FavoritesFragment();
     private Handler timerHandler = new Handler();
-
-    private JsonObject jsonObject = null;
     private MediaPlayer mediaPlayer;
-    private boolean isPlaying = false;
+    private JsonObject jsonObject = null;
     private JsonArray jsonArray;
     private int arrayLength = 0;
     private int currentID = 0;
@@ -95,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
+
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,R.string.close_nav);
@@ -135,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
-        mediaPlayer = new MediaPlayer();
+        this.mediaPlayer = Media.mediaPlayer;
         try{
           mediaPlayer.setDataSource("https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/d0/2c/70/d02c70c1-0d40-711c-a64f-c55e3ea4b40c/mzaf_9384807071490377244.plus.aac.p.m4a");
           mediaPlayer.prepare();
@@ -148,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isPlaying) {
+                if(mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                     fab.setImageResource(R.drawable.ic_bottom_play);
                 }
@@ -156,7 +155,6 @@ public class HomeActivity extends AppCompatActivity {
                     mediaPlayer.start();
                     fab.setImageResource(R.drawable.ic_bottom_stop);
                 }
-                isPlaying = !isPlaying;
                 //showBottomDialog();
             }
         });

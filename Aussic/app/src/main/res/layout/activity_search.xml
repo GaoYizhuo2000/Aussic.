@@ -35,6 +35,14 @@
                 android:visibility="visible"
                 app:iconifiedByDefault="true"
                 app:searchIcon="@drawable/ic_bar_search" />
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_gravity="end" />
         </androidx.appcompat.widget.Toolbar>
 
 
@@ -45,7 +53,34 @@
 
 
     </LinearLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/search_bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            app:fabCradleMargin="10dp"
+            app:fabCradleRoundedCornerRadius="50dp">
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_bottom_play"
+            app:layout_anchor="@id/search_bottomAppBar"
+            app:maxImageSize="50dp"
+            android:id="@+id/search_fab"
+            app:tint="@color/sky_blue" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 
