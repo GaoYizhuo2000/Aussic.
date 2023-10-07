@@ -86,13 +86,13 @@ Lead/scribe:
 
 | :----------------------------------------------------------------------------- | :---------: | :--------: |
 
-| Debug the login and sign-in features. And complete the User pages| Jiawei | 07/10/2023 |
+| Debug the login and sign-in features. And complete the User pages| Jiawei | 09/10/2023 |
 
-| Connect the backend logic to firestore | Yizhuo | 07/10/2023 |
+| Connect the backend logic to firestore | Yizhuo | 09/10/2023 |
 
-| Add sone elements to the home page and search page, and other pages | Evan | 07/10/2023 |
+| Add sone elements to the home page and search page, and other pages | Evan | 09/10/2023 |
 
-| Update tokenizer and parser grammar rules, and update the AVL tree to include key  | Oscar | 07/10/2023 |
+| Update tokenizer and parser grammar rules, and update the AVL tree to include key  | Oscar | 09/10/2023 |
 
   
 
