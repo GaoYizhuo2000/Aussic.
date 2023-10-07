@@ -106,6 +106,7 @@ Lead/scribe:
   
 
 **Procedure report:** 
+
 	1. basic searching functionality developed (including basic tokenizer and parser)
 	2. basic music playing functionality, 
 	3. data has been migrated to firestore, and can directly obtain and change from the firestore.
