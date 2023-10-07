@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -53,6 +54,8 @@ public class HomeActivity extends AppCompatActivity {
     private Handler timerHandler = new Handler();
 
     private JsonObject jsonObject = null;
+    private MediaPlayer mediaPlayer;
+    private boolean isPlaying = false;
     private JsonArray jsonArray;
     private int arrayLength = 0;
     private int currentID = 0;
@@ -106,10 +109,29 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
+        mediaPlayer = new MediaPlayer();
+        try{
+          mediaPlayer.setDataSource("https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/d0/2c/70/d02c70c1-0d40-711c-a64f-c55e3ea4b40c/mzaf_9384807071490377244.plus.aac.p.m4a");
+          mediaPlayer.prepare();
+          mediaPlayer.setLooping(true);
+          //mediaPlayer.setVolume(1.0f,1.0f);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showBottomDialog();
+                if(isPlaying) {
+                    mediaPlayer.pause();
+                    fab.setImageResource(R.drawable.ic_bottom_play);
+                }
+                else {
+                    mediaPlayer.start();
+                    fab.setImageResource(R.drawable.ic_bottom_stop);
+                }
+                isPlaying = !isPlaying;
+                //showBottomDialog();
             }
         });
 
@@ -208,10 +230,23 @@ public class HomeActivity extends AppCompatActivity {
         // mimic user behavior every 10 seconds
         jsonObject = jsonArray.get(currentID).getAsJsonObject();
         UserAction userAction = UserActionFactory.createUserAction(jsonObject);
-    //    userAction.update();
+        //    userAction.update();
         Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
 
         currentID += 1;
         if(currentID >= arrayLength) currentID = currentID % arrayLength;
+    }
+
+    private void loadRandomSong(){
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer != null){
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
