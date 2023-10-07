@@ -34,7 +34,7 @@ Lead/scribe:
 
 - Lead - Yizhuo Gao
 
-- Scribe - Oscar Wei
+- Scribe - Evan Cheung
 
   
 
