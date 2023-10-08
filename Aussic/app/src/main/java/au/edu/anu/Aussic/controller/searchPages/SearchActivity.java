@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -34,6 +37,10 @@ public class SearchActivity extends AppCompatActivity {
     private TabLayout tabs;
     private int selectID;
     private boolean isInit;
+    private GeneralSearchFragment generalSearch;
+    private SongSearchFragment songSearch;
+    private ArtistSearchFragment artistSearch;
+    private GenreSearchFragment genreSearch;
 
 
     @SuppressLint("ResourceAsColor")
@@ -45,6 +52,11 @@ public class SearchActivity extends AppCompatActivity {
         searchButton = findViewById(R.id.btn_search);
         searchView = findViewById(R.id.searchView_search);
 
+        this.generalSearch = new GeneralSearchFragment();
+        this.songSearch = new SongSearchFragment();
+        this.artistSearch = new ArtistSearchFragment();
+        this.genreSearch = new GenreSearchFragment();
+
         this.tabs = findViewById(R.id.tabs);
 
         for(int i = 0; i < 2; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg_alt);
@@ -54,6 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         setTabColor(2, R.drawable.ic_tabs_bg);
         this.selectID = 2;
         this.isInit = true;
+        replaceFragment(generalSearch);
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -63,8 +76,7 @@ public class SearchActivity extends AppCompatActivity {
                     isInit = false;
                 }
                 int selectedTabIndex = tab.getPosition();
-                selectID = selectedTabIndex;
-                switch (selectID) {
+                switch (selectedTabIndex) {
                     case 0:
                         // Actions for "Likes" tab
                         setTabColor(0, R.drawable.ic_tabs_bg_alt);
@@ -74,30 +86,34 @@ public class SearchActivity extends AppCompatActivity {
                         setTabColor(1, R.drawable.ic_tabs_bg_alt);
                         break;
                     case 2:
-                        // Actions for "Genre" tab
+                        // Actions for "General" tab
                         setTabColor(2, R.drawable.ic_tabs_bg);
+                        replaceFragment(generalSearch);
                         break;
                     case 3:
                         setTabColor(3, R.drawable.ic_tabs_bg);
+                        replaceFragment(songSearch);
                         // Actions for "Song" tab
                         break;
                     case 4:
                         setTabColor(4, R.drawable.ic_tabs_bg);
+                        replaceFragment(artistSearch);
                         // Actions for "Artist" tab
                         break;
                     case 5:
                         setTabColor(5, R.drawable.ic_tabs_bg);
+                        replaceFragment(genreSearch);
                         // Actions for "Genre" tab
                         break;
                     // Add more cases if there are more tabs
                 }
+                selectID = selectedTabIndex;
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 int selectedTabIndex = tab.getPosition();
-                selectID = selectedTabIndex;
-                switch (selectID) {
+                switch (selectedTabIndex) {
                     case 0:
                         // Actions for "Likes" tab
                         setTabColor(0, R.drawable.ic_tabs_trans_bg_alt);
@@ -107,7 +123,7 @@ public class SearchActivity extends AppCompatActivity {
                         setTabColor(1, R.drawable.ic_tabs_trans_bg_alt);
                         break;
                     case 2:
-                        // Actions for "Genre" tab
+                        // Actions for "General" tab
                         setTabColor(2, R.drawable.ic_tabs_trans_bg);
                         break;
                     case 3:
@@ -128,37 +144,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                int selectedTabIndex = tab.getPosition();
-                selectID = selectedTabIndex;
-                switch (selectID) {
-                    case 0:
-                        // Actions for "Likes" tab
-                        setTabColor(0, R.drawable.ic_tabs_bg_alt);
-                        break;
-                    case 1:
-                        // Actions for "Comments" tab
-                        setTabColor(1, R.drawable.ic_tabs_bg_alt);
-                        break;
-                    case 2:
-                        // Actions for "Genre" tab
-                        setTabColor(2, R.drawable.ic_tabs_bg);
-                        break;
-                    case 3:
-                        setTabColor(3, R.drawable.ic_tabs_bg);
-                        // Actions for "Song" tab
-                        break;
-                    case 4:
-                        setTabColor(4, R.drawable.ic_tabs_bg);
-                        // Actions for "Artist" tab
-                        break;
-                    case 5:
-                        setTabColor(5, R.drawable.ic_tabs_bg);
-                        // Actions for "Genre" tab
-                        break;
-                    // Add more cases if there are more tabs
-                }
-            }
+            public void onTabReselected(TabLayout.Tab tab){}
         });
 
 
@@ -259,7 +245,12 @@ public class SearchActivity extends AppCompatActivity {
 
         // Set the new background
         tabView.setBackground(newRippleDrawable);
+    }
 
-
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_layout, fragment);
+        fragmentTransaction.commit();
     }
 }

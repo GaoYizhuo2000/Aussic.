@@ -163,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
         timerHandler.postDelayed(timerRunnable, 10000);
     }
     // Outside Oncreate
-    private  void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, fragment);

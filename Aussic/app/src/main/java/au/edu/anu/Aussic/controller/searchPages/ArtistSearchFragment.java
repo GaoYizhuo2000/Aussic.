@@ -12,10 +12,10 @@ import au.edu.anu.Aussic.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ArtistNameFragment#newInstance} factory method to
+ * Use the {@link ArtistSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArtistNameFragment extends Fragment {
+public class ArtistSearchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class ArtistNameFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ArtistNameFragment() {
+    public ArtistSearchFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class ArtistNameFragment extends Fragment {
      * @return A new instance of fragment ArtistFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ArtistNameFragment newInstance(String param1, String param2) {
-        ArtistNameFragment fragment = new ArtistNameFragment();
+    public static ArtistSearchFragment newInstance(String param1, String param2) {
+        ArtistSearchFragment fragment = new ArtistSearchFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
