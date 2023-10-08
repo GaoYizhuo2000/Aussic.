@@ -51,7 +51,7 @@ public class SearchActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //把搜索框中的查询传给parser，在parser里转成map然后传给firestoreDao.searchSongs(terms)
+                //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
 
                 Map<String, Object> terms = new HashMap<>();
                 terms.put("artistName", "INXS");
@@ -64,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
                 FirestoreDao firestoreDao = new FirestoreDaoImpl();
                 CompletableFuture<List<Map<String, Object>>> future = firestoreDao.searchSongs(terms);
                 future.thenAccept(results -> {
-                //拿到查询结果后处理结果，放入列表
+                //拿到查询结果后处理结果，放入listview
 
                     System.out.println(results);
 
