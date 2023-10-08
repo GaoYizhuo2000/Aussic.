@@ -24,6 +24,8 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView_search"
                 android:layout_width="280dp"
@@ -44,6 +46,62 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:layout_gravity="end" />
         </androidx.appcompat.widget.Toolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="@drawable/ic_tabs_trans_bg"
+            android:textAllCaps="false"
+            app:tabGravity="center"
+            app:tabMode="scrollable"
+            app:tabPaddingStart="8dp"
+            app:tabPaddingEnd="8dp"
+            app:tabMinWidth="100dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:tabIndicatorHeight="0dp"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/white">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Likes" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="General" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genre" />
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 
         <FrameLayout

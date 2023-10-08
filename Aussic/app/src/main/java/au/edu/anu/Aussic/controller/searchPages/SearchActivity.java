@@ -2,22 +2,25 @@ package au.edu.anu.Aussic.controller.searchPages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.ViewGroup;
 import android.widget.Button;
+
 import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.models.entity.Media;
@@ -28,8 +31,12 @@ public class SearchActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private Button searchButton;
     private SearchView searchView;
+    private TabLayout tabs;
+    private int selectID;
+    private boolean isInit;
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +45,128 @@ public class SearchActivity extends AppCompatActivity {
         searchButton = findViewById(R.id.btn_search);
         searchView = findViewById(R.id.searchView_search);
 
-        searchView.setInputType(InputType.TYPE_CLASS_TEXT);
+        this.tabs = findViewById(R.id.tabs);
+
+        for(int i = 0; i < 2; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg_alt);
+        for(int i = 2; i < 6; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg);
+
+        // Select general for the first init
+        setTabColor(2, R.drawable.ic_tabs_bg);
+        this.selectID = 2;
+        this.isInit = true;
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(isInit) {
+                    setTabColor(2, R.drawable.ic_tabs_trans_bg);
+                    isInit = false;
+                }
+                int selectedTabIndex = tab.getPosition();
+                selectID = selectedTabIndex;
+                switch (selectID) {
+                    case 0:
+                        // Actions for "Likes" tab
+                        setTabColor(0, R.drawable.ic_tabs_bg_alt);
+                        break;
+                    case 1:
+                        // Actions for "Comments" tab
+                        setTabColor(1, R.drawable.ic_tabs_bg_alt);
+                        break;
+                    case 2:
+                        // Actions for "Genre" tab
+                        setTabColor(2, R.drawable.ic_tabs_bg);
+                        break;
+                    case 3:
+                        setTabColor(3, R.drawable.ic_tabs_bg);
+                        // Actions for "Song" tab
+                        break;
+                    case 4:
+                        setTabColor(4, R.drawable.ic_tabs_bg);
+                        // Actions for "Artist" tab
+                        break;
+                    case 5:
+                        setTabColor(5, R.drawable.ic_tabs_bg);
+                        // Actions for "Genre" tab
+                        break;
+                    // Add more cases if there are more tabs
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                int selectedTabIndex = tab.getPosition();
+                selectID = selectedTabIndex;
+                switch (selectID) {
+                    case 0:
+                        // Actions for "Likes" tab
+                        setTabColor(0, R.drawable.ic_tabs_trans_bg_alt);
+                        break;
+                    case 1:
+                        // Actions for "Comments" tab
+                        setTabColor(1, R.drawable.ic_tabs_trans_bg_alt);
+                        break;
+                    case 2:
+                        // Actions for "Genre" tab
+                        setTabColor(2, R.drawable.ic_tabs_trans_bg);
+                        break;
+                    case 3:
+                        setTabColor(3, R.drawable.ic_tabs_trans_bg);
+                        // Actions for "Song" tab
+                        break;
+                    case 4:
+                        setTabColor(4, R.drawable.ic_tabs_trans_bg);
+                        // Actions for "Artist" tab
+                        break;
+                    case 5:
+                        setTabColor(5, R.drawable.ic_tabs_trans_bg);
+                        // Actions for "Genre" tab
+                        break;
+                    // Add more cases if there are more tabs
+                }
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                int selectedTabIndex = tab.getPosition();
+                selectID = selectedTabIndex;
+                switch (selectID) {
+                    case 0:
+                        // Actions for "Likes" tab
+                        setTabColor(0, R.drawable.ic_tabs_bg_alt);
+                        break;
+                    case 1:
+                        // Actions for "Comments" tab
+                        setTabColor(1, R.drawable.ic_tabs_bg_alt);
+                        break;
+                    case 2:
+                        // Actions for "Genre" tab
+                        setTabColor(2, R.drawable.ic_tabs_bg);
+                        break;
+                    case 3:
+                        setTabColor(3, R.drawable.ic_tabs_bg);
+                        // Actions for "Song" tab
+                        break;
+                    case 4:
+                        setTabColor(4, R.drawable.ic_tabs_bg);
+                        // Actions for "Artist" tab
+                        break;
+                    case 5:
+                        setTabColor(5, R.drawable.ic_tabs_bg);
+                        // Actions for "Genre" tab
+                        break;
+                    // Add more cases if there are more tabs
+                }
+            }
+        });
+
 
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Request focus and show the soft keyboard
-                if (searchView.isIconified()) searchView.setIconified(false);
-
+                searchView.setIconified(false);
             }
         });
 
@@ -68,36 +189,76 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String input) {
+                // The IME action was detected, perform the same action as your search button
+                doSearch(input);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle real-time query changes if needed
+                return false;
+            }
+        });
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
-
-                Map<String, Object> terms = new HashMap<>();
-                terms.put("artistName", "INXS");
-                terms.put("name", "Devil's Party (Slick Mix)");
-                terms.put("releaseDate", null);
-
-
-
-
-                FirestoreDao firestoreDao = new FirestoreDaoImpl();
-                CompletableFuture<List<Map<String, Object>>> future = firestoreDao.searchSongs(terms);
-                future.thenAccept(results -> {
-                //拿到查询结果后处理结果，放入listview
-
-
-
-                    String a = results.toString();
-
-
-
-
-                });
-
-
+                String query = searchView.getQuery().toString();
+                doSearch(query);
             }
         });
+
+
+    }
+
+    private void doSearch(String input){
+        // hide the keyboard when button is clicked
+        searchView.setQuery("", false); // Set the query text to an empty string
+        searchView.setIconified(true);
+        searchView.setIconified(true);
+
+        //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
+
+        Map<String, Object> terms = new HashMap<>();
+        terms.put("artistName", "INXS");
+        terms.put("name", "Devil's Party (Slick Mix)");
+        terms.put("releaseDate", null);
+
+
+
+
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        CompletableFuture<List<Map<String, Object>>> future = firestoreDao.searchSongs(terms);
+        future.thenAccept(results -> {
+            //拿到查询结果后处理结果，放入listview
+
+
+
+            String a = results.toString();
+
+        });
+
+    }
+
+    private void setTabColor(int index, int drawable) {
+        View tabView = ((ViewGroup) tabs.getChildAt(0)).getChildAt(index);
+
+        Drawable background = tabView.getBackground();
+
+        RippleDrawable oldRippleDrawable = (RippleDrawable) background;
+
+        // Extract ripple color from the old ripple drawable
+        ColorStateList rippleColor = oldRippleDrawable.getEffectColor();
+
+        // Create new RippleDrawable
+        RippleDrawable newRippleDrawable = new RippleDrawable(rippleColor, getResources().getDrawable(drawable), null);
+
+        // Set the new background
+        tabView.setBackground(newRippleDrawable);
 
 
     }
