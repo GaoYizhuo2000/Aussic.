@@ -2,10 +2,14 @@ package au.edu.anu.Aussic.controller.searchPages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,13 +26,29 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 public class SearchActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
+    private Button searchButton;
+    private SearchView searchView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         FloatingActionButton fab = findViewById(R.id.search_fab);
-        Button searchButton = findViewById(R.id.btn_search);
+        searchButton = findViewById(R.id.btn_search);
+        searchView = findViewById(R.id.searchView_search);
+
+        searchView.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Request focus and show the soft keyboard
+                if (searchView.isIconified()) searchView.setIconified(false);
+
+            }
+        });
+
 
         this.mediaPlayer = Media.mediaPlayer;
         if(this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
@@ -66,7 +86,10 @@ public class SearchActivity extends AppCompatActivity {
                 future.thenAccept(results -> {
                 //拿到查询结果后处理结果，放入listview
 
-                    System.out.println(results);
+
+
+                    String a = results.toString();
+
 
 
 

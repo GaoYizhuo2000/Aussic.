@@ -12,10 +12,10 @@ import au.edu.anu.Aussic.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GenreFragment#newInstance} factory method to
+ * Use the {@link GenreSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GenreFragment extends Fragment {
+public class GenreSearchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class GenreFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public GenreFragment() {
+    public GenreSearchFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class GenreFragment extends Fragment {
      * @return A new instance of fragment GenreFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GenreFragment newInstance(String param1, String param2) {
-        GenreFragment fragment = new GenreFragment();
+    public static GenreSearchFragment newInstance(String param1, String param2) {
+        GenreSearchFragment fragment = new GenreSearchFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class GenreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_genre, container, false);
+        return inflater.inflate(R.layout.fragment_genre_search, container, false);
     }
 }
