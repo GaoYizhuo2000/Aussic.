@@ -1,11 +1,11 @@
-package au.edu.anu.Aussic.models.firestoreSingleton;
+package au.edu.anu.Aussic.models.firebase;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Firestore {
+public class SingletonFirestoreDbConnection {
     private static FirebaseFirestore firestore;
 
-    private Firestore() {
+    private SingletonFirestoreDbConnection() {
     }
 
     public static FirebaseFirestore getInstance() {

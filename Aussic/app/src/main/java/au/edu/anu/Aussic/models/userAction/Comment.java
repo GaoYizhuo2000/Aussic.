@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import au.edu.anu.Aussic.models.firestoreSingleton.Firestore;
+import au.edu.anu.Aussic.models.firebase.SingletonFirestoreDbConnection;
 
 /**
  *
@@ -27,9 +27,14 @@ public class Comment extends UserAction{
         return String.format("User %s commented on the song \"%s\": %s", username, targetSong, content);
     }
 
+    /**
+     * update attributes in songs according to this useraction
+     *
+     *
+     * */
     @Override
     public void update() {
-        FirebaseFirestore db = Firestore.getInstance();
+        FirebaseFirestore db = SingletonFirestoreDbConnection.getInstance();
         DocumentReference docRef = db.collection("Songs").document("" + targetSongId);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
