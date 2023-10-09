@@ -139,18 +139,21 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getRandomSong().thenAccept(results ->{
-            Media.currentSong = JsonSongLoader.loadSong(results);
-            Media.mediaPlayer = new MediaPlayer();
-            this.mediaPlayer = Media.mediaPlayer;
+        firestoreDao.getRandomSongs(1).thenAccept(results ->{
+            Media.setCurrentSong(JsonSongLoader.loadSong(results.get(0)));
+            Media.setMediaPlayer(new MediaPlayer());
+            this.mediaPlayer = Media.getCurrentMediaPlayer();
             try{
-                mediaPlayer.setDataSource(Media.currentSong.getUrlToListen());
+                mediaPlayer.setDataSource(Media.getCurrentSong().getUrlToListen());
                 mediaPlayer.prepare();
                 mediaPlayer.setLooping(true);
                 //mediaPlayer.setVolume(1.0f,1.0f);
             } catch (Exception e){
                 e.printStackTrace();
             }
+            mediaPlayer.start();
+            fab.setImageResource(R.drawable.ic_bottom_stop);
+            Media.notifyListeners();
         });
 
 

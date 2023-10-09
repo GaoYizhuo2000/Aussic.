@@ -29,12 +29,13 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.models.Listener.ChangeListener;
 import au.edu.anu.Aussic.models.entity.Media;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements ChangeListener {
     private MediaPlayer mediaPlayer;
     private Button searchButton;
     private SearchView searchView;
@@ -45,6 +46,7 @@ public class SearchActivity extends AppCompatActivity {
     private SongSearchFragment songSearch;
     private ArtistSearchFragment artistSearch;
     private GenreSearchFragment genreSearch;
+    private FloatingActionButton fab;
 
 
     @SuppressLint("ResourceAsColor")
@@ -52,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        FloatingActionButton fab = findViewById(R.id.search_fab);
+        fab = findViewById(R.id.search_fab);
         searchButton = findViewById(R.id.btn_search);
         searchView = findViewById(R.id.searchView_search);
 
@@ -160,8 +162,10 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        Media.addChangeListener(this);
 
-        this.mediaPlayer = Media.mediaPlayer;
+        this.mediaPlayer = Media.getCurrentMediaPlayer();
+
         if(mediaPlayer != null) {
             if (this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
             else fab.setImageResource(R.drawable.ic_bottom_play);
@@ -275,5 +279,12 @@ public class SearchActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onChange(){
+        this.mediaPlayer = Media.getCurrentMediaPlayer();
+        if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
+        else this.fab.setImageResource(R.drawable.ic_bottom_play);
     }
 }
