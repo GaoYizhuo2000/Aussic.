@@ -2,9 +2,11 @@ package au.edu.anu.Aussic.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 
 import androidx.annotation.NonNull;
 
@@ -87,5 +89,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI(FirebaseUser user) {}
+    private void updateUI(FirebaseUser user) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
 }

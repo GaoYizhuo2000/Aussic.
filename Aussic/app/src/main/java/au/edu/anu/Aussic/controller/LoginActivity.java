@@ -114,5 +114,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI(FirebaseUser user) {}
+    private void updateUI(FirebaseUser user) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
 }

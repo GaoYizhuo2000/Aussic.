@@ -217,14 +217,10 @@ public class SearchActivity extends AppCompatActivity {
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.searchSongs(terms).thenAccept(results -> {
-            //拿到查询结果后处理结果，放入listview
+            //拿到查询结果后处理，放入listview
 
         });
 
-    //    FirestoreDao firestoreDao = new FirestoreDaoImpl();
-    //    firestoreDao.getRandomSong().thenAccept(songResult -> {
-    //        Map<String, Object> a = songResult;
-    //    });
         
 
     }
