@@ -39,6 +39,7 @@ import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
+import au.edu.anu.Aussic.models.entity.Media;
 import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -56,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     private HomeFragment homeFragment = new HomeFragment();
     private ShortsFragment shortsFragment= new ShortsFragment();
     private SubscriptionsFragment subscriptionsFragment = new SubscriptionsFragment();
-    private LibraryFragment libraryFragment = new LibraryFragment();
+    private UserPageFragment userPageFragment = new UserPageFragment();
     private FavoritesFragment favoritesFragment = new FavoritesFragment();
     private Handler timerHandler = new Handler();
     private MediaPlayer mediaPlayer;
@@ -120,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 else if(item.getItemId() == R.id.subscriptions) replaceFragment(subscriptionsFragment);
 
-                else if(item.getItemId() == R.id.library) replaceFragment(libraryFragment);
+                else if(item.getItemId() == R.id.library) replaceFragment(userPageFragment);
 
             return true;
         });
@@ -132,27 +133,24 @@ public class HomeActivity extends AppCompatActivity {
             else if (menuItem.getItemId() == R.id.nav_favorites) replaceFragment(favoritesFragment);
             else if(menuItem.getItemId() == R.id.nav_settings) replaceFragment(shortsFragment);
             else if(menuItem.getItemId() == R.id.nav_share) replaceFragment(subscriptionsFragment);
-            else if(menuItem.getItemId() == R.id.nav_about) replaceFragment(libraryFragment);
+            else if(menuItem.getItemId() == R.id.nav_about) replaceFragment(userPageFragment);
 
             return true;
         });
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getRandomSongs(1).thenAccept(results ->{
-            MediaObserver.setCurrentSong(GsonSongLoader.loadSong(results.get(0)));
-            MediaObserver.setMediaPlayer(new MediaPlayer());
-            this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
+        firestoreDao.getRandomSong().thenAccept(results ->{
+            Media.currentSong = JsonSongLoader.loadSong(results);
+            Media.mediaPlayer = new MediaPlayer();
+            this.mediaPlayer = Media.mediaPlayer;
             try{
-                mediaPlayer.setDataSource(MediaObserver.getCurrentSong().getUrlToListen());
+                mediaPlayer.setDataSource(Media.currentSong.getUrlToListen());
                 mediaPlayer.prepare();
                 mediaPlayer.setLooping(true);
                 //mediaPlayer.setVolume(1.0f,1.0f);
             } catch (Exception e){
                 e.printStackTrace();
             }
-            mediaPlayer.start();
-            fab.setImageResource(R.drawable.ic_bottom_stop);
-            MediaObserver.notifyListeners();
         });
 
 

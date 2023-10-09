@@ -15,9 +15,11 @@
         android:theme="@style/Theme.Aussic"
         tools:targetApi="31">
         <activity
-            android:name=".controller.searchPages.SearchActivity"
+            android:name=".controller.UserPage"
             android:exported="false" />
-        <!-- <activity -->
+        <activity
+            android:name=".controller.searchPages.SearchActivity"
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".controller.homePages.homePageActivity" -->
         <!-- android:exported="true" -->
         <!-- android:label="@string/title_activity_home_page" -->

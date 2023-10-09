@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".controller.homePages.UserPageFragment">
+
+    <ImageView
+        android:id="@+id/userPhoto"
+        android:layout_width="175dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/baseline_account_circle_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location: San Francisco"
+        android:layout_marginStart="200sp"
+        android:layout_marginTop="150sp"
+        tools:layout_editor_absoluteX="211dp"
+        tools:layout_editor_absoluteY="181dp" />
+
+    <Button
+        android:id="@+id/favoritesListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="300sp"
+        android:background="@drawable/edittext_white"
+        android:text="Favorites"
+        app:layout_constraintStart_toStartOf="@id/userEmail"
+        app:layout_constraintTop_toBottomOf="@id/userEmail" />
+
+    <Button
+        android:id="@+id/songListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="350sp"
+        android:background="@drawable/edittext_white"
+        android:text="Song List"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favoritesListButton" />
+
+    <TextView
+        android:id="@+id/userEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/edittext_white"
+        android:backgroundTint="@color/sky_blue"
+        android:text="Email: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+</FrameLayout>
