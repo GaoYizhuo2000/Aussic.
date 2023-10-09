@@ -1,5 +1,7 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldPath;
@@ -113,6 +115,25 @@ public class FirestoreDaoImpl implements FirestoreDao {
         Type type = new TypeToken<Map<String, Object>>(){}.getType();
         Map<String, Object> userdata = gson.fromJson(gson.toJson(user), type);
         usersRef.document((String) userdata.get("username")).set(userdata);
+    }
+
+    @Override
+    public void updateUserFavorites(String songId) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String username = user.getEmail();
+        DocumentReference docRef = firestore.collection("users").document(username);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> userdata = task.getResult().getData();
+                List<String> favorites = new ArrayList<>();
+                if(userdata.get("favorites") != null){
+                    favorites = (List<String>)userdata.get("favorites");
+                }
+                favorites.add(songId);
+                docRef.update("favorites", favorites);
+            }
+        });
+
     }
 
 

@@ -19,7 +19,7 @@ public class Favorites extends UserAction{
         return String.format("User %s added the song \"%s\" to favorites", username, targetSong);
     }
     /**
-     * update attributes in songs according to this useraction
+     * update attributes in songs collection according to this useraction
      *
      *
      * */
