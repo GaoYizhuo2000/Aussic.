@@ -26,25 +26,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.models.entity.Media;
+import au.edu.anu.Aussic.models.observer.ChangeListener;
+import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements ChangeListener {
     private MediaPlayer mediaPlayer;
     private Button searchButton;
     private SearchView searchView;
     private TabLayout tabs;
-    private int selectID;
+    private int sortID;
+    private int fragmentID;
     private boolean isInit;
     private GeneralSearchFragment generalSearch;
     private SongSearchFragment songSearch;
     private ArtistSearchFragment artistSearch;
     private GenreSearchFragment genreSearch;
+    private FloatingActionButton fab;
 
 
     @SuppressLint("ResourceAsColor")
@@ -52,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        FloatingActionButton fab = findViewById(R.id.search_fab);
+        fab = findViewById(R.id.search_fab);
         searchButton = findViewById(R.id.btn_search);
         searchView = findViewById(R.id.searchView_search);
 
@@ -67,19 +69,29 @@ public class SearchActivity extends AppCompatActivity {
         for(int i = 2; i < 6; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg);
 
         // Select general for the first init
+        // Sort by Likes for the first init
         setTabColor(2, R.drawable.ic_tabs_bg);
-        this.selectID = 2;
+        setTabColor(0, R.drawable.ic_tabs_bg_alt);
+        this.fragmentID = 2;
+        this.sortID = 0;
         this.isInit = true;
         replaceFragment(generalSearch);
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(isInit) {
-                    setTabColor(2, R.drawable.ic_tabs_trans_bg);
-                    isInit = false;
-                }
+
                 int selectedTabIndex = tab.getPosition();
+                if(selectedTabIndex > 1) {
+                    setTabColor(fragmentID, R.drawable.ic_tabs_trans_bg);
+                    setTabColor(sortID, R.drawable.ic_tabs_bg_alt);
+                    fragmentID = selectedTabIndex;
+                }
+                else {
+                    setTabColor(sortID, R.drawable.ic_tabs_trans_bg_alt);
+                    setTabColor(fragmentID, R.drawable.ic_tabs_bg);
+                    sortID = selectedTabIndex;
+                }
                 switch (selectedTabIndex) {
                     case 0:
                         // Actions for "Likes" tab
@@ -111,41 +123,10 @@ public class SearchActivity extends AppCompatActivity {
                         break;
                     // Add more cases if there are more tabs
                 }
-                selectID = selectedTabIndex;
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                int selectedTabIndex = tab.getPosition();
-                switch (selectedTabIndex) {
-                    case 0:
-                        // Actions for "Likes" tab
-                        setTabColor(0, R.drawable.ic_tabs_trans_bg_alt);
-                        break;
-                    case 1:
-                        // Actions for "Comments" tab
-                        setTabColor(1, R.drawable.ic_tabs_trans_bg_alt);
-                        break;
-                    case 2:
-                        // Actions for "General" tab
-                        setTabColor(2, R.drawable.ic_tabs_trans_bg);
-                        break;
-                    case 3:
-                        setTabColor(3, R.drawable.ic_tabs_trans_bg);
-                        // Actions for "Song" tab
-                        break;
-                    case 4:
-                        setTabColor(4, R.drawable.ic_tabs_trans_bg);
-                        // Actions for "Artist" tab
-                        break;
-                    case 5:
-                        setTabColor(5, R.drawable.ic_tabs_trans_bg);
-                        // Actions for "Genre" tab
-                        break;
-                    // Add more cases if there are more tabs
-                }
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab){}
@@ -160,8 +141,10 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        MediaObserver.addChangeListener(this);
 
-        this.mediaPlayer = Media.mediaPlayer;
+        this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
+
         if(mediaPlayer != null) {
             if (this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
             else fab.setImageResource(R.drawable.ic_bottom_play);
@@ -275,5 +258,12 @@ public class SearchActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onChange(){
+        this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
+        if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
+        else this.fab.setImageResource(R.drawable.ic_bottom_play);
     }
 }

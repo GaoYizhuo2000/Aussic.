@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import au.edu.anu.Aussic.models.avl.AVLTree;
-import au.edu.anu.Aussic.models.jsonParser.JsonSongLoader;
+import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.parserAndTokenizer.QueryNode;
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 public class Main {
 
     public static void main(String[] args) {
-        JsonSongLoader loader = new JsonSongLoader();
+        GsonSongLoader loader = new GsonSongLoader();
         List<Song> songs = loader.loadSongsFromJson("./src/entity/songs.json");
         AVLTree<Song> tree = null;
 

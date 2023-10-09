@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.models.jsonParser;
+package au.edu.anu.Aussic.models.SongLoader;
 
         import com.google.gson.Gson;
         import com.google.gson.reflect.TypeToken;
@@ -13,7 +13,7 @@ package au.edu.anu.Aussic.models.jsonParser;
 
         import au.edu.anu.Aussic.models.entity.Song;
 
-public class JsonSongLoader {
+public class GsonSongLoader {
 
     public static List<Song> loadSongsFromJson(String filename) {
         try (Reader reader = Files.newBufferedReader(Paths.get(filename))) {
