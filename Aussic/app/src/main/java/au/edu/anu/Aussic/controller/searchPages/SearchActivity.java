@@ -226,8 +226,10 @@ public class SearchActivity extends AppCompatActivity {
         List<Map<String, Object>> songs = new ArrayList<>();
         //String a = firestoreDao.getRandomSong().toString();
         firestoreDao.getRandomSongs(100).thenAccept(results ->{
+
             songs.addAll(results);
-            Toast.makeText(this, songs.size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Song size:" + songs.size(), Toast.LENGTH_SHORT).show();
+
         });
 
 

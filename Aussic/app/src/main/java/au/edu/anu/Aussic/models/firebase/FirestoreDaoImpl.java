@@ -77,32 +77,43 @@ public class FirestoreDaoImpl implements FirestoreDao {
     public CompletableFuture<List<Map<String, Object>>> getRandomSongs(int number) {
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
 
-        // Generate a random start position for Firestore
-        String randomStartAt = generateRandomFirestoreId();
+        DocumentReference docRef = firestore.collection("idList").document("idList");
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> data = task.getResult().getData();
+                List<String> idList = (List<String>) data.get("idList");
 
-        songsRef
-                .orderBy(FieldPath.documentId())
-                .startAt(randomStartAt)
-                .limit(number)
-                .get()
-                .addOnCompleteListener(task -> {
-                    List<Map<String, Object>> results = new ArrayList<>();
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                Random random = new Random();
+                int index = random.nextInt(idList.size());
+                String id = idList.get(index);
+
+
+                // Now fetch songs with ID larger than the random ID
+                Query query = songsRef.whereGreaterThan("id", id).limit(number);
+
+                query.get().addOnCompleteListener(innerTask -> {
+                    if (innerTask.isSuccessful()) {
+                        List<Map<String, Object>> results = new ArrayList<>();
+                        QuerySnapshot documents = innerTask.getResult();
+                        for(QueryDocumentSnapshot document: documents) {
                             results.add(document.getData());
                         }
                         future.complete(results);
                     } else {
-                        future.completeExceptionally(task.getException());
+                        // Handle the error
+                        future.completeExceptionally(innerTask.getException());
                     }
                 });
+
+            } else {
+                // Handle the error
+                future.completeExceptionally(task.getException());
+            }
+        });
 
         return future;
     }
 
-    private String generateRandomFirestoreId() {
-        return songsRef.document().getId();
-    }
 
 
     @Override

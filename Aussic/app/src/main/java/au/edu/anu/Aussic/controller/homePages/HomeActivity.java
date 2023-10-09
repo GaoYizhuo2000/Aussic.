@@ -230,7 +230,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void run() {
             // load show user behavior every 10 secs
-            loadShowData();
+            //loadShowData();
 
             // Schedule the next execution
             timerHandler.postDelayed(this, 5000);
@@ -261,9 +261,6 @@ public class HomeActivity extends AppCompatActivity {
         if(currentID >= arrayLength) currentID = currentID % arrayLength;
     }
 
-    private void loadRandomSong(){
-
-    }
 
     @Override
     protected void onDestroy() {
