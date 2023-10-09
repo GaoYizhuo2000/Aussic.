@@ -115,7 +115,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
 
-
+    //search songs according to terms, to be improved later
     @Override
     public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms) {
         Query query = songsRef;
