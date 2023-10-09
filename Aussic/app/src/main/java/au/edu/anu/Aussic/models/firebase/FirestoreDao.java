@@ -10,6 +10,7 @@ public interface FirestoreDao {
     void updateSongs();
 
     CompletableFuture<Map<String, Object>> getRandomSong();
+    CompletableFuture<List<Map<String, Object>>> getRandomSongs(int number);
     CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms);
     void addUserdata(User user);
     void updateUserFavorites(String songId);
