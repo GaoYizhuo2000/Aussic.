@@ -104,7 +104,6 @@ public class UserPageFragment extends Fragment {
             }
         });
 
-
         return inflater.inflate(R.layout.fragment_userpage, container, false);
     }
 }
