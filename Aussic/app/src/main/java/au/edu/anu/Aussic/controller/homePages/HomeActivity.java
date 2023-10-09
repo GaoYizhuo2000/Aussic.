@@ -39,13 +39,13 @@ import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
-import au.edu.anu.Aussic.models.entity.Media;
 import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
+
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -139,19 +139,23 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getRandomSong().thenAccept(results ->{
-            Media.currentSong = JsonSongLoader.loadSong(results);
-            Media.mediaPlayer = new MediaPlayer();
-            this.mediaPlayer = Media.mediaPlayer;
+        firestoreDao.getRandomSongs(1).thenAccept(results ->{
+            MediaObserver.setCurrentSong(GsonSongLoader.loadSong(results.get(0)));
+            MediaObserver.setMediaPlayer(new MediaPlayer());
+            this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
             try{
-                mediaPlayer.setDataSource(Media.currentSong.getUrlToListen());
+                mediaPlayer.setDataSource(MediaObserver.getCurrentSong().getUrlToListen());
                 mediaPlayer.prepare();
                 mediaPlayer.setLooping(true);
                 //mediaPlayer.setVolume(1.0f,1.0f);
             } catch (Exception e){
                 e.printStackTrace();
             }
+            mediaPlayer.start();
+            fab.setImageResource(R.drawable.ic_bottom_stop);
+            MediaObserver.notifyListeners();
         });
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
