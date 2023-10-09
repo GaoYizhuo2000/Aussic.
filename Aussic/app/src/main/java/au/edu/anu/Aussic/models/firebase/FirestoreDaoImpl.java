@@ -7,7 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +18,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
+import au.edu.anu.Aussic.models.entity.User;
+
 public class FirestoreDaoImpl implements FirestoreDao {
     FirebaseFirestore firestore = SingletonFirestoreDbConnection.getInstance();
     CollectionReference songsRef = firestore.collection("Songs");
+    CollectionReference usersRef = firestore.collection("users");
     List<String> idList = null;
 
     @Override
@@ -99,6 +105,14 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
 
         return future;
+    }
+
+    @Override
+    public void addUserdata(User user) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Map<String, Object> userdata = gson.fromJson(gson.toJson(user), type);
+        usersRef.document((String) userdata.get("username")).set(userdata);
     }
 
 

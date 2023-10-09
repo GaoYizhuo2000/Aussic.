@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
+import au.edu.anu.Aussic.models.entity.User;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 import androidx.annotation.NonNull;
 
@@ -21,6 +24,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonSignUp;
@@ -75,6 +83,11 @@ public class SignUpActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    //create userdata and upload to firestore
+
+                                    FirestoreDao firestoreDao = new FirestoreDaoImpl();
+                                    firestoreDao.addUserdata(new User(email, "https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media"));
+
                                     updateUI(user);
                                 } else {
                                     // If sign in fails, display a message to the user.
