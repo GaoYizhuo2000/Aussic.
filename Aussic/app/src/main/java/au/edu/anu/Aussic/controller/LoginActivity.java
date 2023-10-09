@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.UserPassword);
         buttonSignIn = (Button) findViewById(R.id.SignIN);
         buttonSignUp = (Button) findViewById(R.id.SignUP);
-        buttonNoLoginIn = (Button) findViewById(R.id.noLogin);
 
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
@@ -101,14 +100,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        buttonNoLoginIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
