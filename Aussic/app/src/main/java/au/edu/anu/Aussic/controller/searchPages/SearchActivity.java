@@ -207,26 +207,30 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setIconified(true);
         searchView.setIconified(true);
 
-        //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
-
-        Map<String, Object> terms = new HashMap<>();
-        terms.put("artistName", "INXS");
-        terms.put("name", "Devil's Party (Slick Mix)");
-        terms.put("releaseDate", null);
-
-
-
+    //    //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
+//
+    //    Map<String, Object> terms = new HashMap<>();
+    //    terms.put("artistName", "INXS");
+    //    terms.put("name", "Devil's Party (Slick Mix)");
+    //    terms.put("releaseDate", null);
+//
+//
+//
+//
+    //    FirestoreDao firestoreDao = new FirestoreDaoImpl();
+    //    CompletableFuture<List<Map<String, Object>>> future = firestoreDao.searchSongs(terms);
+    //    future.thenAccept(results -> {
+    //        //拿到查询结果后处理结果，放入listview
+    //        
+    //        String a = results.toString();
+//
+    //    });
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        CompletableFuture<List<Map<String, Object>>> future = firestoreDao.searchSongs(terms);
-        future.thenAccept(results -> {
-            //拿到查询结果后处理结果，放入listview
-
-
-
-            String a = results.toString();
-
-        });
+        firestoreDao.getRandomSong().thenAccept(songResult -> {
+            Map<String, Object> a = songResult;
+        });;
+        
 
     }
 

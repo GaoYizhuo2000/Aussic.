@@ -6,5 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface FirestoreDao {
     void updateSongs();
+
+    CompletableFuture<Map<String, Object>> getRandomSong();
     CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms);
 }

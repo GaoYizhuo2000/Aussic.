@@ -10,16 +10,16 @@ db = firestore.client()
 with open('../pythonScrips/backup/songs.json', 'r', encoding='utf-8') as json_file:
     data = json.load(json_file)
 
-i = 0
+i = 1
+idList = []
 for song in data:
     i +=1
-    song["likes"] = 0
-    song["favorites"] = 0
-    song["comments"] = {"num":1, "details":[{"uid": "nerogao777@gmail.com", "content":"Wonderful!"}]}
-    songId = song['id']
-    songRef = db.collection('Songs').document(songId)
-    songRef.set(song)
-    print("uploaded " + str(i))
+    idList.append(song["id"])
+    print("added " + str(i))
+print("uploading idLIst to firestore")
+idListRef = db.collection('idList').document("idList")
+ss = {"idList": idList}
+idListRef.set(ss)
 
 #增加新参数
 ##collection = db.collection('songs')
