@@ -9,6 +9,7 @@ package au.edu.anu.Aussic.models.jsonParser;
         import java.nio.file.Files;
         import java.nio.file.Paths;
         import java.util.List;
+        import java.util.Map;
 
         import au.edu.anu.Aussic.models.entity.Song;
 
@@ -23,5 +24,11 @@ public class JsonSongLoader {
             e.printStackTrace();
             return null;  // Or handle exception accordingly
         }
+    }
+
+    public Song loadSong(Map<String, Object> fromFireStore){
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(fromFireStore);
+        return gson.fromJson(jsonData, Song.class);
     }
 }
