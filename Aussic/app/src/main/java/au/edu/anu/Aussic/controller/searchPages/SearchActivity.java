@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -216,10 +218,18 @@ public class SearchActivity extends AppCompatActivity {
 
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.searchSongs(terms).thenAccept(results -> {
-            //拿到查询结果后处理，放入listview
+//        firestoreDao.searchSongs(terms).thenAccept(results -> {
+//            //拿到查询结果后处理，放入listview
+//
+//        });
 
+        List<Map<String, Object>> songs = new ArrayList<>();
+        //String a = firestoreDao.getRandomSong().toString();
+        firestoreDao.getRandomSongs(100).thenAccept(results ->{
+            songs.addAll(results);
+            Toast.makeText(this, songs.size(), Toast.LENGTH_SHORT).show();
         });
+
 
         
 

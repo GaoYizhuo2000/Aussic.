@@ -74,6 +74,38 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public CompletableFuture<List<Map<String, Object>>> getRandomSongs(int number) {
+        CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+
+        // Generate a random start position for Firestore
+        String randomStartAt = generateRandomFirestoreId();
+
+        songsRef
+                .orderBy(FieldPath.documentId())
+                .startAt(randomStartAt)
+                .limit(number)
+                .get()
+                .addOnCompleteListener(task -> {
+                    List<Map<String, Object>> results = new ArrayList<>();
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            results.add(document.getData());
+                        }
+                        future.complete(results);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+
+        return future;
+    }
+
+    private String generateRandomFirestoreId() {
+        return FirebaseFirestore.getInstance().collection("dummy").document().getId();
+    }
+
+
+    @Override
     public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms) {
         Query query = songsRef;
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
