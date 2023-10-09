@@ -39,11 +39,10 @@ import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
-import au.edu.anu.Aussic.models.entity.Media;
-import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
-import au.edu.anu.Aussic.models.jsonParser.JsonSongLoader;
+import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
@@ -140,11 +139,11 @@ public class HomeActivity extends AppCompatActivity {
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getRandomSongs(1).thenAccept(results ->{
-            Media.setCurrentSong(JsonSongLoader.loadSong(results.get(0)));
-            Media.setMediaPlayer(new MediaPlayer());
-            this.mediaPlayer = Media.getCurrentMediaPlayer();
+            MediaObserver.setCurrentSong(GsonSongLoader.loadSong(results.get(0)));
+            MediaObserver.setMediaPlayer(new MediaPlayer());
+            this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
             try{
-                mediaPlayer.setDataSource(Media.getCurrentSong().getUrlToListen());
+                mediaPlayer.setDataSource(MediaObserver.getCurrentSong().getUrlToListen());
                 mediaPlayer.prepare();
                 mediaPlayer.setLooping(true);
                 //mediaPlayer.setVolume(1.0f,1.0f);
@@ -153,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             mediaPlayer.start();
             fab.setImageResource(R.drawable.ic_bottom_stop);
-            Media.notifyListeners();
+            MediaObserver.notifyListeners();
         });
 
 

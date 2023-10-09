@@ -1,19 +1,16 @@
-package au.edu.anu.Aussic.models.entity;
+package au.edu.anu.Aussic.models.observer;
 
-import android.app.Activity;
 import android.media.MediaPlayer;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.edu.anu.Aussic.models.Listener.ChangeListener;
+import au.edu.anu.Aussic.models.entity.Song;
 
 /**
  * The class for song playing and pausing
  */
-public class Media {
+public class MediaObserver {
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
     private static List<ChangeListener> listeners = new ArrayList<>();

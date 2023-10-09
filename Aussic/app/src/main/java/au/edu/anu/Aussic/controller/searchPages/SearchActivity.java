@@ -26,11 +26,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.models.Listener.ChangeListener;
-import au.edu.anu.Aussic.models.entity.Media;
+import au.edu.anu.Aussic.models.observer.ChangeListener;
+import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -162,9 +161,9 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
             }
         });
 
-        Media.addChangeListener(this);
+        MediaObserver.addChangeListener(this);
 
-        this.mediaPlayer = Media.getCurrentMediaPlayer();
+        this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
 
         if(mediaPlayer != null) {
             if (this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
@@ -283,7 +282,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
 
     @Override
     public void onChange(){
-        this.mediaPlayer = Media.getCurrentMediaPlayer();
+        this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
         if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
         else this.fab.setImageResource(R.drawable.ic_bottom_play);
     }

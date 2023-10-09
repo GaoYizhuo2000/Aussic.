@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.models.Listener;
+package au.edu.anu.Aussic.models.observer;
 
 public interface ChangeListener {
     void onChange();
