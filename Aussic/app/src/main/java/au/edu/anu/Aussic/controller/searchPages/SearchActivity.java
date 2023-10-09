@@ -162,19 +162,23 @@ public class SearchActivity extends AppCompatActivity {
 
 
         this.mediaPlayer = Media.mediaPlayer;
-        if(this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
-        else fab.setImageResource(R.drawable.ic_bottom_play);
+        if(mediaPlayer != null) {
+            if (this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
+            else fab.setImageResource(R.drawable.ic_bottom_play);
+        }
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    fab.setImageResource(R.drawable.ic_bottom_play);
-                }
-                else {
-                    mediaPlayer.start();
-                    fab.setImageResource(R.drawable.ic_bottom_stop);
+                if (mediaPlayer != null) {
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
+                        fab.setImageResource(R.drawable.ic_bottom_play);
+                    } else {
+                        mediaPlayer.start();
+                        fab.setImageResource(R.drawable.ic_bottom_stop);
+                    }
+                    //showBottomDialog();
                 }
             }
         });
