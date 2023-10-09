@@ -101,7 +101,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     private String generateRandomFirestoreId() {
-        return FirebaseFirestore.getInstance().collection("dummy").document().getId();
+        return songsRef.document().getId();
     }
 
 
