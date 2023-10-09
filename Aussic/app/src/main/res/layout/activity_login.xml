@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".controller.LoginActivity">
 
-    <TextView
-        android:id="@+id/UserSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="111dp"
-        android:text="Not register yet? Sign Up here!"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignIN"
-        android:background="@drawable/edittext_white"/>
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -38,7 +25,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
-    <TextView
+    <EditText
         android:id="@+id/UserName"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -46,14 +33,13 @@
         android:ems="30"
         android:hint="Email"
         android:inputType="text"
-        android:text="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline"
         app:layout_constraintWidth_percent="0.7" />
 
-    <TextView
+    <EditText
         android:id="@+id/UserPassword"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -61,7 +47,6 @@
         android:ems="30"
         android:hint="Password"
         android:inputType="text"
-        android:text="Password"
         app:layout_constraintBottom_toBottomOf="@id/UserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
@@ -79,6 +64,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="157dp"
         android:background="@drawable/edittext_white"
+        android:backgroundTint="#FFFFFF"
         android:text="SIGN IN"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +91,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SignUP" />
+
+    <TextView
+        android:id="@+id/UserSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="111dp"
+        android:text="Not register yet? Sign Up here!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignIN"
+        android:background="@drawable/edittext_white"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
