@@ -41,7 +41,6 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
     private TabLayout tabs;
     private int sortID;
     private int fragmentID;
-    private boolean isInit;
     private GeneralSearchFragment generalSearch;
     private SongSearchFragment songSearch;
     private ArtistSearchFragment artistSearch;
@@ -74,7 +73,6 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
         setTabColor(0, R.drawable.ic_tabs_bg_alt);
         this.fragmentID = 2;
         this.sortID = 0;
-        this.isInit = true;
         replaceFragment(generalSearch);
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -84,12 +82,10 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
                 int selectedTabIndex = tab.getPosition();
                 if(selectedTabIndex > 1) {
                     setTabColor(fragmentID, R.drawable.ic_tabs_trans_bg);
-                    setTabColor(sortID, R.drawable.ic_tabs_bg_alt);
                     fragmentID = selectedTabIndex;
                 }
                 else {
                     setTabColor(sortID, R.drawable.ic_tabs_trans_bg_alt);
-                    setTabColor(fragmentID, R.drawable.ic_tabs_bg);
                     sortID = selectedTabIndex;
                 }
                 switch (selectedTabIndex) {
