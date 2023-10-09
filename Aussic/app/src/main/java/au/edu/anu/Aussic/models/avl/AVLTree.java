@@ -1,5 +1,8 @@
 package au.edu.anu.Aussic.models.avl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
     public AVLTree(T value) {
         super(value);
@@ -196,17 +199,33 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
         }
     }
 
-    public void inorderTraversal() {
-        if (this.value != null) {
-            if (this.leftNode instanceof AVLTree) {
-                ((AVLTree<T>) this.leftNode).inorderTraversal();
-            }
-            System.out.println(this.value);
-            if (this.rightNode instanceof AVLTree) {
-                ((AVLTree<T>) this.rightNode).inorderTraversal();
-            }
+    // 中序遍历方法
+    public List<T> inorderTraversal() {
+        List<T> result = new ArrayList<>();
+        inorderTraversal(this, result);
+        return result;
+    }
+
+    private void inorderTraversal(AVLTree<T> node, List<T> result) {
+        if (node == null || node.value == null) {
+            return;
+        }
+
+        // 遍历左子树
+        if (node.leftNode instanceof AVLTree) {
+            node.inorderTraversal((AVLTree<T>) node.leftNode, result);
+        }
+
+        // 访问当前节点
+        result.add(node.value);
+
+        // 遍历右子树
+        if (node.rightNode instanceof AVLTree) {
+            node.inorderTraversal((AVLTree<T>) node.rightNode, result);
         }
     }
+
+
 
 
 

@@ -114,21 +114,21 @@ public abstract class Tree<T extends Comparable<T>> {
 //    }
 
     /**
-      * List the elements of the tree with in-order
-      */
+     * List the elements of the tree with in-order
+     */
     public List<T> inOrder() {
-		return this.treeToListInOrder(this);
-	}
+        return this.treeToListInOrder(this);
+    }
 
     /**
      * Converts tree to list in-order. Helper method of inOrder.
      * @param tree to convert to list.
      * @return in-order list of tree values.
      */
-	private List<T> treeToListInOrder(Tree<T> tree) {
-		List<T> list = new LinkedList<>();
+    private List<T> treeToListInOrder(Tree<T> tree) {
+        List<T> list = new LinkedList<>();
 
-		// Recurse through left subtree.
+        // Recurse through left subtree.
         if (tree.leftNode != null) {
             if (tree.leftNode.value != null) {
                 list.addAll(treeToListInOrder(tree.leftNode));
@@ -136,7 +136,7 @@ public abstract class Tree<T extends Comparable<T>> {
         }
 
 
-		// Add current node's value
+        // Add current node's value
         if (tree.value != null) {
             list.add(tree.value);
         }
@@ -148,7 +148,7 @@ public abstract class Tree<T extends Comparable<T>> {
             }
         }
 
-		return list;
-	}
+        return list;
+    }
 
 }

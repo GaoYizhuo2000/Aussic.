@@ -1,5 +1,4 @@
 package au.edu.anu.Aussic.models.avl;
-
 /**
  * To avoid null pointer errors (and because this implementation is immutable)
  * we have a class that represents an 'empty' tree.
