@@ -40,6 +40,10 @@ import java.io.InputStreamReader;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
 import au.edu.anu.Aussic.models.entity.Media;
+import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
+import au.edu.anu.Aussic.models.jsonParser.JsonSongLoader;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
@@ -134,28 +138,35 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
-        this.mediaPlayer = Media.mediaPlayer;
-        try{
-          mediaPlayer.setDataSource("https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/d0/2c/70/d02c70c1-0d40-711c-a64f-c55e3ea4b40c/mzaf_9384807071490377244.plus.aac.p.m4a");
-          mediaPlayer.prepare();
-          mediaPlayer.setLooping(true);
-          //mediaPlayer.setVolume(1.0f,1.0f);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getRandomSong().thenAccept(results ->{
+            Media.currentSong = JsonSongLoader.loadSong(results);
+            Media.mediaPlayer = new MediaPlayer();
+            this.mediaPlayer = Media.mediaPlayer;
+            try{
+                mediaPlayer.setDataSource(Media.currentSong.getUrlToListen());
+                mediaPlayer.prepare();
+                mediaPlayer.setLooping(true);
+                //mediaPlayer.setVolume(1.0f,1.0f);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    fab.setImageResource(R.drawable.ic_bottom_play);
+                if (mediaPlayer != null) {
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
+                        fab.setImageResource(R.drawable.ic_bottom_play);
+                    } else {
+                        mediaPlayer.start();
+                        fab.setImageResource(R.drawable.ic_bottom_stop);
+                    }
+                    //showBottomDialog();
                 }
-                else {
-                    mediaPlayer.start();
-                    fab.setImageResource(R.drawable.ic_bottom_stop);
-                }
-                //showBottomDialog();
             }
         });
 

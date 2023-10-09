@@ -15,7 +15,7 @@ package au.edu.anu.Aussic.models.jsonParser;
 
 public class JsonSongLoader {
 
-    public List<Song> loadSongsFromJson(String filename) {
+    public static List<Song> loadSongsFromJson(String filename) {
         try (Reader reader = Files.newBufferedReader(Paths.get(filename))) {
             Gson gson = new Gson();
             // Type token pattern to handle generic array deserialization
@@ -26,7 +26,7 @@ public class JsonSongLoader {
         }
     }
 
-    public Song loadSong(Map<String, Object> fromFireStore){
+    public static Song loadSong(Map<String, Object> fromFireStore){
         Gson gson = new Gson();
         String jsonData = gson.toJson(fromFireStore);
         return gson.fromJson(jsonData, Song.class);
