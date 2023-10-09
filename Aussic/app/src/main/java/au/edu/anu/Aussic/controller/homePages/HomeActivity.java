@@ -38,6 +38,7 @@ import android.widget.Toast;
 import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
 import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -142,6 +143,10 @@ public class HomeActivity extends AppCompatActivity {
         firestoreDao.getRandomSongs(1).thenAccept(results ->{
             MediaObserver.setCurrentSong(GsonSongLoader.loadSong(results.get(0)));
             MediaObserver.setMediaPlayer(new MediaPlayer());
+            String urlImage = CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage());
+
+
+
             this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
             try{
                 mediaPlayer.setDataSource(MediaObserver.getCurrentSong().getUrlToListen());

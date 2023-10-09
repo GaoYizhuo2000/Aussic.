@@ -15,10 +15,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import au.edu.anu.Aussic.models.entity.User;
 
@@ -82,36 +85,41 @@ public class FirestoreDaoImpl implements FirestoreDao {
             if (task.isSuccessful()) {
                 Map<String, Object> data = task.getResult().getData();
                 List<String> idList = (List<String>) data.get("idList");
-
                 Random random = new Random();
-                int index = random.nextInt(idList.size());
-                String id = idList.get(index);
 
+                // Sample unique random indices
+                Set<Integer> indices = new HashSet<>();
+                while (indices.size() < Math.min(number, idList.size())) {
+                    indices.add(random.nextInt(idList.size()));
+                }
 
-                // Now fetch songs with ID larger than the random ID
-                Query query = songsRef.whereGreaterThan("id", id).limit(number);
+                List<String> randomIds = indices.stream().map(idList::get).collect(Collectors.toList());
 
-                query.get().addOnCompleteListener(innerTask -> {
-                    if (innerTask.isSuccessful()) {
-                        List<Map<String, Object>> results = new ArrayList<>();
-                        QuerySnapshot documents = innerTask.getResult();
-                        for(QueryDocumentSnapshot document: documents) {
-                            results.add(document.getData());
-                        }
-                        future.complete(results);
-                    } else {
-                        // Handle the error
-                        future.completeExceptionally(innerTask.getException());
-                    }
-                });
+                // Fetch the first song (we'll do this one-by-one to avoid complications)
+                fetchSongById(randomIds, 0, new ArrayList<>(), future);
 
             } else {
-                // Handle the error
                 future.completeExceptionally(task.getException());
             }
         });
 
         return future;
+    }
+
+    private void fetchSongById(List<String> ids, int index, List<Map<String, Object>> accumulated, CompletableFuture<List<Map<String, Object>>> future) {
+        if (index >= ids.size()) {
+            future.complete(accumulated);
+            return;
+        }
+
+        songsRef.document(ids.get(index)).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                accumulated.add(task.getResult().getData());
+                fetchSongById(ids, index + 1, accumulated, future);
+            } else {
+                future.completeExceptionally(task.getException());
+            }
+        });
     }
 
 

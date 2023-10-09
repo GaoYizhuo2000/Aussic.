@@ -2,13 +2,28 @@ package au.edu.anu.Aussic.controller.homePages;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
+import au.edu.anu.Aussic.controller.homePages.Adapter.CardSpec;
+import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +40,8 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<Song> songs;
+    private RecyclerView recyclerView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -49,12 +66,38 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getRandomSongs(100).thenAccept(results->{
+            List<CardSpec> cardList = new ArrayList<>();
+            List<Map<String, Object>> maps = new ArrayList<>();
+            maps.addAll(results);
+            for(Map<String, Object> map : maps) songs.add(GsonSongLoader.loadSong(map));
+            for(Song song : songs) cardList.add(new CardSpec(song.getSongName(), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage())));
+
+            // Set up the RecyclerView with the fetched data
+            recyclerView.setAdapter(new CardAdapter(cardList));
+
+        });
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        this.songs = new ArrayList<>();
+
     }
 
     @Override
