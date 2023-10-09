@@ -237,7 +237,7 @@ public class SearchActivity extends AppCompatActivity {
             Map<String, Object> a = songs.get(0);
             Gson gson = new Gson();
             String jsonData = gson.toJson(a);
-//            Song song = gson.fromJson(jsonData, Song.class);
+            Song song = gson.fromJson(jsonData, Song.class);
 
 //            Song song = new Song(songs.get(0));
 
