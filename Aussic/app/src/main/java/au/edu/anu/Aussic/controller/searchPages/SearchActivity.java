@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.concurrent.CompletableFuture;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.models.entity.Media;
+import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
@@ -228,8 +230,18 @@ public class SearchActivity extends AppCompatActivity {
         firestoreDao.getRandomSongs(100).thenAccept(results ->{
 
             songs.addAll(results);
-            Toast.makeText(this, "Song size:" + songs.size(), Toast.LENGTH_SHORT).show();
 
+            Object attributes = songs.get(0).get("attributes");
+            Object artwork = ((Map<String, Object>) attributes).get("artwork");
+            String urlToImage = ((Map<String, Object>) artwork).get("url").toString();
+            Map<String, Object> a = songs.get(0);
+            Gson gson = new Gson();
+            String jsonData = gson.toJson(a);
+//            Song song = gson.fromJson(jsonData, Song.class);
+
+//            Song song = new Song(songs.get(0));
+
+            Toast.makeText(this, urlToImage, Toast.LENGTH_SHORT).show();
         });
 
 

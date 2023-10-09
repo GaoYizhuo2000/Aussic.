@@ -9,4 +9,7 @@ public class Artwork {
     private String textColor2;
     private String textColor3;
     private String textColor4;
+    public String getUrlToImage() {
+        return this.url;
+    }
 }
