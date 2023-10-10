@@ -17,10 +17,10 @@ import au.edu.anu.Aussic.R;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    private List<CardSpec> cardSpecList;
+    private List<ItemSpec> itemSpecList;
 
-    public CardAdapter(List<CardSpec> cardDataList) {
-        this.cardSpecList = cardDataList;
+    public CardAdapter(List<ItemSpec> cardDataList) {
+        this.itemSpecList = cardDataList;
     }
 
     @NonNull
@@ -32,21 +32,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        CardSpec cardSpec = cardSpecList.get(position);
-        holder.description.setText(cardSpec.getDescription());
+        ItemSpec itemSpec = itemSpecList.get(position);
+        holder.description.setText(itemSpec.getName());
 
         // TODO: Load the image into holder.image using an image loading library like Glide or Picasso
         Glide.with(holder.image.getContext())
-                .load(cardSpec.getImageUrl())
+                .load(itemSpec.getImageUrl())
                 .into(holder.image);
     }
 
     @Override
     public int getItemCount() {
-        return cardSpecList.size();
+        return itemSpecList.size();
     }
 
-    static class CardViewHolder extends RecyclerView.ViewHolder {
+    static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView image;
         TextView description;
@@ -55,6 +55,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             super(itemView);
             image = itemView.findViewById(R.id.home_hor_cardview_image);
             description = itemView.findViewById(R.id.home_hor_cardview_description);
+        }
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+
+            }
         }
     }
 
@@ -75,7 +82,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     public static String adjustLength(String text){
-        if(text.length() > 12) return text.substring(0, 11) + "...";
+        if(text.length() > 18) return text.substring(0, 17) + "...";
         else return text;
     }
 }

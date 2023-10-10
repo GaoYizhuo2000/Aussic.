@@ -11,21 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CardSpec;
+import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -47,7 +46,8 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView recyclerView;
+    private RecyclerView cardRecyclerView;
+    private RecyclerView listRecyclerView;
     private TextView roundUnderText;
 
     public HomeFragment() {
@@ -78,7 +78,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        this.recyclerView = view.findViewById(R.id.recyclerView);
+        this.cardRecyclerView = view.findViewById(R.id.card_recyclerView);
+        this.listRecyclerView = view.findViewById(R.id.list_recyclerView);
         this.roundUnderText = view.findViewById(R.id.round_image_name);
         MediaObserver.roundImage = view.findViewById(R.id.spinning_round_image);
 
@@ -88,10 +89,11 @@ public class HomeFragment extends Fragment {
             firestoreDao.getRandomSongs(10).thenAccept(results->{
                 List<Map<String, Object>> maps = new ArrayList<>();
                 maps.addAll(results);
-                setCardViewList(maps);
+                setViewList(maps);
+                MediaObserver.notifyListeners();
             });
         } else {
-            setCardViewList();
+            setViewList();
         }
 
 
@@ -114,31 +116,38 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    public void setCardViewList(){
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        List<CardSpec> cardList = new ArrayList<>();
-        for(Song song : MediaObserver.getCurrentSongList()) cardList.add(new CardSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage())));
+    public void setViewList(){
+        cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        List<ItemSpec> itemList = new ArrayList<>();
+        for(Song song : MediaObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName()));
 
         // Set up the RecyclerView with the fetched data
-        recyclerView.setAdapter(new CardAdapter(cardList));
+        cardRecyclerView.setAdapter(new CardAdapter(itemList));
         if(MediaObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage()), MediaObserver.getCurrentSong().getSongName());
+
+        listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listRecyclerView.setAdapter(new ListAdapter(itemList));
     }
-    public void setCardViewList(List<Map<String, Object>> maps){
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        List<CardSpec> cardList = new ArrayList<>();
+    public void setViewList(List<Map<String, Object>> maps){
+        cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        List<ItemSpec> itemList = new ArrayList<>();
 
         for(Map<String, Object> map : maps) MediaObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
-        for(Song song : MediaObserver.getCurrentSongList()) cardList.add(new CardSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage())));
+        for(Song song : MediaObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName()));
 
         // Set up the RecyclerView with the fetched data
-        recyclerView.setAdapter(new CardAdapter(cardList));
+        cardRecyclerView.setAdapter(new CardAdapter(itemList));
         if(MediaObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage()), MediaObserver.getCurrentSong().getSongName());
+
+        listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listRecyclerView.setAdapter(new ListAdapter(itemList));
     }
 
     private void setRoundImage(String imageUrl,String songName){
 
         Glide.with(this)
                 .load(imageUrl)
+                .apply(new RequestOptions().override((int)(1200 * 0.8), (int)(1200 * 0.8)))
                 .circleCrop()
                 .into(MediaObserver.roundImage);
         if(MediaObserver.getCurrentMediaPlayer().isPlaying())   MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
