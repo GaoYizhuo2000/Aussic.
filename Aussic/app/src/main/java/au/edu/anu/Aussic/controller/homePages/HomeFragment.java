@@ -24,6 +24,7 @@ import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
+import au.edu.anu.Aussic.models.observer.MediaObserver;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +41,6 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private List<Song> songs;
     private RecyclerView recyclerView;
 
     public HomeFragment() {
@@ -69,23 +69,20 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        this.recyclerView = view.findViewById(R.id.recyclerView);
+        List<Song> songs = MediaObserver.getCurrentSongList();
+        if(MediaObserver.getCurrentSongList() == null || MediaObserver.getCurrentSongList().isEmpty()){
+            FirestoreDao firestoreDao = new FirestoreDaoImpl();
+            firestoreDao.getRandomSongs(100).thenAccept(results->{
+                List<Map<String, Object>> maps = new ArrayList<>();
+                maps.addAll(results);
+                setCardViewList(maps);
+            });
+        } else {
+            setCardViewList();
+        }
 
-        FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getRandomSongs(100).thenAccept(results->{
-            List<CardSpec> cardList = new ArrayList<>();
-            List<Map<String, Object>> maps = new ArrayList<>();
-            maps.addAll(results);
-            for(Map<String, Object> map : maps) songs.add(GsonSongLoader.loadSong(map));
-            for(Song song : songs) cardList.add(new CardSpec(song.getSongName(), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage())));
-
-            // Set up the RecyclerView with the fetched data
-            recyclerView.setAdapter(new CardAdapter(cardList));
-
-        });
 
     }
 
@@ -96,7 +93,6 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        this.songs = new ArrayList<>();
 
     }
 
@@ -105,5 +101,24 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public void setCardViewList(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        List<CardSpec> cardList = new ArrayList<>();
+        for(Song song : MediaObserver.getCurrentSongList()) cardList.add(new CardSpec(song.getSongName(), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage())));
+
+        // Set up the RecyclerView with the fetched data
+        recyclerView.setAdapter(new CardAdapter(cardList));
+    }
+    public void setCardViewList(List<Map<String, Object>> maps){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        List<CardSpec> cardList = new ArrayList<>();
+
+        for(Map<String, Object> map : maps) MediaObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
+        for(Song song : MediaObserver.getCurrentSongList()) cardList.add(new CardSpec(song.getSongName(), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage())));
+
+        // Set up the RecyclerView with the fetched data
+        recyclerView.setAdapter(new CardAdapter(cardList));
     }
 }

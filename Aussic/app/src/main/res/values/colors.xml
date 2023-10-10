@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="sky_blue">#6696ee</color>
     <color name="trans_sky_blue">#A9C2EE</color>
+    <color name="lighter_sky_blue">#81B6EF</color>
     <color name="trans_light_sea_green">#AACDB6</color>
     <color name="light_sea_green">#64bd97</color>
 </resources>

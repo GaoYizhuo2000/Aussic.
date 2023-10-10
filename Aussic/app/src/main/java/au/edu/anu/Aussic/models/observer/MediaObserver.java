@@ -13,6 +13,7 @@ import au.edu.anu.Aussic.models.entity.Song;
 public class MediaObserver {
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
+    private static List<Song> currentSongList = new ArrayList<>();
     private static List<ChangeListener> listeners = new ArrayList<>();
     public static void setMediaPlayer(MediaPlayer mediaPlayer){
         currentMediaPlayer = mediaPlayer;
@@ -29,6 +30,7 @@ public class MediaObserver {
     public static Song getCurrentSong() {
         return currentSong;
     }
+    public static List<Song> getCurrentSongList(){return currentSongList; }
 
     public static void addChangeListener(ChangeListener newListener) {
         listeners.add(newListener);

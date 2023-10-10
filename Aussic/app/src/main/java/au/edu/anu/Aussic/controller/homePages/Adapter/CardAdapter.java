@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.models.observer.MediaObserver;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -54,8 +53,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image);
-            description = itemView.findViewById(R.id.description);
+            image = itemView.findViewById(R.id.home_hor_cardview_image);
+            description = itemView.findViewById(R.id.home_hor_cardview_description);
         }
     }
 
