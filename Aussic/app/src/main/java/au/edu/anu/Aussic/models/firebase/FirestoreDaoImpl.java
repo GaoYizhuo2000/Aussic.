@@ -106,6 +106,19 @@ public class FirestoreDaoImpl implements FirestoreDao {
         return future;
     }
 
+    @Override
+    public CompletableFuture<Map<String, Object>> getRandomUseraction() {
+        Random random = new Random();
+        DocumentReference useractionRef = firestore.collection("useractions").document(Integer.toString(random.nextInt(2500)));
+        CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+        useractionRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.complete(task.getResult().getData());
+            }
+        });
+        return future;
+    }
+
     private void fetchSongById(List<String> ids, int index, List<Map<String, Object>> accumulated, CompletableFuture<List<Map<String, Object>>> future) {
         if (index >= ids.size()) {
             future.complete(accumulated);

@@ -7,19 +7,13 @@ cred = credentials.Certificate("aussic-52582-firebase-adminsdk-gc3dc-1bf9916ac2.
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-with open('../pythonScrips/backup/songs.json', 'r', encoding='utf-8') as json_file:
+with open('../pythonScrips/backup/useractions.json', 'r', encoding='utf-8') as json_file:
     data = json.load(json_file)
 
-i = 1
-idList = []
-for song in data:
-    i +=1
-    idList.append(song["id"])
-    print("added " + str(i))
-print("uploading idLIst to firestore")
-idListRef = db.collection('idList').document("idList")
-ss = {"idList": idList}
-idListRef.set(ss)
+for i in range(2500):
+    useraction = data[i]
+    db.collection('useractions').document(str(i)).set(useraction)
+    print(i)
 
 #增加新参数
 ##collection = db.collection('songs')
