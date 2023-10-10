@@ -1,5 +1,7 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -14,5 +16,6 @@ public interface FirestoreDao {
     CompletableFuture<Map<String, Object>> getRandomUseraction();
     CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms);
     void addUserdata(User user);
+    CompletableFuture<Map<String, Object>> getUserdata(FirebaseUser user);
     void updateUserFavorites(String songId);
 }

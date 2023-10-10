@@ -9,7 +9,7 @@ import java.util.List;
 public class User {
     String username;
     List<String> favorites = new ArrayList<>(); //放歌曲id
-    String gps = "";
+    String location = "";
     String iconUrl;
 
     public User(String username, String iconUrl) {
