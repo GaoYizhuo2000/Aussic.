@@ -61,6 +61,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
 
+
             }
         }
     }

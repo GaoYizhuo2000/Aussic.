@@ -11,7 +11,7 @@
             android:title="Home"/>
         <item
             android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_menu_favorites"
+            android:icon="@drawable/ic_song_like"
             android:title="Home"/>
         <item
             android:id="@+id/nav_settings"

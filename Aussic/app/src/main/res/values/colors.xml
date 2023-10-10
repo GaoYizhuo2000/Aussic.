@@ -12,4 +12,7 @@
     <color name="lighter_sky_blue">#81B6EF</color>
     <color name="trans_light_sea_green">#AACDB6</color>
     <color name="light_sea_green">#64bd97</color>
+    <color name="red_like">#d30848</color>
+    <color name="yel_fav">#edc800</color>
+    <color name="trans">#FFFFFFFF</color>
 </resources>
