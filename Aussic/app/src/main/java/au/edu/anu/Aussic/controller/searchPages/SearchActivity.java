@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -153,6 +154,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
+                        if(MediaObserver.roundImage != null) MediaObserver.roundImage.clearAnimation();
                     } else {
                         mediaPlayer.start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);

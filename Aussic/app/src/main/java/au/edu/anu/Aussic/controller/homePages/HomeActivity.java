@@ -32,6 +32,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
     private JsonArray jsonArray;
     private int arrayLength = 0;
     private int currentID = 0;
+    private int currentFragment = R.id.home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,8 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
+            currentFragment = item.getItemId();
+
                 if(item.getItemId() == R.id.home) replaceFragment(homeFragment);
 
                 else if(item.getItemId() == R.id.shorts) replaceFragment(shortsFragment);
@@ -130,6 +134,7 @@ public class HomeActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             // Closing the drawer after selecting
+            currentFragment = menuItem.getItemId();
             drawerLayout.closeDrawer(GravityCompat.START);
             if(menuItem.getItemId() == R.id.nav_home) replaceFragment(homeFragment);
             else if (menuItem.getItemId() == R.id.nav_favorites) replaceFragment(favoritesFragment);
@@ -171,9 +176,11 @@ public class HomeActivity extends AppCompatActivity {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
+                        if(MediaObserver.roundImage != null) MediaObserver.roundImage.clearAnimation();
                     } else {
                         mediaPlayer.start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
+                        if((currentFragment == R.id.home || currentFragment == R.id.nav_home) && MediaObserver.roundImage != null) MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(homeFragment.getContext(), R.anim.spinning));
                     }
                     //showBottomDialog();
                 }
