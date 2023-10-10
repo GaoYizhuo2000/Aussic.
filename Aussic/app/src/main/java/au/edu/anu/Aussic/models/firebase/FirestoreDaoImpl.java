@@ -182,6 +182,18 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public CompletableFuture<Map<String, Object>> getUserdata(FirebaseUser user) {
+        DocumentReference userdataRef = firestore.collection("users").document(user.getEmail());
+        CompletableFuture<Map<String, Object>> future= new CompletableFuture<>();
+        userdataRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.complete(task.getResult().getData());
+            }
+        });
+        return future;
+    }
+
+    @Override
     public void updateUserFavorites(String songId) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String username = user.getEmail();

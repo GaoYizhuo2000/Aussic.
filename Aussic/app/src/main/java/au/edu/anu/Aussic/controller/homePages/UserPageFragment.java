@@ -12,7 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
+
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +67,8 @@ public class UserPageFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -74,7 +81,15 @@ public class UserPageFragment extends Fragment {
         favorites = rootView.findViewById(R.id.favoritesListButton);
         songList = rootView.findViewById(R.id.songListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
+                .thenAccept(userdata -> {
+                    String username = (String) userdata.get("username");
+                    email.append(username);
+                    String iconUrl = (String) userdata.get("iconUrl");
+                    Picasso.get().load(iconUrl ).into(userPhoto);
 
+                });
 
 
         // Example: Click on the profile image to change it
@@ -103,7 +118,7 @@ public class UserPageFragment extends Fragment {
                 Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return inflater.inflate(R.layout.fragment_userpage, container, false);
+        return rootView;
+       // return inflater.inflate(R.layout.fragment_userpage, container, false);
     }
 }

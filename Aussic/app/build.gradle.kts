@@ -56,6 +56,9 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.google.firebase:firebase-storage:19.2.2") // 检查最新版本
+    implementation ("com.firebaseui:firebase-ui-storage:7.2.0") // 检查最新版本
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
 
 
