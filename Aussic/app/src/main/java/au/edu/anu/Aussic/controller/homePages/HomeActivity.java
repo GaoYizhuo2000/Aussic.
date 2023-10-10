@@ -16,6 +16,7 @@ import android.view.Gravity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -271,14 +272,15 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadShowData() {
-        // mimic user behavior every 10 seconds
-        jsonObject = jsonArray.get(currentID).getAsJsonObject();
-        UserAction userAction = UserActionFactory.createUserAction(jsonObject);
-        userAction.update();
-        //Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getRandomUseraction().thenAccept(useraction -> {
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.toJsonTree(useraction).getAsJsonObject();
+            UserAction userAction = UserActionFactory.createUserAction(jsonObject);
+            userAction.update();
+           // Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
 
-        currentID += 1;
-        if(currentID >= arrayLength) currentID = currentID % arrayLength;
+        });
     }
 
 
