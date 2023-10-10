@@ -107,11 +107,11 @@ public class HomeActivity extends AppCompatActivity {
         toggle.syncState();
 
         if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, homeFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
-        replaceFragment(new HomeFragment());
+        replaceFragment(homeFragment);
 
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -250,7 +250,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void run() {
             // load show user behavior every 10 secs
-            //loadShowData();
+            loadShowData();
 
             // Schedule the next execution
             timerHandler.postDelayed(this, 5000);
@@ -275,7 +275,7 @@ public class HomeActivity extends AppCompatActivity {
         jsonObject = jsonArray.get(currentID).getAsJsonObject();
         UserAction userAction = UserActionFactory.createUserAction(jsonObject);
         userAction.update();
-        Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
 
         currentID += 1;
         if(currentID >= arrayLength) currentID = currentID % arrayLength;
