@@ -1,10 +1,12 @@
 package au.edu.anu.Aussic.models.observer;
 
 import android.media.MediaPlayer;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import au.edu.anu.Aussic.controller.homePages.HomeFragment;
 import au.edu.anu.Aussic.models.entity.Song;
 
 /**
@@ -13,6 +15,8 @@ import au.edu.anu.Aussic.models.entity.Song;
 public class MediaObserver {
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
+    public static ImageView roundImage;
+    public static HomeFragment homeFragment;
     private static List<Song> currentSongList = new ArrayList<>();
     private static List<ChangeListener> listeners = new ArrayList<>();
     public static void setMediaPlayer(MediaPlayer mediaPlayer){

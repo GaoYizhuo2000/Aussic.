@@ -73,5 +73,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         return out.toString();
     }
+
+    public static String adjustLength(String text){
+        if(text.length() > 12) return text.substring(0, 11) + "...";
+        else return text;
+    }
 }
 
