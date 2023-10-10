@@ -158,6 +158,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
                     } else {
                         mediaPlayer.start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
+                        if((MediaObserver.homeActivity.currentFragment == R.id.home || MediaObserver.homeActivity.currentFragment == R.id.nav_home) && MediaObserver.roundImage != null) MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(MediaObserver.homeFragment.getContext(), R.anim.spinning));
                     }
                     //showBottomDialog();
                 }

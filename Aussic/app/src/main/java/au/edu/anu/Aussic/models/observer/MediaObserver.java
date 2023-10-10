@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.controller.homePages.HomeFragment;
 import au.edu.anu.Aussic.models.entity.Song;
 
@@ -17,6 +18,7 @@ public class MediaObserver {
     private static Song currentSong;
     public static ImageView roundImage;
     public static HomeFragment homeFragment;
+    public static HomeActivity homeActivity;
     private static List<Song> currentSongList = new ArrayList<>();
     private static List<ChangeListener> listeners = new ArrayList<>();
     public static void setMediaPlayer(MediaPlayer mediaPlayer){

@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
 
         if(MediaObserver.getCurrentSongList() == null || MediaObserver.getCurrentSongList().isEmpty()){
             FirestoreDao firestoreDao = new FirestoreDaoImpl();
-            firestoreDao.getRandomSongs(100).thenAccept(results->{
+            firestoreDao.getRandomSongs(10).thenAccept(results->{
                 List<Map<String, Object>> maps = new ArrayList<>();
                 maps.addAll(results);
                 setCardViewList(maps);

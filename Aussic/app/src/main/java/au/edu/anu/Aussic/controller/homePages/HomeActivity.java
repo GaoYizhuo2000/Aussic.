@@ -68,12 +68,13 @@ public class HomeActivity extends AppCompatActivity {
     private JsonArray jsonArray;
     private int arrayLength = 0;
     private int currentID = 0;
-    private int currentFragment = R.id.home;
+    public int currentFragment = R.id.home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        MediaObserver.homeActivity = this;
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fab =findViewById(R.id.fab);
