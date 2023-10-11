@@ -8,22 +8,25 @@
 
     <ImageView
         android:id="@+id/userPhoto"
-        android:layout_width="175dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="45sp"
+        android:layout_marginStart="45sp"
         android:src="@drawable/baseline_account_circle_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="1:1" />
+
 
     <TextView
         android:id="@+id/userLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location: San Francisco"
         android:layout_marginStart="200sp"
         android:layout_marginTop="150sp"
+        android:text="Location: San Francisco"
         tools:layout_editor_absoluteX="211dp"
         tools:layout_editor_absoluteY="181dp" />
 

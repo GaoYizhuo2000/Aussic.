@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.makeText(LoginActivity.this, "Wrong Email Or Password!",
                                             Toast.LENGTH_SHORT).show();
                                     updateUI(null);
                                 }
@@ -120,8 +120,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("user", user);
-        startActivity(intent);
+        if (user != null) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        }
     }
 }
