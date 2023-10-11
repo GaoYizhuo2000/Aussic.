@@ -17,5 +17,8 @@ public interface FirestoreDao {
     CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms);
     void addUserdata(User user);
     CompletableFuture<Map<String, Object>> getUserdata(FirebaseUser user);
-    void updateUserFavorites(String songId);
+    CompletableFuture<String> updateUserFavorites(String songId);
+    CompletableFuture<String> updateUserLikes(String songId);
+    CompletableFuture<Map<String, Object>> getComment(String songId);
+
 }

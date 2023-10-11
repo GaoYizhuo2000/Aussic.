@@ -25,6 +25,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,15 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.homePages.HomeActivity;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.observer.MediaObserver;
+import au.edu.anu.Aussic.models.userAction.Comment;
+import au.edu.anu.Aussic.models.userAction.Favorites;
+import au.edu.anu.Aussic.models.userAction.Like;
+import au.edu.anu.Aussic.models.userAction.UserAction;
+import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
 public class SongActivity extends AppCompatActivity {
     private ImageView roundImageView;
@@ -43,6 +54,7 @@ public class SongActivity extends AppCompatActivity {
     private ImageView like;
     private ImageView fav;
     private ImageView comment;
+    FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
 
     @Override
@@ -86,6 +98,14 @@ public class SongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 like.setImageResource(R.drawable.ic_song_like);
+                firestoreDao.updateUserLikes(MediaObserver.getCurrentSong().getId())
+                        .thenAccept(msg -> {
+                            if(msg == null){
+                                new Like("like", FirebaseAuth.getInstance().getCurrentUser().getEmail(), MediaObserver.getCurrentSong().getSongName(), Integer.parseInt(MediaObserver.getCurrentSong().getId())).update();
+                            }else {
+                                Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
 
@@ -93,6 +113,14 @@ public class SongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 fav.setImageResource(R.drawable.ic_song_fav);
+                firestoreDao.updateUserFavorites(MediaObserver.getCurrentSong().getId())
+                        .thenAccept(msg -> {
+                            if(msg == null){
+                                new Favorites("favorites", FirebaseAuth.getInstance().getCurrentUser().getEmail(), MediaObserver.getCurrentSong().getSongName(), Integer.parseInt(MediaObserver.getCurrentSong().getId())).update();
+                            }else {
+                                Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
+                            }
+                });
             }
         });
         this.comment.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +199,9 @@ public class SongActivity extends AppCompatActivity {
 
 
                 if (!commentText.isEmpty()) {
+                    //update songs comment in firestore
+                    new Comment("comment", FirebaseAuth.getInstance().getCurrentUser().getEmail(),MediaObserver.getCurrentSong().getSongName()
+                            , Integer.parseInt(MediaObserver.getCurrentSong().getId()), commentText ).update();
                     // Create a new CommentItem object and add it to the commentList
                     // Assuming CommentItem is a class that represents a comment with user avatar, name, and content
                     CommentItem newComment = new CommentItem(0, "Admin", commentText);

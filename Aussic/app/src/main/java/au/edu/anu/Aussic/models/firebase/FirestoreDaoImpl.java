@@ -194,7 +194,8 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
-    public void updateUserFavorites(String songId) {
+    public CompletableFuture<String> updateUserFavorites(String songId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String username = user.getEmail();
         DocumentReference docRef = firestore.collection("users").document(username);
@@ -202,14 +203,60 @@ public class FirestoreDaoImpl implements FirestoreDao {
             if (task.isSuccessful()) {
                 Map<String, Object> userdata = task.getResult().getData();
                 List<String> favorites = new ArrayList<>();
+                String msg = null;
                 if(userdata.get("favorites") != null){
                     favorites = (List<String>)userdata.get("favorites");
                 }
-                favorites.add(songId);
-                docRef.update("favorites", favorites);
+                if(!favorites.contains(songId)){
+                    favorites.add(songId);
+                    docRef.update("favorites", favorites);
+                }else {
+                    msg = "Already added to favorites";
+                }
+                future.complete(msg);
             }
         });
+        return future;
+    }
 
+    @Override
+    public CompletableFuture<String> updateUserLikes(String songId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String username = user.getEmail();
+        DocumentReference docRef = firestore.collection("users").document(username);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> userdata = task.getResult().getData();
+                List<String> likes = new ArrayList<>();
+                String msg = null;
+                if(userdata.get("likes") != null){
+                    likes = (List<String>)userdata.get("likes");
+                }
+                if(!likes.contains(songId)){
+                    likes.add(songId);
+                    docRef.update("likes", likes);
+                }else {
+                    msg = "Already liked this song";
+                }
+                future.complete(msg);
+            }
+        });
+        return future;
+    }
+
+    @Override
+    public CompletableFuture<Map<String, Object>> getComment(String songId) {;
+        DocumentReference docRef = firestore.collection("Songs").document(songId);
+        CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> data = task.getResult().getData();
+                Map<String, Object> comments = (Map<String, Object>) data.get("comments");
+
+            }
+        });
+        return null;
     }
 
 

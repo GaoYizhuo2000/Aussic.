@@ -81,10 +81,12 @@ public class UserPageFragment extends Fragment {
         favorites = rootView.findViewById(R.id.favoritesListButton);
         songList = rootView.findViewById(R.id.songListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
+        //获取并显示用户数据
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
                 .thenAccept(userdata -> {
                     String username = (String) userdata.get("username");
+                    //显示用户email
                     email.append(username);
                     String iconUrl = (String) userdata.get("iconUrl");
                     Picasso.get().load(iconUrl ).into(userPhoto);
