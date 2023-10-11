@@ -12,23 +12,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.IOException;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.models.observer.OnItemSpecClickListener;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
     private List<ItemSpec> items;
+    private OnItemSpecClickListener listener;
 
 
-    public ListAdapter(List<ItemSpec> items) {
+    public ListAdapter(List<ItemSpec> items, OnItemSpecClickListener listener) {
         this.items = items;
+        this.listener = listener;
     }
 
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout, parent, false);
-        return new ListViewHolder(itemView);
+        return new ListViewHolder(itemView, this);
     }
 
     @Override
@@ -53,19 +57,28 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         public ImageView listImage;
         public TextView listTitle;
         public TextView listArtist;
+        private List<ItemSpec> items;
+        private OnItemSpecClickListener listener;
 
-        public ListViewHolder(View view) {
+        public ListViewHolder(View view, ListAdapter listAdapter) {
             super(view);
             listImage = view.findViewById(R.id.item_image);
             listTitle = view.findViewById(R.id.item_title);
             listArtist = view.findViewById(R.id.item_artist);
+            items = listAdapter.items;
+            listener = listAdapter.listener;
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-
+                try {
+                    listener.onItemClicked(items.get(position));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

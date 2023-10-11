@@ -11,23 +11,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.models.observer.OnItemSpecClickListener;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private List<ItemSpec> itemSpecList;
+    private OnItemSpecClickListener listener;
 
-    public CardAdapter(List<ItemSpec> cardDataList) {
+
+    public CardAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
+
         this.itemSpecList = cardDataList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
-        return new CardViewHolder(view);
+        return new CardViewHolder(view, this);
     }
 
     @Override
@@ -51,17 +57,28 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         ImageView image;
         TextView description;
 
-        public CardViewHolder(@NonNull View itemView) {
+        OnItemSpecClickListener listener;
+
+        List<ItemSpec> itemSpecList;
+
+
+        public CardViewHolder(@NonNull View itemView, CardAdapter cardAdapter) {
             super(itemView);
             image = itemView.findViewById(R.id.home_hor_cardview_image);
             description = itemView.findViewById(R.id.home_hor_cardview_description);
+            listener = cardAdapter.listener;
+            itemSpecList = cardAdapter.itemSpecList;
+            itemView.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-
-
+                try {
+                    listener.onItemClicked(itemSpecList.get(position));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

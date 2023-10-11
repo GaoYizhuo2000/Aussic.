@@ -80,22 +80,24 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
-                android:layout_marginEnd="15dp"
                 android:layout_marginTop="48dp">
 
                 <ImageView
+                    android:id="@+id/song_like"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_song_not_like" />
 
                 <ImageView
+                    android:id="@+id/song_fav"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_marginEnd="30dp"
                     android:src="@drawable/ic_song_not_fav" />
 
                 <ImageView
+                    android:id="@+id/song_comment"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:src="@drawable/ic_song_comment" />
@@ -106,7 +108,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@android:color/transparent"/>
+                android:background="@color/trans"/>
 
 
 
