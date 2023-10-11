@@ -139,7 +139,10 @@ public class HomeActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             if(menuItem.getItemId() == R.id.nav_home) replaceFragment(homeFragment);
             else if (menuItem.getItemId() == R.id.nav_favorites) replaceFragment(favoritesFragment);
-            else if(menuItem.getItemId() == R.id.nav_settings) replaceFragment(shortsFragment);
+            else if(menuItem.getItemId() == R.id.nav_settings) {
+                //TODO:test
+
+            }
             else if(menuItem.getItemId() == R.id.nav_share) replaceFragment(subscriptionsFragment);
             else if(menuItem.getItemId() == R.id.nav_about) replaceFragment(userPageFragment);
 

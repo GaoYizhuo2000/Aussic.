@@ -1,119 +1,84 @@
 package au.edu.anu.Aussic.models.search;
 
 import au.edu.anu.Aussic.models.avl.AVLTree;
+import au.edu.anu.Aussic.models.avl.NodeArtist;
+import au.edu.anu.Aussic.models.avl.NodeID;
+import au.edu.anu.Aussic.models.avl.NodeSongName;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.models.parserAndTokenizer.ConditionNode;
-import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
-import au.edu.anu.Aussic.models.parserAndTokenizer.QueryNode;
+import au.edu.anu.Aussic.models.entity.SongAttributes;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Token;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
-
+import java.util.*;
 
 public class MusicSearchEngine {
-    //private AVLTree musicDataByID;
-    private List<Song> songs;
+    private AVLTree<NodeID> idTree = null;
+    private AVLTree<NodeSongName> songNameTree = null;
+    private AVLTree<NodeArtist> artistTree = null;
 
-    public MusicSearchEngine(AVLTree<Song> musicDataByID) {
-        this.songs = musicDataByID.inorderTraversal();
+    //将歌曲插入AVL树的操作不应该在这里,而是应该在建立歌单的类里面,我暂时写在这里,以后再迁移
+    public void insertSong(Song song) {
+        NodeID nodeId = new NodeID(song);
+        NodeSongName nodeSongName = new NodeSongName(song);
+        NodeArtist nodeArtist = new NodeArtist(song);
+
+        if (idTree == null) {
+            idTree = new AVLTree<>(nodeId);
+        } else {
+            idTree = idTree.insert(nodeId);
+        }
+
+        if (songNameTree == null) {
+            songNameTree = new AVLTree<>(nodeSongName);
+        } else {
+            songNameTree = songNameTree.insert(nodeSongName);
+        }
+
+        if (artistTree == null) {
+            artistTree = new AVLTree<>(nodeArtist);
+        } else {
+            artistTree = artistTree.insert(nodeArtist);
+        }
     }
 
-    public QueryNode parseQuery(String userInput) {
-        Tokenizer tokenizer = new Tokenizer();
-        List<Token> tokens = tokenizer.tokenize(userInput);
-        Parser parser = new Parser(tokens);
-        return parser.parse();
-    }
 
-    public List<Song> search(QueryNode query) {
-        List<Song> result = new ArrayList<>();
-        for (ConditionNode condition : query.conditions) {
-            String type = condition.type;
-            String value = condition.value;
-            for (Song song : songs) {
-                switch (type) {
-                    case "ID":
-                        if (String.valueOf(song.getId()).equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-                    case "TYPE":
-                        if (song.getType().equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-//                    case "KIND":
-//                        if (song.getKind().equals(value)) {
-//                            result.add(song);
-//                        }
-                        //break;
-                    case "ARTIST_NAME":
-                        if (song.getArtistName().equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-                    case "ALBUM_NAME":
-                        if (song.getAlbumName().equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-                    case "TRACK_NUMBER":
-                        if (String.valueOf(song.getTrackNumber()).equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-                    case "DISC_NUMBER":
-                        if (String.valueOf(song.getDiscNumber()).equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-                    case "SONG_NAME":
-                        if (song.getSongName().equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-                    case "GENRE":
-                        if (song.getGenre().equals(value)) {
-                            result.add(song);
-                        }
-                        //break;
-//                    case "RELEASE_DATE":
-//                        if (song.getReleaseDate().equals(value)) {
-//                            result.add(song);
-//                        }
-                        //break;
-//                    case "COMPOSER_NAME":
-//                        if (song.getComposerName().equals(value)) {
-//                            result.add(song);
-//                        }
-                        //break;
-                    default:
-                        // Optionally handle unrecognized fields
-                        break;
+
+    /**
+     * 在指定的AVL树中搜索给定的值。
+     * @param type 令牌类型
+     * @param value 要搜索的值
+     * @return 匹配的结果集
+     */
+    public Set<String> search(String type, String value) {
+        Set<String> resultSet = new HashSet<>();
+
+        switch (type) {
+            case "ID":
+                Set<NodeID> idResults = idTree.searchAll(new NodeID(new Song(value, "", "", null)));
+                for (NodeID node : idResults) {
+                    resultSet.add(node.song.getId());
                 }
-
-            }
+                break;
+            case "SONG_NAME":
+                SongAttributes songAttributes = new SongAttributes(value, new ArrayList<>(), 0, 0, "", "", null, "", "", null, 0, false, false, false, value, new ArrayList<>(), "");
+                Set<NodeSongName> songNameResults = songNameTree.searchAll(new NodeSongName(new Song("", "", "", songAttributes)));
+                for (NodeSongName node : songNameResults) {
+                    resultSet.add(node.songsSavedByName.get(0).getSongName());
+                }
+                break;
+            case "ARTIST_NAME":
+                SongAttributes artistAttributes = new SongAttributes("", new ArrayList<>(), 0, 0, "", "", null, "", "", null, 0, false, false, false, "", new ArrayList<>(), value);
+                Set<NodeArtist> artistResults = artistTree.searchAll(new NodeArtist(new Song("", "", "", artistAttributes)));
+                for (NodeArtist node : artistResults) {
+                    resultSet.add(node.songsSavedByArtistName.get(0).getArtistName());
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported search type: " + type);
         }
-        return result;
-    }
 
-    public void displayResults(List<Song> results) {
-        if (results == null) {
-            System.out.println("Results is null.");
-            return;
-        }
-
-        if (results.isEmpty()) {
-            System.out.println("No results found.");
-            return;
-        }
-
-        for (Song songs : results) {
-            System.out.println(songs);
-        }
+        return resultSet;
     }
 }

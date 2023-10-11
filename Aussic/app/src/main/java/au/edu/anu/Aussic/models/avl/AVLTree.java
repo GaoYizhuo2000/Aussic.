@@ -1,7 +1,9 @@
 package au.edu.anu.Aussic.models.avl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
     public AVLTree(T value) {
@@ -226,7 +228,30 @@ public class AVLTree<T extends Comparable<T>> extends BinarySearchTree<T> {
     }
 
 
+    public Set<T> searchAll(T element) {
+        Set<T> resultSet = new HashSet<>();
+        searchAll(this, element, resultSet);
+        return resultSet;
+    }
 
+    private void searchAll(AVLTree<T> node, T element, Set<T> resultSet) {
+        if (node == null || node.value == null) {
+            return;
+        }
+
+        int comparison = element.compareTo(node.value);
+        if (comparison == 0) {
+            resultSet.add(node.value);
+        }
+
+        if (node.leftNode instanceof AVLTree) {
+            searchAll((AVLTree<T>) node.leftNode, element, resultSet);
+        }
+
+        if (node.rightNode instanceof AVLTree) {
+            searchAll((AVLTree<T>) node.rightNode, element, resultSet);
+        }
+    }
 
 
     /**

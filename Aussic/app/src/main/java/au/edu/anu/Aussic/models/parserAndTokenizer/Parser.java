@@ -1,38 +1,75 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
+import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 
 public class Parser {
-    private List<Token> tokens;
-    private int position = 0;
-    public Parser(List<Token> tokens) {
-        this.tokens = tokens;
-    }
-
-    public QueryNode parse() {
-        QueryNode query = new QueryNode();
-        query.conditions = new ArrayList<>();
-        while (position < tokens.size()) {
-            query.conditions.add(parseCondition());
+    /**
+     * The following exception should be thrown if the parse is faced with series of tokens that do not
+     * correlate with any possible production rule.
+     */
+    public static class IllegalProductionException extends IllegalArgumentException {
+        public IllegalProductionException(String errorMessage) {
+            super(errorMessage);
         }
-        return query;
     }
 
-    private ConditionNode parseCondition() {
-        System.out.println("Current position: " + position);
-        System.out.println("Current token: " + tokens.get(position));
 
-        ConditionNode condition = new ConditionNode();
-        Token token = tokens.get(position++);
+    private String input;
+    private List<Token> tokens;
+    //private int position = 0;
 
-        condition.type = token.getType();
-        condition.value = token.getValue();
 
-        return condition;
+    public Parser(String input){
+        this.input = input;
+        Tokenizer tokenizer = new Tokenizer();
+        tokens = tokenizer.tokenize(input);
     }
+
+
+    //List<Token> tokens = tokenizer.tokenize(input);
+
+    public Map<String, String> tokenToMap() {
+        Map<String, String> resultMap = new HashMap<>();
+        for (Token token : tokens) {
+            resultMap.put(token.getType(), token.getValue());
+        }
+        return resultMap;
+    }
+
+    public void printMap() {
+        Map<String, String> tokenMap = tokenToMap();
+
+        for (Map.Entry<String, String> entry : tokenMap.entrySet()) {
+            System.out.println("Type1: " + entry.getKey() + ", Value1: " + entry.getValue());
+        }
+    }
+
+
+    public Set<String> searchLocal(Map<String, String> tokenMap) {
+        MusicSearchEngine engine = new MusicSearchEngine();
+        Set<String> resultSet = null;
+
+        for (Map.Entry<String, String> entry : tokenMap.entrySet()) {
+            String type = entry.getKey();
+            String value = entry.getValue();
+
+            Set<String> currentResult = engine.search(type, value);
+
+            if (resultSet == null) {
+                resultSet = currentResult;
+            } else {
+                resultSet.retainAll(currentResult);  // 取交集
+            }
+        }
+
+        return resultSet;
+    }
+
+
+
 
 }
 
