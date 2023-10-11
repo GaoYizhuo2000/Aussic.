@@ -39,6 +39,7 @@
                     android:layout_height="300dp"
                     android:layout_centerHorizontal="true"
                     android:scaleType="center"
+                    android:stateListAnimator="@animator/image_click_animator"
                     android:background="@drawable/round_image_bg"
                     />
 

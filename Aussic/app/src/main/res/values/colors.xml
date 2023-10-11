@@ -15,4 +15,5 @@
     <color name="red_like">#d30848</color>
     <color name="yel_fav">#edc800</color>
     <color name="trans">#FFFFFFFF</color>
+    <color name="orange_comments">#f6af4e</color>
 </resources>

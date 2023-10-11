@@ -4,7 +4,7 @@
     <item android:right="6dp" android:left="6dp" android:top="8dp" android:bottom="4dp">
         <shape android:shape="rectangle">
             <!-- The background color of the tab -->
-            <solid android:color="@color/sky_blue"/>
+            <solid android:color="@color/orange_comments"/>
             <!-- Rounded corners -->
             <corners android:radius="25dp"/>
             <padding android:left="16dp" android:right="16dp" /> <!-- Increase width by adding padding -->
