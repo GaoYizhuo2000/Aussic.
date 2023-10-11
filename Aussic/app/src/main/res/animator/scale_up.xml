@@ -1,0 +1,6 @@
+<animator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:valueFrom="0.80"
+    android:valueTo="1"
+    android:duration="100"
+    android:propertyName="scaleX"
+    android:valueType="floatType" />

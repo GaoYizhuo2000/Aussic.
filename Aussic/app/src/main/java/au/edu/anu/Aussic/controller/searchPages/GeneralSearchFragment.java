@@ -1,5 +1,7 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +22,18 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
+import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.observer.ChangeListener;
 import au.edu.anu.Aussic.models.observer.MediaObserver;
+import au.edu.anu.Aussic.models.observer.OnItemSpecClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GeneralSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GeneralSearchFragment extends Fragment implements ChangeListener {
+public class GeneralSearchFragment extends Fragment implements ChangeListener, OnItemSpecClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,10 +96,25 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener {
         if(MediaObserver.getCurrentSongList() != null && !MediaObserver.getCurrentSongList().isEmpty()) {
             List<ItemSpec> itemList = new ArrayList<>();
             for (Song song : MediaObserver.getCurrentSongList())
-                itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName()));
+                itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
 
             this.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            this.searchRecyclerView.setAdapter(new ListAdapter(itemList));
+            this.searchRecyclerView.setAdapter(new ListAdapter(itemList, this));
         }
+    }
+
+    @Override
+    public void onItemClicked(ItemSpec itemSpec) throws IOException {
+        MediaObserver.setCurrentSong(itemSpec.getSong());
+        MediaObserver.getCurrentMediaPlayer().pause();
+        MediaObserver.getCurrentMediaPlayer().release();
+        MediaObserver.setMediaPlayer(new MediaPlayer());
+        MediaObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
+        MediaObserver.getCurrentMediaPlayer().prepare();
+        MediaObserver.getCurrentMediaPlayer().setLooping(true);
+        MediaObserver.getCurrentMediaPlayer().start();
+        Intent intent = new Intent(getContext(), SongActivity.class);
+        // add more extras if necessary
+        startActivity(intent);
     }
 }

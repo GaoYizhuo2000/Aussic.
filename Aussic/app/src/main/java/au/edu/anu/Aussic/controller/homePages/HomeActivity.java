@@ -16,6 +16,7 @@ import android.view.Gravity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.core.view.Change;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -42,6 +43,7 @@ import java.io.InputStreamReader;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
+import au.edu.anu.Aussic.models.observer.ChangeListener;
 import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -51,7 +53,7 @@ import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ChangeListener {
 
     FloatingActionButton fab;
     DrawerLayout drawerLayout;
@@ -63,7 +65,6 @@ public class HomeActivity extends AppCompatActivity {
     private UserPageFragment userPageFragment = new UserPageFragment();
     private FavoritesFragment favoritesFragment = new FavoritesFragment();
     private Handler timerHandler = new Handler();
-    private MediaPlayer mediaPlayer;
     private JsonObject jsonObject = null;
     private JsonArray jsonArray;
     private int arrayLength = 0;
@@ -75,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         MediaObserver.homeActivity = this;
+        MediaObserver.addChangeListener(this);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fab =findViewById(R.id.fab);
@@ -156,17 +158,15 @@ public class HomeActivity extends AppCompatActivity {
             String urlImage = CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage());
 
 
-
-            this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
             try{
-                mediaPlayer.setDataSource(MediaObserver.getCurrentSong().getUrlToListen());
-                mediaPlayer.prepare();
-                mediaPlayer.setLooping(true);
+                MediaObserver.getCurrentMediaPlayer().setDataSource(MediaObserver.getCurrentSong().getUrlToListen());
+                MediaObserver.getCurrentMediaPlayer().prepare();
+                MediaObserver.getCurrentMediaPlayer().setLooping(true);
                 //mediaPlayer.setVolume(1.0f,1.0f);
             } catch (Exception e){
                 e.printStackTrace();
             }
-            mediaPlayer.start();
+            MediaObserver.getCurrentMediaPlayer().start();
             fab.setImageResource(R.drawable.ic_bottom_stop);
             MediaObserver.notifyListeners();
         });
@@ -176,13 +176,13 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mediaPlayer != null) {
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.pause();
+                if (MediaObserver.getCurrentMediaPlayer() != null) {
+                    if (MediaObserver.getCurrentMediaPlayer().isPlaying()) {
+                        MediaObserver.getCurrentMediaPlayer().pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
                         if(MediaObserver.roundImage != null) MediaObserver.roundImage.clearAnimation();
                     } else {
-                        mediaPlayer.start();
+                        MediaObserver.getCurrentMediaPlayer().start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
                         if((currentFragment == R.id.home || currentFragment == R.id.nav_home) && MediaObserver.roundImage != null) MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(homeFragment.getContext(), R.anim.spinning));
                     }
@@ -298,9 +298,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mediaPlayer != null){
-            mediaPlayer.release();
-            mediaPlayer = null;
+        if(MediaObserver.getCurrentMediaPlayer() != null){
+            MediaObserver.getCurrentMediaPlayer().release();
+            MediaObserver.setMediaPlayer(null);
         }
     }
 
@@ -313,6 +313,14 @@ public class HomeActivity extends AppCompatActivity {
             View child = viewGroup.getChildAt(i);
             child.setOnClickListener(listener);
             setOnClickListenerForAllChildren(child, listener);
+        }
+    }
+
+    @Override
+    public void onChange() {
+        if(MediaObserver.getCurrentMediaPlayer() != null){
+            if ((MediaObserver.getCurrentMediaPlayer().isPlaying())) this.fab.setImageResource(R.drawable.ic_bottom_stop);
+            else this.fab.setImageResource(R.drawable.ic_bottom_play);
         }
     }
 }
