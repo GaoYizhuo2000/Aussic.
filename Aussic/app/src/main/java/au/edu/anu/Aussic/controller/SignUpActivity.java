@@ -31,7 +31,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-    private Button buttonSignUp;
+    private Button buttonSignUp, buttonGoBack;
     private EditText usernameSignUp, passwordSignUp;
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
@@ -44,6 +44,7 @@ public class SignUpActivity extends AppCompatActivity {
         usernameSignUp=findViewById(R.id.signUpUsername);
         passwordSignUp=findViewById(R.id.signUpPassword);
         buttonSignUp=findViewById(R.id.SignUp);
+        buttonGoBack=findViewById(R.id.goBack);
 
         mAuth=FirebaseAuth.getInstance();
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
@@ -94,13 +95,22 @@ public class SignUpActivity extends AppCompatActivity {
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                     Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
+                                    updateUI(null);
                                 }
                             }
                         });
             }
         });
+
+        buttonGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void updateUI(FirebaseUser user) {
         Intent intent = new Intent(this, HomeActivity.class);

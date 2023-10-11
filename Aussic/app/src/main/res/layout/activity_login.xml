@@ -39,6 +39,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline"
         app:layout_constraintWidth_percent="0.7" />
 
+
     <EditText
         android:id="@+id/UserPassword"
         android:layout_width="0dp"
@@ -47,6 +48,7 @@
         android:ems="30"
         android:hint="Password"
         android:inputType="text"
+        android:password="true"
         app:layout_constraintBottom_toBottomOf="@id/UserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
@@ -110,7 +112,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.4" />
-
-
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="ToggleButton"
+        android:textSize="10sp"
+        app:constraint_referenced_ids="toggleButton"
+        app:layout_constraintStart_toEndOf="@+id/UserPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/UserPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/UserPassword"
+        app:layout_constraintWidth_percent="0.12"
+        app:layout_constraintHeight_percent="0.05"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

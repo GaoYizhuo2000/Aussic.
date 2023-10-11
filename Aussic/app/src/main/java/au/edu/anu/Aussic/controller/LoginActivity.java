@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,8 +28,9 @@ import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
-    private Button buttonSignIn, buttonSignUp, buttonNoLoginIn;
+    private Button buttonSignIn, buttonSignUp;
     private FirebaseAuth mAuth;
+    private ToggleButton viewable;
 
     private static final String TAG = "EmailPassword";
 
@@ -42,6 +47,19 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.UserPassword);
         buttonSignIn = (Button) findViewById(R.id.SignIN);
         buttonSignUp = (Button) findViewById(R.id.SignUP);
+        viewable = (ToggleButton) findViewById(R.id.toggleButton);
+
+
+        viewable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }else{
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
@@ -78,17 +96,13 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
 
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
                                     updateUI(user);
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
+                                    updateUI(null);
                                 }
                             }
                         }
