@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
@@ -182,6 +183,14 @@ public class SongActivity extends AppCompatActivity {
 
         // Your data list for the comments
         List<CommentItem> commentList = new ArrayList<>();
+        // get and load comments
+        firestoreDao.getComment(MediaObserver.getCurrentSong().getId())
+                .thenAccept(details -> {
+                    for(Map<String, Object> comment : details) {
+                        CommentItem newComment = new CommentItem(0, (String) comment.get("uid"), (String) comment.get("content"));
+                        commentList.add(newComment);
+                    }
+        });
 
         // Setup the RecyclerView and its adapter
 
