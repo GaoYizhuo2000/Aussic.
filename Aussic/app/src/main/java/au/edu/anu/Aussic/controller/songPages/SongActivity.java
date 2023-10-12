@@ -183,20 +183,25 @@ public class SongActivity extends AppCompatActivity {
 
         // Your data list for the comments
         List<CommentItem> commentList = new ArrayList<>();
-        // get and load comments
-        firestoreDao.getComment(MediaObserver.getCurrentSong().getId())
-                .thenAccept(details -> {
-                    for(Map<String, Object> comment : details) {
-                        CommentItem newComment = new CommentItem(0, (String) comment.get("uid"), (String) comment.get("content"));
-                        commentList.add(newComment);
-                    }
-        });
+
 
         // Setup the RecyclerView and its adapter
 
         CommentAdapter commentAdapter = new CommentAdapter(commentList);
         commentsRecyclerView.setAdapter(commentAdapter);
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // get and load comments
+        firestoreDao.getComment(MediaObserver.getCurrentSong().getId())
+                .thenAccept(details -> {
+                    for(Map<String, Object> comment : details) {
+                        CommentItem newComment = new CommentItem(0, (String) comment.get("uid"), (String) comment.get("content"));
+                        commentList.add(newComment);
+                        commentAdapter.notifyItemInserted(commentList.size() - 1);
+                    }
+
+
+                });
 
         // Find and set an OnClickListener to the button
         Button sendButton = dialog.findViewById(R.id.the_btn_send);
