@@ -178,8 +178,9 @@ Here is a partial (short) example for the subsection `Data Structures`:*
 
 Production Rules:
 
-    <Non-Terminal> ::= <some output>
-    <Non-Terminal> ::= <some output>
+    <Exp> ::= <term>|<term> <Exp>
+
+    <Term> ::= <song_name>|<artist_name>|<genre>
 
 
 ### <u>Tokenizers and Parsers</u>
