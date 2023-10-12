@@ -59,7 +59,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-storage:19.2.2") // 检查最新版本
     implementation ("com.firebaseui:firebase-ui-storage:7.2.0") // 检查最新版本
     implementation ("com.squareup.picasso:picasso:2.71828")
-
+    implementation("com.google.android.gms:play-services-location:21.0.1") //用Google Play获取位置
 
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

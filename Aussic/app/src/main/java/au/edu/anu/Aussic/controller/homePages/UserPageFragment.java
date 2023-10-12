@@ -1,7 +1,14 @@
 package au.edu.anu.Aussic.controller.homePages;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+//import android.location.Location;
+//import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,9 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+//import au.edu.anu.Aussic.Manifest;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
@@ -27,13 +37,14 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
  * create an instance of this fragment.
  */
 public class UserPageFragment extends Fragment {
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private TextView email;
-    private Button favorites, songList;
+    private TextView email,location;
+    private Button favorites, songList, getLocation;
     private ImageView userPhoto;
 
     // TODO: Rename and change types of parameters
@@ -79,10 +90,24 @@ public class UserPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_userpage, container, false);
 
+        //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
         email = rootView.findViewById(R.id.userEmail);
         favorites = rootView.findViewById(R.id.favoritesListButton);
 //        songList = rootView.findViewById(R.id.songListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
+        location = rootView.findViewById(R.id.userLocation);
+        getLocation = rootView.findViewById(R.id.getUserLocationButton);
+
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient();//TODO
+//        getLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getLastLocation();
+//            }
+//        });
+
+
         //获取并显示用户数据
 //        FirestoreDao firestoreDao = new FirestoreDaoImpl();
 //        firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
@@ -127,7 +152,46 @@ public class UserPageFragment extends Fragment {
 //                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
 //            }
 //        });
+        songList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Navigate to the playlists page or implement another functionality
+                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+//        LocationListener locationListener = new LocationListener() {
+//            @Override
+//            public void onLocationChanged(Location location) {
+//                // When user location changed...
+//
+//            }
+//
+//            @Override
+//            public void onStatusChanged(String provider, int status, Bundle extras) {}
+//
+//            @Override
+//            public void onProviderEnabled(String provider) {}
+//
+//            @Override
+//            public void onProviderDisabled(String provider) {}
+//        };
+
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//        } else {
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//        }
+
+
+
+
         return rootView;
        // return inflater.inflate(R.layout.fragment_userpage, container, false);
     }
+
+//    private void getLastLocation() {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission))
+//    }
 }

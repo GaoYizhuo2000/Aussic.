@@ -26,9 +26,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="200sp"
         android:layout_marginTop="150sp"
-        android:text="Location: San Francisco"
+        android:text="Location: "
         tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="181dp" />
+        tools:layout_editor_absoluteY="181dp"
+        app:layout_constraintStart_toStartOf="@id/userEmail"
+        app:layout_constraintTop_toBottomOf="@id/userEmail"
+        />
+
+    <Button
+        android:id="@+id/getUserLocationButton"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="190dp"
+        android:layout_marginTop="200sp"
+        android:background="@drawable/edittext_white"
+        android:text="Get Location"
+        android:textSize="7sp"/>
 
     <Button
         android:id="@+id/favoritesListButton"
