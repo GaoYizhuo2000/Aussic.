@@ -25,6 +25,9 @@ public class Song implements Comparable<Song> {
         this.href = href;
         this.attributes = attributes;
     }
+    public Song(String id) {
+        this.id = id;
+    }
 //    public Song(Map<String, Object> fromFireStore) {
 //        this.id = ((Map<String, Object>)((Map<String, Object>)fromFireStore.get("attributes")).get("playParams")).get("id").toString();
 //        this.type = fromFireStore.get("type").toString();

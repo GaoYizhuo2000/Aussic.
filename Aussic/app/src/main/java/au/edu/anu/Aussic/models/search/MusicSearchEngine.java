@@ -29,7 +29,7 @@ public class MusicSearchEngine {
         l.add(song0);
         idTree = new AVLTree<List<Song>>(song0.getId(), l);
         for(Song song: songList){
-            idTree.insertById(song);
+            idTree = idTree.insertById(song);
         }
     }
 

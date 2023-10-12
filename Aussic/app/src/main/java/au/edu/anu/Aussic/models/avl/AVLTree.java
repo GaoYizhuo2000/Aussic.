@@ -33,7 +33,8 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             throw new IllegalArgumentException("Input cannot be null");
 
         if (song.getId().compareTo(key) > 0) {
-            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, rightNode.insertById(song));
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertById(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
             if (newTree.getBalanceFactor()<-1 && newTree.rightNode.rightNode.find(song.getId()) != null) {
                 newTree = newTree.leftRotate();
             }else if (newTree.getBalanceFactor()<-1 && newTree.rightNode.leftNode.find(song.getId()) != null) {
@@ -209,7 +210,8 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         public Tree<T> insertById(Song song) {
             List<Song> songList = new ArrayList<>();
             songList.add(song);
-            return new AVLTree<T>(song.getId(), (T) songList);
+            AVLTree<T> newTree = new AVLTree<T>(song.getId(), (T) songList);
+            return newTree;
         }
 
         @Override
