@@ -205,11 +205,11 @@ Production Rules:
    * Description of feature: ... <br>
    * Description of your implementation: ... <br>
 
-2. [DataFiles]. Description  ... ... (...)
-   * Code to the Data File [users_interaction.json](link-to-file), [search-queries.xml](link-to-file), ...
-   * Link to the Firebase repo: ...
+2. [DataFiles]. We grabbed the songs data using the api from apple music, and generate the user behaviors by ourself including like, favorites and comments.(...)
+   * Code to the Data File [songs.json](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/pythonScrips/backup/songs.json)
+   * Link to the Firebase repo: [Aussic](https://console.firebase.google.com/u/1/project/aussic-52582/overview)
 
-3. ...
+3. [LoadShowDate]. We now have a timer in [HomeActivity.java](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/homePages/HomeActivity.java) to load the data from firestore, and also writes some user actions back, once the real-time listener is set up, we will be able to show users' comments in the songs' comments page.
    <br>
 
 ### Custom Features
