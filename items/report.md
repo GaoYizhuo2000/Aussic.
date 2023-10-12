@@ -1,19 +1,5 @@
 # [G06] Report
 
-The following is a report template to help your team successfully provide all the details necessary for your report in a structured and organised manner. Please give a straightforward and concise report that best demonstrates your project. Note that a good report will give a better impression of your project to the reviewers.
-
-Note that you should have removed ALL TEMPLATE/INSTRUCTION textes in your submission (like the current sentence), otherwise it hampers the professionality in your documentation.
-
-*Here are some tips to write a good report:*
-
-* `Bullet points` are allowed and strongly encouraged for this report. Try to summarise and list the highlights of your project (rather than give long paragraphs).*
-
-* *Try to create `diagrams` for parts that could greatly benefit from it.*
-
-* *Try to make your report `well structured`, which is easier for the reviewers to capture the necessary information.*
-
-*We give instructions enclosed in square brackets [...] and examples for each sections to demonstrate what are expected for your project report. Note that they only provide part of the skeleton and your description should be more content-rich. Quick references about markdown by [CommonMark](https://commonmark.org/help/)*
-
 ## Table of Contents
 
 1. [Team Members and Roles](#team-members-and-roles)
@@ -62,7 +48,7 @@ Note that the core criteria of contribution is based on `code contribution` (the
 
 *Here is an example: (Note that you should remove the entire section (e.g. "others") if it is not applicable)*
 
-1. **UID1, Name1**  I have 30% contribution, as follows: <br>
+ **UID1, Name1**  I have 30% contribution, as follows: <br>
   - **Code Contribution in the final App**
     - Feature A1, A2, A3 - class Dummy: [Dummy.java](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java)
     - XYZ Design Pattern -  class AnotherClass: [functionOne()](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43), [function2()](the-URL)
@@ -76,44 +62,55 @@ Note that the core criteria of contribution is based on `code contribution` (the
     - [Report Writing?] [Slides preparation?]*
     - [You are welcome to provide anything that you consider as a contribution to the project or team.] e.g., APK, setups, firebase* <br><br>
 
-2. **UID2, Name2**  I have xx% contribution, as follows: <br>
-  - ...
+// need to be done
+1. **u7516507, Evan Cheung** I have xx% contribution, as follows: <br>
+2. **u7552399, Yizhuo Gao**  I have xx% contribution, as follows: <br>
+3. **u7581818, Oscar Wei**  I have xx% contribution, as follows: <br>
+4. **u7603590, Jiawei Niu**  I have xx% contribution, as follows: <br>
 
 
 
 ## Application Description
 
-*[What is your application, what does it do? Include photos or diagrams if necessary]*
+Aussic is an app designed specifically for Australian music lovers. This not only satisfies the search function, it is also a music discovery platform that focuses on showing the unique charm of Australian singers.
 
-*Here is a pet specific application example*
+1. **Smart Music Search**: Users can easily enter song titles, artists or related keywords, and Aussic will display a rich Australian music playlist.
 
-*PetBook is a social media application specifically targetting pet owners... it provides... certified practitioners, such as veterians are indicated by a label next to their profile...*
+2. **Listening and exploration**: Each Australian song is equipped with a 30-second demo, allowing users to quickly understand the tone and style of the song. Once you like it, click on the external link to hear the full version.
+
+3. **Interaction and Favorites**: In Aussic, users can like their favorite songs or add them to favorites, while our daily recommendations feature will provide our users with more ideas.
+
+Whether a person is a loyal fan of Australian music or is just beginning to explore this music world, Aussic will open a door to Australian music and allow Aussic users to experience the unique music style.
 
 ### Application Use Cases and or Examples
 
-*[Provide use cases and examples of people using your application. Who are the target users of your application? How do the users use your application?]*
+**1. Application use case: music search**
 
-*Here is a pet training application example*
+User Niu wants to find a song by Australian singer Troye Sivan:
 
-*Molly wants to inquiry about her cat, McPurr's recent troublesome behaviour*
-1. *Molly notices that McPurr has been hostile since...*
-2. *She makes a post about... with the tag...*
-3. *Lachlan, a vet, writes a reply to Molly's post...*
-4. ...
-5. *Molly gives Lachlan's reply a 'tick' response*
+1. Niu open the Aussic app and log in to your account.
+2. In the search bar, she types "Troye Sivan."
+3. The application displays a list of songs by Troye Sivan.
+4. Niu selected the song she wanted to listen to and clicked on the 30-second preview.
 
-*Here is a map navigation application example*
+**2. Application use case: Add to favorites**
 
-*Targets Users: Drivers*
+User Jake heard a song by the Australian band Tame Impala that he liked very much, and he wanted to save the song:
 
-* *Users can use it to navigate in order to reach the destinations.*
-* *Users can learn the traffic conditions*
-* ...
+1. Jake clicks the "Add to Favorites" button on the song playback interface.
+2. The song was successfully added to his collection list.
+3. Jake can listen to the song again in "My Collection" at any time.
 
-*Target Users: Those who want to find some good restaurants*
 
-* *Users can find nearby restaurants and the application can give recommendations*
-* ...
+**3. Application use case: daily music recommendation**
+
+User Ley likes to listen to some new songs every morning to start his day:
+
+1. Alex opens the Aussic app every day.
+2. On the home page, he will see the "Aussic Daily Recommendations" section.
+3. Alex clicks play and starts listening to the recommended Australian music.
+
+
 
 *List all the use cases in text descriptions or create use case diagrams. Please refer to https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-use-case-diagram/ for use case diagram.*
 
@@ -204,7 +201,7 @@ Production Rules:
 
 ### Basic Features
 1. [LogIn]. Description of the feature ... (easy)
-   * Code: [Class X, methods Z, Y](https://gitlab.cecs.anu.edu.au/comp2100/group-project/ga-23s2/-/blob/main/items/media/_examples/Dummy.java#L22-43) and Class Y, ...
+   * Code: [Class LoginActivity](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/LoginActivity.java) and [Class SignUpActivity](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/SignUpActivity.java)
    * Description of feature: ... <br>
    * Description of your implementation: ... <br>
 
