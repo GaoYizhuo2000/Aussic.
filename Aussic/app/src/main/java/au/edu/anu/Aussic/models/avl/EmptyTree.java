@@ -1,14 +1,17 @@
 package au.edu.anu.Aussic.models.avl;
+
+import au.edu.anu.Aussic.models.entity.Song;
+
 /**
  * To avoid null pointer errors (and because this implementation is immutable)
  * we have a class that represents an 'empty' tree.
  */
-public abstract class EmptyTree<T extends Comparable<T>> extends Tree<T> {
+public abstract class EmptyTree<T> extends Tree<T> {
     // Will need to be implemented by the subclass inheriting this class.
-    public abstract Tree<T> insert(T element);
+    public abstract Tree<T> insertById(Song song);
 
     public abstract Tree<T> delete(T element);
-
+////////////////////////////////////////////////////
     @Override
     public T min() {
         // No minimum.
@@ -22,7 +25,7 @@ public abstract class EmptyTree<T extends Comparable<T>> extends Tree<T> {
     }
 
     @Override
-    public Tree<T> find(T element) {
+    public Tree<T> find(String key) {
         // Was unable to find the item. Hence, return null.
         return null;
     }
