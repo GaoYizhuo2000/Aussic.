@@ -19,8 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+//import com.google.android.gms.location.FusedLocationProviderClient;
+//import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
@@ -37,14 +37,14 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
  * create an instance of this fragment.
  */
 public class UserPageFragment extends Fragment {
-    FusedLocationProviderClient fusedLocationProviderClient;
+//    FusedLocationProviderClient fusedLocationProviderClient;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private TextView email,location;
-    private Button favorites, songList, getLocation;
+    private Button favorites, getLocation;
     private ImageView userPhoto;
 
     // TODO: Rename and change types of parameters
@@ -152,13 +152,13 @@ public class UserPageFragment extends Fragment {
 //                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        songList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Navigate to the playlists page or implement another functionality
-                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        songList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // TODO: Navigate to the playlists page or implement another functionality
+//                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
 //        LocationListener locationListener = new LocationListener() {
@@ -183,8 +183,6 @@ public class UserPageFragment extends Fragment {
 //        } else {
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 //        }
-
-
 
 
         return rootView;
