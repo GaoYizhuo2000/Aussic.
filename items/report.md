@@ -202,8 +202,8 @@ Production Rules:
 ### Basic Features
 1. [LogIn]. Description of the feature ... (easy)
    * Code: [Class LoginActivity](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/LoginActivity.java) and [Class SignUpActivity](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/SignUpActivity.java)
-   * Description of feature: ... <br>
-   * Description of your implementation: ... <br>
+   * Description of feature:  Users are able to log in to the Aussic using their email and correct password. Also, new user could sign up from our sign up page using email address and password.
+   * Description of your implementation: We use Firebase in this feature to store user's email and related password. Also, we have add some analyzing conditions for login (eg.correct password or not, length for the password, is the email in the correct format, etc.)<br>
 
 2. [DataFiles]. We grabbed the songs data using the api from apple music, and generate the user behaviors by ourself including like, favorites and comments.(...)
    * Code to the Data File [songs.json](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/pythonScrips/backup/songs.json)
@@ -283,11 +283,11 @@ Feature Category: Firebase Integration <br>
 * Your meetings should also have a reasonable date spanning across Week 6 to 11.*
 
 
-- *[Team Meeting 1](meeting1.md)*
-- ...
-- ...
-- [Team Meeting 4](link_to_md_file.md)
-- ... (Add any descriptions if needed) ...
+- [Team Meeting 1](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/items/meeting1.md)*
+- [Team Meeting 2](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/items/meeting2.md)
+- [Team Meeting 3](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/items/meeting3.md)
+- [Team Meeting 4](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/items/meeting4.md)
+- [Team Meeting 5](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/items/meeting5.md)
 
 <hr>
 
