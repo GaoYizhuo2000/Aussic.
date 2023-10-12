@@ -24,9 +24,9 @@ import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.models.observer.ChangeListener;
-import au.edu.anu.Aussic.models.observer.MediaObserver;
-import au.edu.anu.Aussic.models.observer.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +47,7 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener, O
 
     public GeneralSearchFragment() {
         // Required empty public constructor
-        MediaObserver.addChangeListener(this);
+        RuntimeObserver.addChangeListener(this);
     }
 
     /**
@@ -93,9 +93,9 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener, O
 
     @Override
     public void onChange() {
-        if(MediaObserver.getCurrentSongList() != null && !MediaObserver.getCurrentSongList().isEmpty()) {
+        if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
             List<ItemSpec> itemList = new ArrayList<>();
-            for (Song song : MediaObserver.getCurrentSongList())
+            for (Song song : RuntimeObserver.getCurrentSongList())
                 itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
 
             this.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -105,14 +105,14 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener, O
 
     @Override
     public void onItemClicked(ItemSpec itemSpec) throws IOException {
-        MediaObserver.setCurrentSong(itemSpec.getSong());
-        MediaObserver.getCurrentMediaPlayer().pause();
-        MediaObserver.getCurrentMediaPlayer().release();
-        MediaObserver.setMediaPlayer(new MediaPlayer());
-        MediaObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
-        MediaObserver.getCurrentMediaPlayer().prepare();
-        MediaObserver.getCurrentMediaPlayer().setLooping(true);
-        MediaObserver.getCurrentMediaPlayer().start();
+        RuntimeObserver.setCurrentSong(itemSpec.getSong());
+        RuntimeObserver.getCurrentMediaPlayer().pause();
+        RuntimeObserver.getCurrentMediaPlayer().release();
+        RuntimeObserver.setMediaPlayer(new MediaPlayer());
+        RuntimeObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
+        RuntimeObserver.getCurrentMediaPlayer().prepare();
+        RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
+        RuntimeObserver.getCurrentMediaPlayer().start();
         Intent intent = new Intent(getContext(), SongActivity.class);
         // add more extras if necessary
         startActivity(intent);

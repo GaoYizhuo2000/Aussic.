@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.models.observer;
+package au.edu.anu.Aussic.controller.observer;
 
 import android.media.MediaPlayer;
 import android.widget.ImageView;
@@ -9,13 +9,15 @@ import java.util.List;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.controller.homePages.HomeFragment;
 import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.entity.User;
 
 /**
  * The class for song playing and pausing
  */
-public class MediaObserver {
+public class RuntimeObserver {
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
+    public static User currentUser;
     public static ImageView roundImage;
     public static HomeFragment homeFragment;
     public static HomeActivity homeActivity;
@@ -48,5 +50,8 @@ public class MediaObserver {
 
     public static void notifyListeners() {
         for (ChangeListener listener : listeners) listener.onChange();
+    }
+    public static void realTimeNotifyListeners(){
+
     }
 }

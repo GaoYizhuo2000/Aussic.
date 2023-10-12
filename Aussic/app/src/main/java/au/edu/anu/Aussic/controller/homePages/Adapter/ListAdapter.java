@@ -1,6 +1,5 @@
 package au.edu.anu.Aussic.controller.homePages.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.models.observer.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 

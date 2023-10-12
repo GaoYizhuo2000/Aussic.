@@ -16,7 +16,6 @@ import android.view.Gravity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.core.view.Change;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -43,8 +42,8 @@ import java.io.InputStreamReader;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
-import au.edu.anu.Aussic.models.observer.ChangeListener;
-import au.edu.anu.Aussic.models.observer.MediaObserver;
+import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
@@ -68,23 +67,20 @@ public class HomeActivity extends AppCompatActivity implements ChangeListener {
     private JsonObject jsonObject = null;
     private JsonArray jsonArray;
     private int arrayLength = 0;
-    private int currentID = 0;
     public int currentFragment = R.id.home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        MediaObserver.homeActivity = this;
-        MediaObserver.addChangeListener(this);
 
+        RuntimeObserver.homeActivity = this;
+        RuntimeObserver.addChangeListener(this);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fab =findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
-
 
         SearchView searchView = findViewById(R.id.searchView);
 
@@ -153,22 +149,20 @@ public class HomeActivity extends AppCompatActivity implements ChangeListener {
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getRandomSongs(1).thenAccept(results ->{
-            MediaObserver.setCurrentSong(GsonSongLoader.loadSong(results.get(0)));
-            MediaObserver.setMediaPlayer(new MediaPlayer());
-            String urlImage = CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage());
-
+            RuntimeObserver.setCurrentSong(GsonSongLoader.loadSong(results.get(0)));
+            RuntimeObserver.setMediaPlayer(new MediaPlayer());
 
             try{
-                MediaObserver.getCurrentMediaPlayer().setDataSource(MediaObserver.getCurrentSong().getUrlToListen());
-                MediaObserver.getCurrentMediaPlayer().prepare();
-                MediaObserver.getCurrentMediaPlayer().setLooping(true);
+                RuntimeObserver.getCurrentMediaPlayer().setDataSource(RuntimeObserver.getCurrentSong().getUrlToListen());
+                RuntimeObserver.getCurrentMediaPlayer().prepare();
+                RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
                 //mediaPlayer.setVolume(1.0f,1.0f);
             } catch (Exception e){
                 e.printStackTrace();
             }
-            MediaObserver.getCurrentMediaPlayer().start();
+            RuntimeObserver.getCurrentMediaPlayer().start();
             fab.setImageResource(R.drawable.ic_bottom_stop);
-            MediaObserver.notifyListeners();
+            RuntimeObserver.notifyListeners();
         });
 
 
@@ -176,15 +170,15 @@ public class HomeActivity extends AppCompatActivity implements ChangeListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MediaObserver.getCurrentMediaPlayer() != null) {
-                    if (MediaObserver.getCurrentMediaPlayer().isPlaying()) {
-                        MediaObserver.getCurrentMediaPlayer().pause();
+                if (RuntimeObserver.getCurrentMediaPlayer() != null) {
+                    if (RuntimeObserver.getCurrentMediaPlayer().isPlaying()) {
+                        RuntimeObserver.getCurrentMediaPlayer().pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
-                        if(MediaObserver.roundImage != null) MediaObserver.roundImage.clearAnimation();
+                        if(RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.clearAnimation();
                     } else {
-                        MediaObserver.getCurrentMediaPlayer().start();
+                        RuntimeObserver.getCurrentMediaPlayer().start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
-                        if((currentFragment == R.id.home || currentFragment == R.id.nav_home) && MediaObserver.roundImage != null) MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(homeFragment.getContext(), R.anim.spinning));
+                        if((currentFragment == R.id.home || currentFragment == R.id.nav_home) && RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(homeFragment.getContext(), R.anim.spinning));
                     }
                     //showBottomDialog();
                 }
@@ -298,9 +292,9 @@ public class HomeActivity extends AppCompatActivity implements ChangeListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(MediaObserver.getCurrentMediaPlayer() != null){
-            MediaObserver.getCurrentMediaPlayer().release();
-            MediaObserver.setMediaPlayer(null);
+        if(RuntimeObserver.getCurrentMediaPlayer() != null){
+            RuntimeObserver.getCurrentMediaPlayer().release();
+            RuntimeObserver.setMediaPlayer(null);
         }
     }
 
@@ -318,8 +312,8 @@ public class HomeActivity extends AppCompatActivity implements ChangeListener {
 
     @Override
     public void onChange() {
-        if(MediaObserver.getCurrentMediaPlayer() != null){
-            if ((MediaObserver.getCurrentMediaPlayer().isPlaying())) this.fab.setImageResource(R.drawable.ic_bottom_stop);
+        if(RuntimeObserver.getCurrentMediaPlayer() != null){
+            if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) this.fab.setImageResource(R.drawable.ic_bottom_stop);
             else this.fab.setImageResource(R.drawable.ic_bottom_play);
         }
     }

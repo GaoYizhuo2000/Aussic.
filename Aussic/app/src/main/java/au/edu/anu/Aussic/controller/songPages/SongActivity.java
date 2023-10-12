@@ -5,10 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -38,9 +36,9 @@ import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
-import au.edu.anu.Aussic.models.observer.MediaObserver;
 import au.edu.anu.Aussic.models.userAction.Comment;
 import au.edu.anu.Aussic.models.userAction.Favorites;
 import au.edu.anu.Aussic.models.userAction.Like;
@@ -71,25 +69,25 @@ public class SongActivity extends AppCompatActivity {
         this.fav = findViewById(R.id.song_fav);
         this.comment = findViewById(R.id.song_comment);
 
-        if (MediaObserver.getCurrentSong() != null)
-        setTheSong(CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage()), MediaObserver.getCurrentSong().getSongName(), MediaObserver.getCurrentSong().getArtistName());
+        if (RuntimeObserver.getCurrentSong() != null)
+        setTheSong(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
 
-        if(MediaObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
+        if(RuntimeObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
         this.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (MediaObserver.getCurrentMediaPlayer() != null) {
-                    if (MediaObserver.getCurrentMediaPlayer().isPlaying()) {
-                        MediaObserver.getCurrentMediaPlayer().pause();
+                if (RuntimeObserver.getCurrentMediaPlayer() != null) {
+                    if (RuntimeObserver.getCurrentMediaPlayer().isPlaying()) {
+                        RuntimeObserver.getCurrentMediaPlayer().pause();
                         play.setImageResource(R.drawable.ic_song_play);
                         roundImageView.clearAnimation();
-                        MediaObserver.notifyListeners();
+                        RuntimeObserver.notifyListeners();
                     } else {
-                        MediaObserver.getCurrentMediaPlayer().start();
+                        RuntimeObserver.getCurrentMediaPlayer().start();
                         play.setImageResource(R.drawable.ic_song_pause);
                         roundImageView.startAnimation(AnimationUtils.loadAnimation(SongActivity.this, R.anim.spinning));
-                        MediaObserver.notifyListeners();
+                        RuntimeObserver.notifyListeners();
                     }
                 }
             }
@@ -99,10 +97,10 @@ public class SongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 like.setImageResource(R.drawable.ic_song_like);
-                firestoreDao.updateUserLikes(MediaObserver.getCurrentSong().getId())
+                firestoreDao.updateUserLikes(RuntimeObserver.getCurrentSong().getId())
                         .thenAccept(msg -> {
                             if(msg == null){
-                                new Like("like", FirebaseAuth.getInstance().getCurrentUser().getEmail(), MediaObserver.getCurrentSong().getSongName(), Integer.parseInt(MediaObserver.getCurrentSong().getId())).update();
+                                new Like("like", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
                             }else {
                                 Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
                             }
@@ -114,10 +112,10 @@ public class SongActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 fav.setImageResource(R.drawable.ic_song_fav);
-                firestoreDao.updateUserFavorites(MediaObserver.getCurrentSong().getId())
+                firestoreDao.updateUserFavorites(RuntimeObserver.getCurrentSong().getId())
                         .thenAccept(msg -> {
                             if(msg == null){
-                                new Favorites("favorites", FirebaseAuth.getInstance().getCurrentUser().getEmail(), MediaObserver.getCurrentSong().getSongName(), Integer.parseInt(MediaObserver.getCurrentSong().getId())).update();
+                                new Favorites("favorites", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
                             }else {
                                 Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
                             }
@@ -145,7 +143,7 @@ public class SongActivity extends AppCompatActivity {
                 .apply(new RequestOptions().override((int)(1200 * 0.8), (int)(1200 * 0.8)))
                 .circleCrop()
                 .into(this.roundImageView);
-        if(MediaObserver.getCurrentMediaPlayer().isPlaying())   this.roundImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinning));
+        if(RuntimeObserver.getCurrentMediaPlayer().isPlaying())   this.roundImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinning));
         else this.roundImageView.clearAnimation();
         nameText.setText(CardAdapter.adjustLength(songName));
         artistText.setText(CardAdapter.adjustLength(artistName));
@@ -192,16 +190,20 @@ public class SongActivity extends AppCompatActivity {
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // get and load comments
-        firestoreDao.getComment(MediaObserver.getCurrentSong().getId())
+        firestoreDao.getComment(RuntimeObserver.getCurrentSong().getId())
                 .thenAccept(details -> {
                     for(Map<String, Object> comment : details) {
-                        CommentItem newComment = new CommentItem(0, (String) comment.get("uid"), (String) comment.get("content"));
+                        CommentItem newComment = new CommentItem("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media", (String) comment.get("uid"), (String) comment.get("content"));
                         commentList.add(newComment);
                         commentAdapter.notifyItemInserted(commentList.size() - 1);
                     }
 
 
                 });
+
+
+
+
 
         // Find and set an OnClickListener to the button
         Button sendButton = dialog.findViewById(R.id.the_btn_send);
@@ -214,11 +216,11 @@ public class SongActivity extends AppCompatActivity {
 
                 if (!commentText.isEmpty()) {
                     //update songs comment in firestore
-                    new Comment("comment", FirebaseAuth.getInstance().getCurrentUser().getEmail(),MediaObserver.getCurrentSong().getSongName()
-                            , Integer.parseInt(MediaObserver.getCurrentSong().getId()), commentText ).update();
+                    new Comment("comment", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName()
+                            , Integer.parseInt(RuntimeObserver.getCurrentSong().getId()), commentText ).update();
                     // Create a new CommentItem object and add it to the commentList
                     // Assuming CommentItem is a class that represents a comment with user avatar, name, and content
-                    CommentItem newComment = new CommentItem(0, "Admin", commentText);
+                    CommentItem newComment = new CommentItem(RuntimeObserver.currentUser.iconUrl, RuntimeObserver.currentUser.username, commentText);
                     commentList.add(newComment);
 
                     // Notify the adapter that an item was added to the end of the list

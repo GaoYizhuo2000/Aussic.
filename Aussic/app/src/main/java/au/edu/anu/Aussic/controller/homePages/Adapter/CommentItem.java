@@ -1,19 +1,19 @@
 package au.edu.anu.Aussic.controller.homePages.Adapter;
 
 public class CommentItem {
-    private int userAvatarResId;  // Let's assume it's a drawable resource ID for simplicity
+    private String iconUrl;  // Let's assume it's a drawable resource ID for simplicity
     private String userName;
     private String commentContent;
 
-    public CommentItem(int userAvatarResId, String userName, String commentContent) {
-        this.userAvatarResId = userAvatarResId;
+    public CommentItem(String iconUrl, String userName, String commentContent) {
+        this.iconUrl = iconUrl;
         this.userName = userName;
         this.commentContent = commentContent;
     }
 
     // Getters
-    public int getUserAvatarResId() {
-        return userAvatarResId;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
     public String getUserName() {

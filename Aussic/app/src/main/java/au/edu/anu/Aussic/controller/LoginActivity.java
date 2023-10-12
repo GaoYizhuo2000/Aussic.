@@ -22,9 +22,14 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.models.entity.User;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
@@ -95,6 +100,16 @@ public class LoginActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
+
+                                    // Load current usr into runtime
+                                    FirestoreDao firestoreDao = new FirestoreDaoImpl();
+                                    firestoreDao.getUserdata(user)
+                                            .thenAccept(userdata -> {
+                                                // Loading the usr icon url
+                                                String iconUrl = (String) userdata.get("iconUrl");
+                                                User newUsr = new User(user_name, iconUrl);
+                                                RuntimeObserver.currentUser = newUsr;
+                                            });
 
                                     updateUI(user);
                                 } else {

@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.models.observer.ChangeListener;
-import au.edu.anu.Aussic.models.observer.MediaObserver;
+import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -139,9 +139,9 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
             }
         });
 
-        MediaObserver.addChangeListener(this);
+        RuntimeObserver.addChangeListener(this);
 
-        this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
+        this.mediaPlayer = RuntimeObserver.getCurrentMediaPlayer();
 
         if(mediaPlayer != null) {
             if (this.mediaPlayer.isPlaying()) fab.setImageResource(R.drawable.ic_bottom_stop);
@@ -155,11 +155,11 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
-                        if(MediaObserver.roundImage != null) MediaObserver.roundImage.clearAnimation();
+                        if(RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.clearAnimation();
                     } else {
                         mediaPlayer.start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
-                        if((MediaObserver.homeActivity.currentFragment == R.id.home || MediaObserver.homeActivity.currentFragment == R.id.nav_home) && MediaObserver.roundImage != null) MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(MediaObserver.homeFragment.getContext(), R.anim.spinning));
+                        if((RuntimeObserver.homeActivity.currentFragment == R.id.home || RuntimeObserver.homeActivity.currentFragment == R.id.nav_home) && RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(RuntimeObserver.homeFragment.getContext(), R.anim.spinning));
                     }
                     //showBottomDialog();
                 }
@@ -263,7 +263,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
 
     @Override
     public void onChange(){
-        this.mediaPlayer = MediaObserver.getCurrentMediaPlayer();
+        this.mediaPlayer = RuntimeObserver.getCurrentMediaPlayer();
         if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
         else this.fab.setImageResource(R.drawable.ic_bottom_play);
     }

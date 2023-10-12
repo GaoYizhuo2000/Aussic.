@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
@@ -34,6 +36,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.userName.setText(currentItem.getUserName());
         holder.commentContent.setText(currentItem.getCommentContent());
         //holder.userAvatar.setImageResource(currentItem.getUserAvatarResId());
+        Glide.with(holder.userAvatar.getContext())
+                .load(currentItem.getIconUrl())
+                .into(holder.userAvatar);
     }
 
     @Override

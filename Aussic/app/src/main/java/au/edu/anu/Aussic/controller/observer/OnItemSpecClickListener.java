@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.models.observer;
+package au.edu.anu.Aussic.controller.observer;
 
 import java.io.IOException;
 

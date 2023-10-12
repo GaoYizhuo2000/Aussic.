@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
@@ -82,16 +84,20 @@ public class UserPageFragment extends Fragment {
         songList = rootView.findViewById(R.id.songListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
         //获取并显示用户数据
-        FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
-                .thenAccept(userdata -> {
-                    String username = (String) userdata.get("username");
-                    //显示用户email
-                    email.append(username);
-                    String iconUrl = (String) userdata.get("iconUrl");
-                    Picasso.get().load(iconUrl ).into(userPhoto);
-
-                });
+//        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+//        firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
+//                .thenAccept(userdata -> {
+//                    String username = (String) userdata.get("username");
+//                    //显示用户email
+//                    email.append(username);
+//                    String iconUrl = (String) userdata.get("iconUrl");
+//                    Picasso.get().load(iconUrl ).into(userPhoto);
+//
+//                }
+        // Directly load user data from runtime storage
+        User usr = RuntimeObserver.currentUser;
+        email.append(usr.username);
+        Picasso.get().load(usr.iconUrl).into(userPhoto);
 
 
         // Example: Click on the profile image to change it

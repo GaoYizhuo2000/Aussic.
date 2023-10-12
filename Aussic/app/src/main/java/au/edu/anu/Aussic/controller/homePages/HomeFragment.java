@@ -28,15 +28,14 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
-import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
-import au.edu.anu.Aussic.models.observer.ChangeListener;
-import au.edu.anu.Aussic.models.observer.MediaObserver;
-import au.edu.anu.Aussic.models.observer.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,8 +58,8 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
 
     public HomeFragment() {
         // Required empty public constructor
-        MediaObserver.homeFragment = this;
-        MediaObserver.addChangeListener(this);
+        RuntimeObserver.homeFragment = this;
+        RuntimeObserver.addChangeListener(this);
     }
 
     /**
@@ -89,8 +88,8 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
         this.cardRecyclerView = view.findViewById(R.id.card_recyclerView);
         this.listRecyclerView = view.findViewById(R.id.list_recyclerView);
         this.roundUnderText = view.findViewById(R.id.round_image_name);
-        MediaObserver.roundImage = view.findViewById(R.id.spinning_round_image);
-        MediaObserver.roundImage.setOnClickListener(new View.OnClickListener() {
+        RuntimeObserver.roundImage = view.findViewById(R.id.spinning_round_image);
+        RuntimeObserver.roundImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -101,13 +100,13 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
         });
 
 
-        if(MediaObserver.getCurrentSongList() == null || MediaObserver.getCurrentSongList().isEmpty()){
+        if(RuntimeObserver.getCurrentSongList() == null || RuntimeObserver.getCurrentSongList().isEmpty()){
             FirestoreDao firestoreDao = new FirestoreDaoImpl();
             firestoreDao.getRandomSongs(10).thenAccept(results->{
                 List<Map<String, Object>> maps = new ArrayList<>();
                 maps.addAll(results);
                 setViewList(maps);
-                MediaObserver.notifyListeners();
+                RuntimeObserver.notifyListeners();
             });
         } else {
             setViewList();
@@ -136,11 +135,11 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
     public void setViewList(){
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         List<ItemSpec> itemList = new ArrayList<>();
-        for(Song song : MediaObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+        for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
 
         // Set up the RecyclerView with the fetched data
         cardRecyclerView.setAdapter(new CardAdapter(itemList, this));
-        if(MediaObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage()), MediaObserver.getCurrentSong().getSongName());
+        if(RuntimeObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
 
         listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listRecyclerView.setAdapter(new ListAdapter(itemList, this));
@@ -149,12 +148,12 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         List<ItemSpec> itemList = new ArrayList<>();
 
-        for(Map<String, Object> map : maps) MediaObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
-        for(Song song : MediaObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+        for(Map<String, Object> map : maps) RuntimeObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
+        for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
 
         // Set up the RecyclerView with the fetched data
         cardRecyclerView.setAdapter(new CardAdapter(itemList, this));
-        if(MediaObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage()), MediaObserver.getCurrentSong().getSongName());
+        if(RuntimeObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
 
         listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listRecyclerView.setAdapter(new ListAdapter(itemList, this));
@@ -166,22 +165,22 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
                 .load(imageUrl)
                 .apply(new RequestOptions().override((int)(1200 * 0.8), (int)(1200 * 0.8)))
                 .circleCrop()
-                .into(MediaObserver.roundImage);
-        if(MediaObserver.getCurrentMediaPlayer().isPlaying())   MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
+                .into(RuntimeObserver.roundImage);
+        if(RuntimeObserver.getCurrentMediaPlayer().isPlaying())   RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
         roundUnderText.setText(CardAdapter.adjustLength(songName));
     }
 
     @Override
     public void onItemClicked(ItemSpec itemSpec) throws IOException {
-        MediaObserver.setCurrentSong(itemSpec.getSong());
-        MediaObserver.getCurrentMediaPlayer().pause();
-        MediaObserver.getCurrentMediaPlayer().release();
-        MediaObserver.setMediaPlayer(new MediaPlayer());
-        MediaObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
-        MediaObserver.getCurrentMediaPlayer().prepare();
-        MediaObserver.getCurrentMediaPlayer().setLooping(true);
-        MediaObserver.getCurrentMediaPlayer().start();
-        setRoundImage(CardAdapter.makeImageUrl(200, 200, MediaObserver.getCurrentSong().getUrlToImage()), MediaObserver.getCurrentSong().getSongName());
+        RuntimeObserver.setCurrentSong(itemSpec.getSong());
+        RuntimeObserver.getCurrentMediaPlayer().pause();
+        RuntimeObserver.getCurrentMediaPlayer().release();
+        RuntimeObserver.setMediaPlayer(new MediaPlayer());
+        RuntimeObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
+        RuntimeObserver.getCurrentMediaPlayer().prepare();
+        RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
+        RuntimeObserver.getCurrentMediaPlayer().start();
+        setRoundImage(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
         Intent intent = new Intent(getContext(), SongActivity.class);
         // add more extras if necessary
         startActivity(intent);
@@ -189,9 +188,9 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
 
     @Override
     public void onChange() {
-        if(MediaObserver.getCurrentMediaPlayer() != null){
-            if ((MediaObserver.getCurrentMediaPlayer().isPlaying())) MediaObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
-            else MediaObserver.roundImage.clearAnimation();
+        if(RuntimeObserver.getCurrentMediaPlayer() != null){
+            if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
+            else RuntimeObserver.roundImage.clearAnimation();
         }
 
     }
