@@ -35,6 +35,7 @@ import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
+import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 
 public class SearchActivity extends AppCompatActivity implements ChangeListener {
     private MediaPlayer mediaPlayer;
@@ -199,12 +200,10 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
         searchView.setIconified(true);
 
         //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
-        Parser parser = new Parser(input);
+        Parser parser = new Parser(new Tokenizer(input));
+        Map<String, String> searchingTerms = parser.Parse();
 
-        Map<String, Object> terms = new HashMap<>();
-        terms.put("artistName", "INXS");
-        terms.put("name", "Devil's Party (Slick Mix)");
-        terms.put("releaseDate", null);
+
 
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();

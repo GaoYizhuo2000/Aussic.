@@ -1,37 +1,20 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
 public class Token {
-    private String type;
-    private String value;
-
-    public Token(String type, String value) {
+    public enum Type {STRING, ARTISTNAME, NAME, GENRE, RELEASEDATE, SEMICOLON} // \a, \n, \g, \r
+    private final String token; // Token representation in String form.
+    private final Type type;    // Type of the token.
+    public Token(String token, Type type) {
+        this.token = token;
         this.type = type;
-        this.value = value;
+    }
+    public String getToken() {
+        return token;
     }
 
-    public Token() {
-
-    }
-
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Token{" +
-                "type='" + type + '\'' +
-                ", value='" + value + '\'' +
-                '}';
-    }
 
 }

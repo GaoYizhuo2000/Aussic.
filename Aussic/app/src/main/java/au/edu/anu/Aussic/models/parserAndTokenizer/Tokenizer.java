@@ -9,40 +9,59 @@ import java.util.ArrayList;
 
 public class Tokenizer {
 
+    private String buffer;
+    private Token currentToken;
 
-    String regex = "(?<type>ID|TYPE|KIND|ARTIST_NAME|ALBUM_NAME|TRACK_NUMBER|DISC_NUMBER|SONG_NAME|GENRE|RELEASE_DATE|COMPOSER_NAME):(?<value>.+?)(?= (ID|TYPE|KIND|ARTIST_NAME|ALBUM_NAME|TRACK_NUMBER|DISC_NUMBER|SONG_NAME|GENRE|RELEASE_DATE|COMPOSER_NAME):|$)";
-    Pattern pattern = Pattern.compile(regex);
 
-    //String input;
-
-    public Tokenizer() {
-//        this.input = input;
+    public Tokenizer(String text) {
+        buffer = text;          // save input text (string)
+        next();                 // extracts the first token.
     }
 
+    public void next() {
+        buffer = buffer.trim();
 
-    public List<Token> tokenize(String input) {
-        List<Token> tokens = new ArrayList<>();
-        Matcher matcher = pattern.matcher(input);
-        System.out.println("Input: " + input);
-
-
-        while (matcher.find()) {
-            String type = matcher.group("type");
-            String value = matcher.group("value");
-
-            Token token = new Token(type, value);
-            tokens.add(token);
-
-            //ValueToken valueToken = new ValueToken(value);
-
-            //System.out.println("Type: " + type + ", Value: " + value);
+        if (buffer.isEmpty()) {
+            currentToken = null;
+            return;
         }
 
-//        for (Token token : tokens) {
-////            System.out.println("+++++++++++");
-//            System.out.println(token);
-//        }
-        return tokens;
+        /*
+        To help you, we have already written the first few steps in the tokenization process.
+        The rest will follow a similar format.
+         */
+        char firstChar = buffer.charAt(0);
+        char secondChar = buffer.charAt(1);
+        if (firstChar == '\\' && secondChar== 'a')
+            currentToken = new Token("\\a", Token.Type.ARTISTNAME);
+        else if (firstChar == '\\' && secondChar== 'n')
+            currentToken = new Token("\\n", Token.Type.NAME);
+        else if (firstChar == '\\' && secondChar== 'g')
+            currentToken = new Token("\\g", Token.Type.GENRE);
+        else if (firstChar == '\\' && secondChar== 'r')
+            currentToken = new Token("\\r", Token.Type.RELEASEDATE);
+        else if (firstChar == ';')
+            currentToken = new Token(";", Token.Type.SEMICOLON);
+        else {
+            int pos = 0;
+            String value = "";
+            while((pos < buffer.length())){
+
+                if(buffer.charAt(pos) != '\\' && buffer.charAt(pos) != ';'){value += buffer.charAt(pos);
+                    pos += 1;}
+                else{break;}
+            }
+            currentToken = new Token(value, Token.Type.STRING);
+        }
+        int tokenLen = currentToken.getToken().length();
+        buffer = buffer.substring(tokenLen);
     }
+    public Token current() {
+        return currentToken;
+    }
+    public boolean hasNext() {
+        return currentToken != null;
+    }
+
 }
 
