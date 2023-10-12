@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonSignUp, buttonGoBack;
-    private EditText usernameSignUp, passwordSignUp;
+    private EditText usernameSignUp, passwordSignUp, comfirmPassword;
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
 
@@ -43,6 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         usernameSignUp=findViewById(R.id.signUpUsername);
         passwordSignUp=findViewById(R.id.signUpPassword);
+        comfirmPassword=findViewById(R.id.comfirmPassword);
         buttonSignUp=findViewById(R.id.SignUp);
         buttonGoBack=findViewById(R.id.goBack);
 
@@ -52,6 +53,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = usernameSignUp.getText().toString().trim();
                 String password= passwordSignUp.getText().toString().trim();
+                String comfirmPwd = comfirmPassword.getText().toString().trim();
+
                 if(email.isEmpty())
                 {
                     usernameSignUp.setError("Email is empty");
@@ -75,6 +78,12 @@ public class SignUpActivity extends AppCompatActivity {
                     passwordSignUp.requestFocus();
                     return;
                 }
+                if (!comfirmPwd.equals(password)) {
+                    comfirmPassword.setError("Inconsistent password");
+                    comfirmPassword.requestFocus();
+                    Toast.makeText(SignUpActivity.this, "The passwords are inconsistent!", Toast.LENGTH_LONG).show();
+                    return;
+                }
 //
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -85,7 +94,6 @@ public class SignUpActivity extends AppCompatActivity {
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     //create userdata and upload to firestore
-
                                     FirestoreDao firestoreDao = new FirestoreDaoImpl();
                                     firestoreDao.addUserdata(new User(email, "https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media"));
 
