@@ -79,7 +79,7 @@ public class UserPageFragment extends Fragment {
 
         email = rootView.findViewById(R.id.userEmail);
         favorites = rootView.findViewById(R.id.favoritesListButton);
-        songList = rootView.findViewById(R.id.songListButton);
+//        songList = rootView.findViewById(R.id.songListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
         //获取并显示用户数据
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
@@ -113,13 +113,14 @@ public class UserPageFragment extends Fragment {
         });
 
         // Click listener for playlist
-        songList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Navigate to the playlists page or implement another functionality
-                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        songList.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // TODO: Navigate to the playlists page or implement another functionality
+//                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
         return rootView;
        // return inflater.inflate(R.layout.fragment_userpage, container, false);
     }
