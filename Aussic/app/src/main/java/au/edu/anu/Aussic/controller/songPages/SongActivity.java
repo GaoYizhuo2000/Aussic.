@@ -72,6 +72,13 @@ public class SongActivity extends AppCompatActivity {
         if (RuntimeObserver.getCurrentSong() != null) setTheSong(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
 
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
+
+        if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId()))
+            this.like.setImageResource(R.drawable.ic_song_like);
+
+        if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId()))
+            this.fav.setImageResource(R.drawable.ic_song_fav);
+
         this.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,30 +102,44 @@ public class SongActivity extends AppCompatActivity {
         this.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                like.setImageResource(R.drawable.ic_song_like);
-                firestoreDao.updateUserLikes(RuntimeObserver.getCurrentSong().getId())
-                        .thenAccept(msg -> {
-                            if(msg == null){
-                                new Like("like", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
-                            }else {
-                                Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                if(!RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId())){
+                    like.setImageResource(R.drawable.ic_song_like);
+
+                    // Update user favorites in runtime
+                    RuntimeObserver.currentUser.addLikes(RuntimeObserver.getCurrentSong().getId());
+
+                    //
+                    firestoreDao.updateUserLikes(RuntimeObserver.getCurrentSong().getId())
+                            .thenAccept(msg -> {
+                                if(msg == null){
+                                    new Like("like", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
+                                }else {
+                                    Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
             }
         });
 
         this.fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                fav.setImageResource(R.drawable.ic_song_fav);
-                firestoreDao.updateUserFavorites(RuntimeObserver.getCurrentSong().getId())
-                        .thenAccept(msg -> {
-                            if(msg == null){
-                                new Favorites("favorites", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
-                            }else {
-                                Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
-                            }
-                });
+                if(!RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId())){
+                    fav.setImageResource(R.drawable.ic_song_fav);
+
+                    // Update user favorites in runtime
+                    RuntimeObserver.currentUser.addFavorites(RuntimeObserver.getCurrentSong().getId());
+
+                    //
+                    firestoreDao.updateUserFavorites(RuntimeObserver.getCurrentSong().getId())
+                            .thenAccept(msg -> {
+                                if(msg == null){
+                                    new Favorites("favorites", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
+                                }else {
+                                    Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
             }
         });
         this.comment.setOnClickListener(new View.OnClickListener() {

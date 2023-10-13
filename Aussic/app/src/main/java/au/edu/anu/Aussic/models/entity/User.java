@@ -24,11 +24,10 @@ public class User {
     public void addFavorites(String songID){ this.favorites.add(songID); }
     public void addLikes(String songID){ this.likes.add(songID); }
 
-    public void setFavorites(List<String> favorites) {
-        this.favorites = favorites;
+    public List<String> getFavorites() {
+        return favorites;
     }
-
-    public void setLikes(List<String> likes) {
-        this.likes = likes;
+    public List<String> getLikes() {
+        return likes;
     }
 }
