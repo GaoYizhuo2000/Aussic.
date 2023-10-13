@@ -12,61 +12,55 @@
         android:layout_height="150dp"
         android:layout_marginTop="45sp"
         android:layout_marginStart="45sp"
-        android:src="@drawable/baseline_account_circle_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintDimensionRatio="1:1" />
+        android:src="@drawable/baseline_account_circle_24" />
 
 
     <TextView
         android:id="@+id/userLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200sp"
-        android:layout_marginTop="150sp"
-        android:text="Location: "
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="181dp"
-        app:layout_constraintStart_toStartOf="@id/userEmail"
-        app:layout_constraintTop_toBottomOf="@id/userEmail"
-        />
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="230dp"
+        android:textSize="15sp"
+        android:text="Location: " />
 
     <Button
         android:id="@+id/getUserLocationButton"
-        android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="190dp"
-        android:layout_marginTop="200sp"
-        android:background="@drawable/edittext_white"
-        android:text="Get Location"
-        android:textSize="7sp"/>
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="150sp"
+        android:background="@drawable/baseline_refresh_24"
+        android:textSize="7sp" />
 
-    <Button
-        android:id="@+id/favoritesListButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="320sp"
-        android:background="@drawable/edittext_white"
-        android:text="Favorites"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@id/userEmail"
-        app:layout_constraintTop_toBottomOf="@id/userEmail" />
-
-    <TextView
-        android:id="@+id/userEmail"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="250dp"
-        android:background="@drawable/edittext_white"
-        android:backgroundTint="@color/sky_blue"
-        android:text="  Email: "
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        android:orientation="vertical"
+        android:maxWidth="200dp">
+
+        <TextView
+            android:id="@+id/userEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_white"
+            android:backgroundTint="@color/sky_blue"
+            android:layout_marginTop="10dp"
+            android:text="  Email: "
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/favoritesListButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_white"
+            android:layout_marginTop="20dp"
+            android:text="Favorites"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </FrameLayout>
