@@ -196,26 +196,20 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
     }
 
     private void doSearch(String input){
+        //check if empty input
+        if(input == null|| input.equals("")){
+            return;
+        }
         // hide the keyboard when button is clicked
         searchView.setQuery("", false); // Set the query text to an empty string
         searchView.setIconified(true);
         searchView.setIconified(true);
 
-        //把搜索框中的查询传给parser，在parser里转成map然后调用firestoreDao.searchSongs(terms)
+
         Parser parser = new Parser(new Tokenizer(input));
         Map<String, String> searchingTerms = parser.Parse();
 
-        //search engine test
-        List<Song> testList = new ArrayList<>();
-        testList.add(new Song("1"));
-        testList.add(new Song("2"));
-        testList.add(new Song("3"));
-        testList.add(new Song("4"));
-        Map<String, String> testTerms = new HashMap<>();
-        testTerms.put("id", "2");
-        MusicSearchEngine searchEngine = new MusicSearchEngine(testList);
-        Set<Song> res = searchEngine.search(testTerms);
-        System.out.println(res);
+
 
 
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
