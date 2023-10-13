@@ -37,34 +37,12 @@ public class MusicSearchEngine {
             songNameTree.insertByName(song);
             artistTree.insertByArtistName(song);
             releaseDateTree.insertByReleaseDate(song);
-        }
-
-        //split songs with multiple genres
-        List<Song> songListByGenre = new ArrayList<>();
-        for(Song song: songList){
-            List<String> genres = song.getGenre();
-            if(genres.size() > 1){
-                for(String genre : genres){
-                    Song songFrag = song.clone();
-                    SongAttributes songFragAttr = songFrag.getAttributes();
-                    List<String> genrel = new ArrayList<>();
-                    genrel.add(genre);
-                    songFragAttr.setGenreNames(genrel);
-                    songFrag.setAttributes(songFragAttr);
-                    songListByGenre.add(songFrag);
-                }
-            }else{
-                songListByGenre.add(song);
+            for(String genre: song.getGenre()){
+                genreTree.insertByGenre(genre, song);
             }
         }
-        //////////////////
-        Song song1 = songListByGenre.remove(0);
-        List<Song> l1 = new ArrayList<>();
-        l1.add(song1);
-        genreTree = new AVLTree<>(song1.getGenre().get(0), l1);
-        for(Song song: songListByGenre){
-            genreTree.insertByGenre(song);
-        }
+
+
     }
 
     public Set<Song> search(Map<String, String> terms){

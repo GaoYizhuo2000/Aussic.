@@ -70,22 +70,80 @@ public class BinarySearchTree<T> extends Tree<T> {
 
     @Override
     public BinarySearchTree<T> insertByName(Song song) {
-        return null;
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getSongName().compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByName(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            return newTree;
+        } else if (song.getSongName().compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByName(song), rightNode);
+            return newTree;
+        }else if (song.getSongName().compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
     }
 
     @Override
     public Tree<T> insertByArtistName(Song song) {
-        return null;
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getArtistName().compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByArtistName(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            return newTree;
+        } else if (song.getArtistName().compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByArtistName(song), rightNode);
+            return newTree;
+        }else if (song.getArtistName().compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
     }
 
     @Override
     public Tree<T> insertByReleaseDate(Song song) {
-        return null;
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getReleaseDate().compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByReleaseDate(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            return newTree;
+        } else if (song.getReleaseDate().compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByReleaseDate(song), rightNode);
+            return newTree;
+        }else if (song.getReleaseDate().compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
     }
 
     @Override
-    public Tree<T> insertByGenre(Song song) {
-        return null;
+    public Tree<T> insertByGenre(String genre, Song song) {
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (genre.compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByGenre(genre, song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+
+            return newTree;
+        } else if (genre.compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByGenre(genre, song), rightNode);
+            
+            return newTree;
+        }else if (genre.compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
     }
 
     @Override
@@ -128,10 +186,10 @@ public class BinarySearchTree<T> extends Tree<T> {
         }
 
         @Override
-        public Tree<T> insertByGenre(Song song) {
+        public Tree<T> insertByGenre(String genre, Song song) {
             List<Song> songList = new ArrayList<>();
             songList.add(song);// The creation of a new Tree, hence, return tree.
-            return new BinarySearchTree<T>(song.getGenre().get(0), (T) songList) ;
+            return new BinarySearchTree<T>(genre, (T) songList) ;
         }
 
         @Override

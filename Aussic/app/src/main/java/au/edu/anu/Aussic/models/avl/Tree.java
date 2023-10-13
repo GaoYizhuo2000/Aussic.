@@ -70,7 +70,7 @@ public abstract class Tree<T> {
     public abstract Tree<T> insertByName(Song song);
     public abstract Tree<T> insertByArtistName(Song song);
     public abstract Tree<T> insertByReleaseDate(Song song);
-    public abstract Tree<T> insertByGenre(Song song);
+    public abstract Tree<T> insertByGenre(String genre, Song song);
 
 
     public abstract Tree<T> delete(T element);   // Deletes the element and returns the node deleted.
