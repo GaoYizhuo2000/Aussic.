@@ -22,6 +22,7 @@ public class RuntimeObserver {
     public static HomeFragment homeFragment;
     public static HomeActivity homeActivity;
     private static List<Song> currentSongList = new ArrayList<>();
+    public static List<Song> currentSearchResultSongs;
     private static List<ChangeListener> listeners = new ArrayList<>();
     public static void setMediaPlayer(MediaPlayer mediaPlayer){
         currentMediaPlayer = mediaPlayer;
