@@ -70,6 +70,11 @@ public class Parser {
                 tokenizer.next();
                 if(!tokenizer.hasNext()){break;}
             }
+            else if(tokenizer.current().getType() == Token.Type.STRING) {
+                isInputValid = false;
+                searchingTerms.put("undefinedTerm", tokenizer.current().getToken());
+                tokenizer.next();
+            }
             else{
                 isInputValid = false;
                 break;
