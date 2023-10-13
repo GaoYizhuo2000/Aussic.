@@ -69,8 +69,7 @@ public class SongActivity extends AppCompatActivity {
         this.fav = findViewById(R.id.song_fav);
         this.comment = findViewById(R.id.song_comment);
 
-        if (RuntimeObserver.getCurrentSong() != null)
-        setTheSong(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
+        if (RuntimeObserver.getCurrentSong() != null) setTheSong(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
 
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
         this.play.setOnClickListener(new View.OnClickListener() {
@@ -179,26 +178,29 @@ public class SongActivity extends AppCompatActivity {
             }
         });
 
-        // Your data list for the comments
-        List<CommentItem> commentList = new ArrayList<>();
+//        // Your data list for the comments
+//        List<CommentItem> commentList = new ArrayList<>();
 
+
+
+
+        // get and load comments
+//        firestoreDao.getComment(RuntimeObserver.getCurrentSong().getId())
+//                .thenAccept(details -> {
+//                    for(Map<String, Object> comment : details) {
+//                        CommentItem newComment = new CommentItem("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media", (String) comment.get("uid"), (String) comment.get("content"));
+//                        commentList.add(newComment);
+//                        commentAdapter.notifyItemInserted(commentList.size() - 1);
+//                    }
+//
+//                });
+        List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getComments();
 
         // Setup the RecyclerView and its adapter
 
         CommentAdapter commentAdapter = new CommentAdapter(commentList);
         commentsRecyclerView.setAdapter(commentAdapter);
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // get and load comments
-        firestoreDao.getComment(RuntimeObserver.getCurrentSong().getId())
-                .thenAccept(details -> {
-                    for(Map<String, Object> comment : details) {
-                        CommentItem newComment = new CommentItem("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media", (String) comment.get("uid"), (String) comment.get("content"));
-                        commentList.add(newComment);
-                        commentAdapter.notifyItemInserted(commentList.size() - 1);
-                    }
-
-                });
 
         // Find and set an OnClickListener to the button
         Button sendButton = dialog.findViewById(R.id.the_btn_send);
@@ -213,10 +215,16 @@ public class SongActivity extends AppCompatActivity {
                     //update songs comment in firestore
                     new Comment("comment", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName()
                             , Integer.parseInt(RuntimeObserver.getCurrentSong().getId()), commentText ).update();
+
+
+
                     // Create a new CommentItem object and add it to the commentList
                     // Assuming CommentItem is a class that represents a comment with user avatar, name, and content
                     CommentItem newComment = new CommentItem(RuntimeObserver.currentUser.iconUrl, RuntimeObserver.currentUser.username, commentText);
                     commentList.add(newComment);
+
+                    // Update runtime song's comment value
+                    RuntimeObserver.getCurrentSong().addComment(newComment);
 
                     // Notify the adapter that an item was added to the end of the list
                     commentAdapter.notifyItemInserted(commentList.size() - 1);

@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
@@ -108,6 +110,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 // Loading the usr icon url
                                                 String iconUrl = (String) userdata.get("iconUrl");
                                                 User newUsr = new User(user_name, iconUrl);
+
+                                                for(String songID : (List<String>)userdata.get("favorites")) newUsr.addFavorites(songID);
+                                                for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
                                                 RuntimeObserver.currentUser = newUsr;
                                             });
 

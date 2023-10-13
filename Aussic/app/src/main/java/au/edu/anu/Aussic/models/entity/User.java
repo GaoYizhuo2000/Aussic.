@@ -21,4 +21,14 @@ public class User {
 
     public void update(){};  //更新数据库里的user数据
 
+    public void addFavorites(String songID){ this.favorites.add(songID); }
+    public void addLikes(String songID){ this.likes.add(songID); }
+
+    public void setFavorites(List<String> favorites) {
+        this.favorites = favorites;
+    }
+
+    public void setLikes(List<String> likes) {
+        this.likes = likes;
+    }
 }

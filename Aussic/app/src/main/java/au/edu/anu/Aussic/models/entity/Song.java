@@ -1,11 +1,11 @@
 package au.edu.anu.Aussic.models.entity;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 
 public class Song implements Comparable<Song> {
     private String id;
@@ -15,6 +15,7 @@ public class Song implements Comparable<Song> {
     private PlayParams playParams;
     private List<Integer> likeUserId = new ArrayList<>();
     private Map<Integer, String> uidComment = new HashMap<>();
+    private Comments comments;
 
     //private String
 
@@ -156,5 +157,17 @@ public class Song implements Comparable<Song> {
     }
     public String getUrlToImage() {
         return this.attributes.getArtwork().getUrlToImage();
+    }
+
+    public List<CommentItem> getComments() {
+        List<CommentItem> out = new ArrayList<>();
+        for (Detail detail : this.comments.getDetails()){
+            out.add(new CommentItem(RuntimeObserver.currentUser.iconUrl, detail.getUid(), detail.getContent()));
+        }
+        return out;
+    }
+
+    public void addComment(CommentItem commentItem){
+        this.comments.getDetails().add(new Detail(commentItem.getCommentContent(), commentItem.getUserName()));
     }
 }
