@@ -43,6 +43,10 @@ public class LoadingActivity extends AppCompatActivity {
         firestoreDao.getRandomSongs(1).thenAccept(results ->{
             Song newSong = GsonSongLoader.loadSong(results.get(0));
             RuntimeObserver.setCurrentSong(newSong);
+
+            // Setup realtime listener for the song
+            RuntimeObserver.setRealTimeListener(newSong);
+
             RuntimeObserver.setMediaPlayer(new MediaPlayer());
 
             try{
@@ -66,30 +70,9 @@ public class LoadingActivity extends AppCompatActivity {
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
                 Song newSong = GsonSongLoader.loadSong(map);
-                DocumentReference songRef = firestoreDao.getSongsRef().document(newSong.getId());
-                songRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
-                            return;
-                        }
 
-                        if (snapshot != null && snapshot.exists()) {
-                            newSong.setSong(GsonSongLoader.loadSong(snapshot.getData()));
-                            snapshot.getData();
-                            Map<String, Object> comments = (Map<String, Object>) snapshot.get("comments");
-                            List<Map<String, Object>> details = (List<Map<String, Object>>) comments.get("details");
-
-
-                            // Update UI with new comments
-//                            updateCommentsUI(comments);
-                        } else {
-                            Log.d(TAG, "Current data: null");
-                        }
-                    }
-                });
-
+                // Setup realtime listener for the song
+                RuntimeObserver.setRealTimeListener(newSong);
 
                 RuntimeObserver.getCurrentSongList().add(newSong);
             }

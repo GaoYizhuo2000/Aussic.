@@ -9,12 +9,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +29,7 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -38,7 +37,7 @@ import au.edu.anu.Aussic.models.userAction.Comment;
 import au.edu.anu.Aussic.models.userAction.Favorites;
 import au.edu.anu.Aussic.models.userAction.Like;
 
-public class SongActivity extends AppCompatActivity {
+public class SongActivity extends AppCompatActivity implements OnDataChangeListener {
     private ImageView roundImageView;
     private TextView nameText;
     private TextView artistText;
@@ -46,6 +45,9 @@ public class SongActivity extends AppCompatActivity {
     private ImageView like;
     private ImageView fav;
     private ImageView comment;
+    private Dialog dialog;
+    private CommentAdapter commentAdapter;
+    RecyclerView commentsRecyclerView;
     FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
 
@@ -54,6 +56,8 @@ public class SongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
+        RuntimeObserver.addOnDataChangeListeners(this);
+
         this.roundImageView = findViewById(R.id.song_spinning_round_image);
         this.nameText = findViewById(R.id.song_song_name);
         this.artistText = findViewById(R.id.song_artist_name);
@@ -61,6 +65,7 @@ public class SongActivity extends AppCompatActivity {
         this.like = findViewById(R.id.song_like);
         this.fav = findViewById(R.id.song_fav);
         this.comment = findViewById(R.id.song_comment);
+
 
         if (RuntimeObserver.getCurrentSong() != null) setTheSong(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
 
@@ -81,12 +86,12 @@ public class SongActivity extends AppCompatActivity {
                         RuntimeObserver.getCurrentMediaPlayer().pause();
                         play.setImageResource(R.drawable.ic_song_play);
                         roundImageView.clearAnimation();
-                        RuntimeObserver.notifyListeners();
+                        RuntimeObserver.notifyOnDataArrivedListener();
                     } else {
                         RuntimeObserver.getCurrentMediaPlayer().start();
                         play.setImageResource(R.drawable.ic_song_pause);
                         roundImageView.startAnimation(AnimationUtils.loadAnimation(SongActivity.this, R.anim.spinning));
-                        RuntimeObserver.notifyListeners();
+                        RuntimeObserver.notifyOnDataArrivedListener();
                     }
                 }
             }
@@ -135,15 +140,13 @@ public class SongActivity extends AppCompatActivity {
                 }
             }
         });
+        setUpComments();
         this.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 showBottomComments();
             }
         });
-
-
-
 
 
 
@@ -162,59 +165,22 @@ public class SongActivity extends AppCompatActivity {
         artistText.setText(CardAdapter.adjustLength(artistName));
     }
 
-    private void showBottomComments() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_comments);  // This is the layout for the comments.
+    private void setUpComments(){
+        this.dialog = new Dialog(this);
+        this.dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.dialog.setContentView(R.layout.layout_comments);  // This is the layout for the comments.
 
         // Views from the comments layout
         EditText commentInput = dialog.findViewById(R.id.song_comment_input);
-        RecyclerView commentsRecyclerView = dialog.findViewById(R.id.rv_comments_list);
-        // If you have a RecyclerView adapter, initialize it here and set it to the RecyclerView
+        this.commentsRecyclerView = dialog.findViewById(R.id.song_comments_list);
 
-        // We'll use the EditText's 'imeOptions' for the comment submission.
-        // First, set the EditText's IME action label to "Submit" and actionId to actionSend in the XML.
-        commentInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    // Handle the comment submission here.
-                    String commentText = commentInput.getText().toString().trim();
-                    if (!commentText.isEmpty()) {
-                        // Add the comment to your comments list, update the RecyclerView, etc.
-                        dialog.dismiss();
-                    } else {
-                        Toast.makeText(SongActivity.this, "Please enter a comment", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-
-//        // Your data list for the comments
-//        List<CommentItem> commentList = new ArrayList<>();
-
-
-
-
-        // get and load comments
-//        firestoreDao.getComment(RuntimeObserver.getCurrentSong().getId())
-//                .thenAccept(details -> {
-//                    for(Map<String, Object> comment : details) {
-//                        CommentItem newComment = new CommentItem("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media", (String) comment.get("uid"), (String) comment.get("content"));
-//                        commentList.add(newComment);
-//                        commentAdapter.notifyItemInserted(commentList.size() - 1);
-//                    }
-//
-//                });
         List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getCommentItems();
 
         // Setup the RecyclerView and its adapter
 
-        CommentAdapter commentAdapter = new CommentAdapter(commentList);
-        commentsRecyclerView.setAdapter(commentAdapter);
-        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.commentAdapter = new CommentAdapter(commentList);
+        this.commentsRecyclerView.setAdapter(commentAdapter);
+        this.commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Find and set an OnClickListener to the button
         Button sendButton = dialog.findViewById(R.id.the_btn_send);
@@ -230,10 +196,7 @@ public class SongActivity extends AppCompatActivity {
                     new Comment("comment", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName()
                             , Integer.parseInt(RuntimeObserver.getCurrentSong().getId()), commentText ).update();
 
-
-
                     // Create a new CommentItem object and add it to the commentList
-                    // Assuming CommentItem is a class that represents a comment with user avatar, name, and content
                     CommentItem newComment = new CommentItem(RuntimeObserver.currentUser.iconUrl, RuntimeObserver.currentUser.username, commentText);
                     commentList.add(newComment);
 
@@ -255,6 +218,9 @@ public class SongActivity extends AppCompatActivity {
         });
 
 
+
+    }
+    private void showBottomComments() {
         dialog.show();
 
         // Set the dimensions and appearance of the dialog
@@ -266,6 +232,22 @@ public class SongActivity extends AppCompatActivity {
         // Allow the dialog to be canceled by touching outside its bounds
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
+    }
+
+    @Override
+    public void onDataChangeResponse(){
+        if(RuntimeObserver.getCurrentSong() != null){
+            List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getCommentItems();
+
+            // Setup the RecyclerView and its adapter
+
+            this.commentAdapter = new CommentAdapter(commentList);
+            this.commentsRecyclerView.setAdapter(commentAdapter);
+            this.commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            this.commentsRecyclerView.setAdapter(commentAdapter);
+            this.commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
     }
 
 }

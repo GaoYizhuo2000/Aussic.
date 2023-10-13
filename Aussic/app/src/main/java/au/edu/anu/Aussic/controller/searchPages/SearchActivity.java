@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -21,27 +20,22 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
-import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
-import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
-public class SearchActivity extends AppCompatActivity implements ChangeListener {
+public class SearchActivity extends AppCompatActivity implements OnDataArrivedListener {
     private MediaPlayer mediaPlayer;
     private Button searchButton;
     private SearchView searchView;
@@ -144,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
             }
         });
 
-        RuntimeObserver.addChangeListener(this);
+        RuntimeObserver.addOnDataArrivedListener(this);
 
         this.mediaPlayer = RuntimeObserver.getCurrentMediaPlayer();
 
@@ -222,7 +216,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
             for(Map<String, Object> map : maps) RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
-            RuntimeObserver.notifyListeners();
+            RuntimeObserver.notifyOnDataArrivedListener();
 
 //            results.toString();
 //            System.out.println(results);

@@ -1,7 +1,7 @@
 package au.edu.anu.Aussic.controller.observer;
 
 
-public interface ChangeListener {
+public interface OnDataArrivedListener {
     void onChange();
 
 }

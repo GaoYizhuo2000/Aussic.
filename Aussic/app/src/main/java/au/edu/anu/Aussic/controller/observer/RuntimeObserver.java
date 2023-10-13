@@ -3,13 +3,23 @@ package au.edu.anu.Aussic.controller.observer;
 import android.media.MediaPlayer;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.controller.homePages.HomeFragment;
+import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 /**
  * The class for song playing and pausing
@@ -23,10 +33,11 @@ public class RuntimeObserver {
     public static HomeActivity homeActivity;
     private static List<Song> currentSongList = new ArrayList<>();
     public static List<Song> currentSearchResultSongs;
-    private static List<ChangeListener> listeners = new ArrayList<>();
+    private static List<OnDataArrivedListener> onDataArrivedListeners = new ArrayList<>();
+    private static List<OnDataChangeListener> onDataChangeListeners = new ArrayList<>();
     public static void setMediaPlayer(MediaPlayer mediaPlayer){
         currentMediaPlayer = mediaPlayer;
-        notifyListeners();
+        notifyOnDataArrivedListener();
     }
     public static void setCurrentSong(Song song){
         currentSong = song;
@@ -41,18 +52,33 @@ public class RuntimeObserver {
     }
     public static List<Song> getCurrentSongList(){return currentSongList; }
 
-    public static void addChangeListener(ChangeListener newListener) {
-        listeners.add(newListener);
+    public static void addOnDataArrivedListener(OnDataArrivedListener newListener) {
+        onDataArrivedListeners.add(newListener);
+    }
+    public static void addOnDataChangeListeners(OnDataChangeListener newListener) {
+        onDataChangeListeners.add(newListener);
+    }
+    public static void notifyOnDataArrivedListener() {
+        for (OnDataArrivedListener listener : onDataArrivedListeners) listener.onChange();
+    }
+    public static void notifyOnDataChangeListeners(){
+        for(OnDataChangeListener listener : onDataChangeListeners) listener.onDataChangeResponse();
     }
 
-    public static void removeChangeListener(ChangeListener listenerToRemove) {
-        listeners.remove(listenerToRemove);
-    }
+    public static void setRealTimeListener(Song song){
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
-    public static void notifyListeners() {
-        for (ChangeListener listener : listeners) listener.onChange();
-    }
-    public static void realTimeNotifyListeners(){
-
+        DocumentReference songRef = firestoreDao.getSongsRef().document(song.getId());
+        songRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (snapshot != null && snapshot.exists()) {
+                    song.setSong(GsonSongLoader.loadSong(snapshot.getData()));
+                    snapshot.getData();
+                    // Notify subsequent change
+                    notifyOnDataChangeListeners();
+                }
+            }
+        });
     }
 }

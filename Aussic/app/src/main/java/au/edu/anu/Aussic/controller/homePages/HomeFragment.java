@@ -29,11 +29,8 @@ import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
-import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.models.firebase.FirestoreDao;
-import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
-import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
 
@@ -42,7 +39,7 @@ import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements OnItemSpecClickListener, ChangeListener {
+public class HomeFragment extends Fragment implements OnItemSpecClickListener, OnDataArrivedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +56,7 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
     public HomeFragment() {
         // Required empty public constructor
         RuntimeObserver.homeFragment = this;
-        RuntimeObserver.addChangeListener(this);
+        RuntimeObserver.addOnDataArrivedListener(this);
     }
 
     /**

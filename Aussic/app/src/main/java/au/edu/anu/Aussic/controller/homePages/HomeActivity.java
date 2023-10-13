@@ -8,7 +8,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -40,19 +39,17 @@ import android.widget.Toast;
 import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
-import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
-import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
 
 
-public class HomeActivity extends AppCompatActivity implements ChangeListener {
+public class HomeActivity extends AppCompatActivity implements OnDataArrivedListener {
 
     FloatingActionButton fab;
     DrawerLayout drawerLayout;
@@ -75,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements ChangeListener {
         setContentView(R.layout.activity_home);
 
         RuntimeObserver.homeActivity = this;
-        RuntimeObserver.addChangeListener(this);
+        RuntimeObserver.addOnDataArrivedListener(this);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fab =findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawer_layout);

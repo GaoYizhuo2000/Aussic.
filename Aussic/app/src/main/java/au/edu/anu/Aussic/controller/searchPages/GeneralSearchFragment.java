@@ -24,7 +24,7 @@ import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.controller.observer.ChangeListener;
+import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
 
@@ -33,7 +33,7 @@ import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
  * Use the {@link GeneralSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GeneralSearchFragment extends Fragment implements ChangeListener, OnItemSpecClickListener {
+public class GeneralSearchFragment extends Fragment implements OnDataArrivedListener, OnItemSpecClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +47,7 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener, O
 
     public GeneralSearchFragment() {
         // Required empty public constructor
-        RuntimeObserver.addChangeListener(this);
+        RuntimeObserver.addOnDataArrivedListener(this);
     }
 
     /**
@@ -97,8 +97,6 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener, O
             List<ItemSpec> itemList = new ArrayList<>();
             if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
             else for (Song song : RuntimeObserver.currentSearchResultSongs)  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
-
-
 
             this.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchRecyclerView.setAdapter(new ListAdapter(itemList, this));

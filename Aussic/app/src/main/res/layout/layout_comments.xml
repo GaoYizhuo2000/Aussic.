@@ -61,7 +61,7 @@
 
     <!-- RecyclerView for displaying comments -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_comments_list"
+        android:id="@+id/song_comments_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/comment_input_wrapper"
