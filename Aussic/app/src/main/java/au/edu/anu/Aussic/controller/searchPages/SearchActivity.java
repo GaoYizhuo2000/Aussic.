@@ -197,6 +197,7 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
     }
 
     private void doSearch(String input){
+        //input eg: \a Troye; \nStrawberries and cigarettes
         //check if empty input
         if(input == null|| input.equals("")){
             return;
@@ -206,7 +207,6 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
         searchView.setIconified(true);
         searchView.setIconified(true);
 
-
         Parser parser = new Parser(new Tokenizer(input));
         Map<String, String> searchingTerms = parser.Parse();
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
@@ -215,10 +215,12 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
         testTerms.put("id", "1006237147");
 
         firestoreDao.searchSongs(searchingTerms).thenAccept(results -> {
+            //拿到查询结果后处理，放入listview展示 results是歌曲列表
+
             results.toString();
             System.out.println(results);
             Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
-            //拿到查询结果后处理，放入listview
+
         });
 
 
