@@ -14,7 +14,7 @@ public abstract class Tree<T> {
      * Here we store our class fields.
      */
     public final String key;
-    public final T value;
+    public  T value;
     // element stored in this node of the tree.
     public Tree<T> leftNode;    // less than the node.
     public Tree<T> rightNode;   // greater than the node.
@@ -67,6 +67,11 @@ public abstract class Tree<T> {
     public abstract Tree<T> find(String key);     // Finds the element and returns the node.
 
     public abstract Tree<T> insertById(Song song);   // Inserts the element and returns a new instance of itself with the new node.
+    public abstract Tree<T> insertByName(Song song);
+    public abstract Tree<T> insertByArtistName(Song song);
+    public abstract Tree<T> insertByReleaseDate(Song song);
+    public abstract Tree<T> insertByGenre(Song song);
+
 
     public abstract Tree<T> delete(T element);   // Deletes the element and returns the node deleted.
 /////////////////////////////////////////////////////

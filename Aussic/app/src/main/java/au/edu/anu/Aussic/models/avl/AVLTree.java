@@ -58,6 +58,138 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         }
         return this;
     }
+    @Override
+    public AVLTree<T> insertByName(Song song) {
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getSongName().compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByName(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            if (newTree.getBalanceFactor()<-1 && newTree.rightNode.rightNode.find(song.getSongName()) != null) {
+                newTree = newTree.leftRotate();
+            }else if (newTree.getBalanceFactor()<-1 && newTree.rightNode.leftNode.find(song.getSongName()) != null) {
+                AVLTree<T> rightNode = (AVLTree<T>) newTree.rightNode;
+                newTree.rightNode = rightNode.rightRotate();
+                newTree = newTree.leftRotate();
+            }
+
+            return newTree;
+        } else if (song.getSongName().compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByName(song), rightNode);
+            if(newTree.getBalanceFactor()>1 && newTree.leftNode.leftNode.find(song.getSongName()) != null){
+                newTree = newTree.rightRotate();
+            } else if (newTree.getBalanceFactor()>1 && newTree.leftNode.rightNode.find(song.getSongName()) != null) {
+                AVLTree<T> leftNode = (AVLTree<T>) newTree.leftNode;
+                newTree.leftNode = leftNode.leftRotate();
+                newTree = newTree.rightRotate();
+            }
+            return newTree;
+        }else if (song.getSongName().compareTo(key) == 0){
+                List<Song> songList = (List<Song>) value;
+                songList.add(song);
+        }
+        return this;
+    }
+    @Override
+    public AVLTree<T> insertByArtistName(Song song) {
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getArtistName().compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByArtistName(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            if (newTree.getBalanceFactor()<-1 && newTree.rightNode.rightNode.find(song.getArtistName()) != null) {
+                newTree = newTree.leftRotate();
+            }else if (newTree.getBalanceFactor()<-1 && newTree.rightNode.leftNode.find(song.getArtistName()) != null) {
+                AVLTree<T> rightNode = (AVLTree<T>) newTree.rightNode;
+                newTree.rightNode = rightNode.rightRotate();
+                newTree = newTree.leftRotate();
+            }
+
+            return newTree;
+        } else if (song.getArtistName().compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByArtistName(song), rightNode);
+            if(newTree.getBalanceFactor()>1 && newTree.leftNode.leftNode.find(song.getSongName()) != null){
+                newTree = newTree.rightRotate();
+            } else if (newTree.getBalanceFactor()>1 && newTree.leftNode.rightNode.find(song.getArtistName()) != null) {
+                AVLTree<T> leftNode = (AVLTree<T>) newTree.leftNode;
+                newTree.leftNode = leftNode.leftRotate();
+                newTree = newTree.rightRotate();
+            }
+            return newTree;
+        }else if (song.getArtistName().compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
+    }
+    @Override
+    public AVLTree<T> insertByReleaseDate(Song song) {
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getReleaseDate().compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByReleaseDate(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            if (newTree.getBalanceFactor()<-1 && newTree.rightNode.rightNode.find(song.getReleaseDate()) != null) {
+                newTree = newTree.leftRotate();
+            }else if (newTree.getBalanceFactor()<-1 && newTree.rightNode.leftNode.find(song.getReleaseDate()) != null) {
+                AVLTree<T> rightNode = (AVLTree<T>) newTree.rightNode;
+                newTree.rightNode = rightNode.rightRotate();
+                newTree = newTree.leftRotate();
+            }
+
+            return newTree;
+        } else if (song.getReleaseDate().compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByReleaseDate(song), rightNode);
+            if(newTree.getBalanceFactor()>1 && newTree.leftNode.leftNode.find(song.getReleaseDate()) != null){
+                newTree = newTree.rightRotate();
+            } else if (newTree.getBalanceFactor()>1 && newTree.leftNode.rightNode.find(song.getReleaseDate()) != null) {
+                AVLTree<T> leftNode = (AVLTree<T>) newTree.leftNode;
+                newTree.leftNode = leftNode.leftRotate();
+                newTree = newTree.rightRotate();
+            }
+            return newTree;
+        }else if (song.getReleaseDate().compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
+    }
+    @Override
+    public AVLTree<T> insertByGenre(Song song) {
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        if (song.getGenre().get(0).compareTo(key) > 0) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.insertByGenre(song);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            if (newTree.getBalanceFactor()<-1 && newTree.rightNode.rightNode.find(song.getGenre().get(0)) != null) {
+                newTree = newTree.leftRotate();
+            }else if (newTree.getBalanceFactor()<-1 && newTree.rightNode.leftNode.find(song.getGenre().get(0)) != null) {
+                AVLTree<T> rightNode = (AVLTree<T>) newTree.rightNode;
+                newTree.rightNode = rightNode.rightRotate();
+                newTree = newTree.leftRotate();
+            }
+
+            return newTree;
+        } else if (song.getGenre().get(0).compareTo(key) < 0) {
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByGenre(song), rightNode);
+            if(newTree.getBalanceFactor()>1 && newTree.leftNode.leftNode.find(song.getGenre().get(0)) != null){
+                newTree = newTree.rightRotate();
+            } else if (newTree.getBalanceFactor()>1 && newTree.leftNode.rightNode.find(song.getGenre().get(0)) != null) {
+                AVLTree<T> leftNode = (AVLTree<T>) newTree.leftNode;
+                newTree.leftNode = leftNode.leftRotate();
+                newTree = newTree.rightRotate();
+            }
+            return newTree;
+        }else if (song.getGenre().get(0).compareTo(key) == 0){
+            List<Song> songList = (List<Song>) value;
+            songList.add(song);
+        }
+        return this;
+    }
     public AVLTree<T> rightRotate() {
         Tree<T> newParent = this.leftNode;
         Tree<T> newLeftOfCurrent = newParent.rightNode;
@@ -212,6 +344,35 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             songList.add(song);
             AVLTree<T> newTree = new AVLTree<T>(song.getId(), (T) songList);
             return newTree;
+        }
+
+        @Override
+        public Tree<T> insertByName(Song song) {
+            List<Song> songList = new ArrayList<>();
+            songList.add(song);
+            AVLTree<T> newTree = new AVLTree<T>(song.getSongName(), (T) songList);
+            return newTree;
+        }
+
+        @Override
+        public Tree<T> insertByArtistName(Song song) {
+            List<Song> songList = new ArrayList<>()    ;
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getArtistName(), (T) songList) ;
+        }
+
+        @Override
+        public Tree<T> insertByReleaseDate(Song song) {
+            List<Song> songList = new ArrayList<>()    ;
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getReleaseDate(), (T) songList) ;
+        }
+
+        @Override
+        public Tree<T> insertByGenre(Song song) {
+            List<Song> songList = new ArrayList<>();
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getGenre().get(0), (T) songList) ;
         }
 
         @Override

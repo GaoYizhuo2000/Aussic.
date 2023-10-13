@@ -10,6 +10,7 @@ import java.util.List;
 import au.edu.anu.Aussic.models.avl.AVLTree;
 import au.edu.anu.Aussic.models.avl.EmptyTree;
 import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.entity.SongAttributes;
 
 public class AVLTreeTest {
 
@@ -17,7 +18,96 @@ public class AVLTreeTest {
 
     @Before
     public void setUp() {
-        avlTree = new AVLTree<>("1", new ArrayList<>());
+        avlTree = new AVLTree<>("0", new ArrayList<>());
+    }
+    @Test(timeout = 1000)
+    public void insertByNametest() {
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1") ;
+        song1.setAttributes(song1attr);
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("AAA", "artist2") ;
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("BBB", "artist2") ;
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("CCC", "artist3") ;
+        song4.setAttributes(song4attr);
+
+        testTree = testTree.insertByName(song1);
+        testTree = testTree.insertByName(song2);
+        testTree = testTree.insertByName(song3);
+        testTree = testTree.insertByName(song4);
+        assertEquals("BBB", testTree.key);
+    }
+//    @Test(timeout = 1000)
+//    public void insertByGenretest() {
+//        Song song1 = new Song("1");
+//        SongAttributes song1attr = new SongAttributes("AAA", "artist1") ;
+//        List<String> genres1 = new ArrayList<>();
+//        genres1.add("Rock");
+//        genres1.add("R&B");
+//        genres1.add("Pop");
+//        song1attr.setGenreNames(genres1);
+//        song1.setAttributes(song1attr);
+//        List<Song> l = new ArrayList<>();
+//        l.add(song1);
+//        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getGenre().get(0), l);
+//
+//        Song song2 = new Song("2");
+//        SongAttributes song2attr = new SongAttributes("AAA", "artist2") ;
+//        List<String> genres2 = new ArrayList<>();
+//        genres2.add("Rock");
+//        genres2.add("R&B");
+//        song2attr.setGenreNames(genres2);
+//        song2.setAttributes(song2attr);
+//
+//        Song song3 = new Song("3");
+//        SongAttributes song3attr = new SongAttributes("BBB", "artist2") ;
+//        List<String> genres3 = new ArrayList<>();
+//        genres3.add("R&B");
+//        genres3.add("Blue");
+//        genres3.add("fff");
+//        song3attr.setGenreNames(genres3);
+//        song3.setAttributes(song3attr);
+//
+//
+//        testTree = testTree.insertByGenre(song1);
+//        testTree = testTree.insertByGenre(song2);
+//        testTree = testTree.insertByGenre(song3);
+//        assertEquals("BBB", testTree.key);
+//    }
+    @Test(timeout = 1000)
+    public void insertByArtistNametest() {
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1") ;
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("AAA", "artist2") ;
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("BBB", "artist2") ;
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("CCC", "artist3") ;
+        song4.setAttributes(song4attr);
+
+        avlTree = avlTree.insertByName(song1);
+        avlTree = avlTree.insertByName(song2);
+        avlTree = avlTree.insertByName(song3);
+        avlTree = avlTree.insertByName(song4);
+        assertEquals("AAA", avlTree.key);
     }
 
     @Test(timeout = 1000)

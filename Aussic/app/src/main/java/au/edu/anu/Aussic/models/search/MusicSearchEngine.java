@@ -4,12 +4,13 @@ import au.edu.anu.Aussic.models.avl.AVLTree;
 import au.edu.anu.Aussic.models.avl.EmptyTree;
 import au.edu.anu.Aussic.models.avl.Tree;
 import au.edu.anu.Aussic.models.entity.Song;
-
+import au.edu.anu.Aussic.models.entity.SongAttributes;
 
 
 import java.util.*;
 
 public class MusicSearchEngine {
+
 
     List<Song> songList = new ArrayList<>();
     private AVLTree<List<Song>> idTree;
@@ -27,9 +28,42 @@ public class MusicSearchEngine {
         Song song0 = songList.remove(0);
         List<Song> l = new ArrayList<>();
         l.add(song0);
-        idTree = new AVLTree<List<Song>>(song0.getId(), l);
+        idTree = new AVLTree<>(song0.getId(), l);
+        songNameTree = new AVLTree<>(song0.getSongName(), l);
+        artistTree = new AVLTree<>(song0.getArtistName(), l);
+        releaseDateTree = new AVLTree<>(song0.getReleaseDate(), l);
         for(Song song: songList){
             idTree = idTree.insertById(song);
+            songNameTree.insertByName(song);
+            artistTree.insertByArtistName(song);
+            releaseDateTree.insertByReleaseDate(song);
+        }
+
+        //split songs with multiple genres
+        List<Song> songListByGenre = new ArrayList<>();
+        for(Song song: songList){
+            List<String> genres = song.getGenre();
+            if(genres.size() > 1){
+                for(String genre : genres){
+                    Song songFrag = song.clone();
+                    SongAttributes songFragAttr = songFrag.getAttributes();
+                    List<String> genrel = new ArrayList<>();
+                    genrel.add(genre);
+                    songFragAttr.setGenreNames(genrel);
+                    songFrag.setAttributes(songFragAttr);
+                    songListByGenre.add(songFrag);
+                }
+            }else{
+                songListByGenre.add(song);
+            }
+        }
+        //////////////////
+        Song song1 = songListByGenre.remove(0);
+        List<Song> l1 = new ArrayList<>();
+        l1.add(song1);
+        genreTree = new AVLTree<>(song1.getGenre().get(0), l1);
+        for(Song song: songListByGenre){
+            genreTree.insertByGenre(song);
         }
     }
 

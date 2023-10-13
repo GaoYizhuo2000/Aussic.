@@ -21,6 +21,10 @@ public class SongAttributes {
     private List<Preview> previews;
     private String artistName;
 
+    public SongAttributes(String name, String artistName) {
+        this.name = name;
+        this.artistName = artistName;
+    }
 
     public SongAttributes(String albumName, List<String> genreNames, int trackNumber,
                           long durationInMillis, String releaseDate, String isrc, Artwork artwork,

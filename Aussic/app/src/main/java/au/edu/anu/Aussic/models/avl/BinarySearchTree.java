@@ -69,6 +69,26 @@ public class BinarySearchTree<T> extends Tree<T> {
     }
 
     @Override
+    public BinarySearchTree<T> insertByName(Song song) {
+        return null;
+    }
+
+    @Override
+    public Tree<T> insertByArtistName(Song song) {
+        return null;
+    }
+
+    @Override
+    public Tree<T> insertByReleaseDate(Song song) {
+        return null;
+    }
+
+    @Override
+    public Tree<T> insertByGenre(Song song) {
+        return null;
+    }
+
+    @Override
     public BinarySearchTree<T> delete(T element) {
         return null;
     }
@@ -84,6 +104,34 @@ public class BinarySearchTree<T> extends Tree<T> {
             List<Song> songList = new ArrayList<>()    ;
             songList.add(song);// The creation of a new Tree, hence, return tree.
             return new BinarySearchTree<T>(song.getId(), (T) songList) ;
+        }
+
+        @Override
+        public Tree<T> insertByName(Song song) {
+            List<Song> songList = new ArrayList<>()    ;
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getSongName(), (T) songList) ;
+        }
+
+        @Override
+        public Tree<T> insertByArtistName(Song song) {
+            List<Song> songList = new ArrayList<>()    ;
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getArtistName(), (T) songList) ;
+        }
+
+        @Override
+        public Tree<T> insertByReleaseDate(Song song) {
+            List<Song> songList = new ArrayList<>();
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getReleaseDate(), (T) songList) ;
+        }
+
+        @Override
+        public Tree<T> insertByGenre(Song song) {
+            List<Song> songList = new ArrayList<>();
+            songList.add(song);// The creation of a new Tree, hence, return tree.
+            return new BinarySearchTree<T>(song.getGenre().get(0), (T) songList) ;
         }
 
         @Override
