@@ -198,12 +198,7 @@ public class SongActivity extends AppCompatActivity {
                         commentAdapter.notifyItemInserted(commentList.size() - 1);
                     }
 
-
                 });
-
-
-
-
 
         // Find and set an OnClickListener to the button
         Button sendButton = dialog.findViewById(R.id.the_btn_send);
@@ -237,21 +232,6 @@ public class SongActivity extends AppCompatActivity {
             }
         });
 
-        // If you want an additional UI element, like a close/cancel button, you can implement it similar to before:
-        // ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
-        // cancelButton.setOnClickListener(new View.OnClickListener() {...}
-//        sendButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String commentText = commentInput.getText().toString().trim();
-//                if (!commentText.isEmpty()) {
-//                    // Handle the comment submission, e.g., add the comment to your comments list, update the RecyclerView, etc.
-//                    dialog.dismiss();
-//                } else {
-//                    Toast.makeText(SongActivity.this, "Please enter a comment", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         dialog.show();
 

@@ -100,17 +100,9 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
         });
 
 
-        if(RuntimeObserver.getCurrentSongList() == null || RuntimeObserver.getCurrentSongList().isEmpty()){
-            FirestoreDao firestoreDao = new FirestoreDaoImpl();
-            firestoreDao.getRandomSongs(10).thenAccept(results->{
-                List<Map<String, Object>> maps = new ArrayList<>();
-                maps.addAll(results);
-                setViewList(maps);
-                RuntimeObserver.notifyListeners();
-            });
-        } else {
-            setViewList();
-        }
+        if(RuntimeObserver.getCurrentSongList() == null || RuntimeObserver.getCurrentSongList().isEmpty()){}
+        else setViewList();
+
 
 
     }
@@ -148,7 +140,7 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, C
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         List<ItemSpec> itemList = new ArrayList<>();
 
-        for(Map<String, Object> map : maps) RuntimeObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
+        //for(Map<String, Object> map : maps) RuntimeObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
         for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
 
         // Set up the RecyclerView with the fetched data
