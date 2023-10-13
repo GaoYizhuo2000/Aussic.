@@ -97,6 +97,19 @@ public class Song implements Comparable<Song> {
         this.attributes = attributes;
     }
 
+    public PlayParams getPlayParams() {
+        return playParams;
+    }
+
+    public List<Integer> getLikeUserId() {
+        return likeUserId;
+    }
+
+    public Map<Integer, String> getUidComment() {
+        return uidComment;
+    }
+
+
     @Override
     public int compareTo(Song other) {
         return this.id.compareTo(other.id);  // 按照ID排序
@@ -159,7 +172,11 @@ public class Song implements Comparable<Song> {
         return this.attributes.getArtwork().getUrlToImage();
     }
 
-    public List<CommentItem> getComments() {
+    public Comments getComments() {
+        return comments;
+    }
+
+    public List<CommentItem> getCommentItems() {
         List<CommentItem> out = new ArrayList<>();
         for (Detail detail : this.comments.getDetails()){
             out.add(new CommentItem(RuntimeObserver.currentUser.iconUrl, detail.getUid(), detail.getContent()));
@@ -167,7 +184,19 @@ public class Song implements Comparable<Song> {
         return out;
     }
 
-    public void addComment(CommentItem commentItem){
+    public void addCommentItem(CommentItem commentItem){
         this.comments.getDetails().add(new Detail(commentItem.getCommentContent(), commentItem.getUserName()));
+    }
+
+    public void setSong(Song song){
+        this.id = song.getId();
+        this.type = song.getType();
+        this.href = song.getHref();
+        this.attributes = song.getAttributes();
+        this.playParams = song.getPlayParams();
+        this.likeUserId = song.getLikeUserId();
+        this.uidComment = song.getUidComment();
+        this.comments = song.getComments();
+
     }
 }

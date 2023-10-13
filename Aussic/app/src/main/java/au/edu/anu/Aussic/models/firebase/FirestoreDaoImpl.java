@@ -290,5 +290,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
         return future;
     }
 
-
+    public CollectionReference getSongsRef() {
+        return songsRef;
+    }
 }

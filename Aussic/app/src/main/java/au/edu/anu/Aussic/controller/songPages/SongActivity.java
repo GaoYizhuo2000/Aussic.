@@ -24,26 +24,19 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentAdapter;
 import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
-import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.Comment;
 import au.edu.anu.Aussic.models.userAction.Favorites;
 import au.edu.anu.Aussic.models.userAction.Like;
-import au.edu.anu.Aussic.models.userAction.UserAction;
-import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
 public class SongActivity extends AppCompatActivity {
     private ImageView roundImageView;
@@ -215,7 +208,7 @@ public class SongActivity extends AppCompatActivity {
 //                    }
 //
 //                });
-        List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getComments();
+        List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getCommentItems();
 
         // Setup the RecyclerView and its adapter
 
@@ -245,7 +238,7 @@ public class SongActivity extends AppCompatActivity {
                     commentList.add(newComment);
 
                     // Update runtime song's comment value
-                    RuntimeObserver.getCurrentSong().addComment(newComment);
+                    RuntimeObserver.getCurrentSong().addCommentItem(newComment);
 
                     // Notify the adapter that an item was added to the end of the list
                     commentAdapter.notifyItemInserted(commentList.size() - 1);
