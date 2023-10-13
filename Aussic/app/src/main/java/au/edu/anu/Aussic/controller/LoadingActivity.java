@@ -1,26 +1,16 @@
 package au.edu.anu.Aussic.controller;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
@@ -45,7 +35,7 @@ public class LoadingActivity extends AppCompatActivity {
             RuntimeObserver.setCurrentSong(newSong);
 
             // Setup realtime listener for the song
-            RuntimeObserver.setRealTimeListener(newSong);
+            RuntimeObserver.setSongRealTimeListener(newSong);
 
             RuntimeObserver.setMediaPlayer(new MediaPlayer());
 
@@ -72,7 +62,7 @@ public class LoadingActivity extends AppCompatActivity {
                 Song newSong = GsonSongLoader.loadSong(map);
 
                 // Setup realtime listener for the song
-                RuntimeObserver.setRealTimeListener(newSong);
+                RuntimeObserver.setSongRealTimeListener(newSong);
 
                 RuntimeObserver.getCurrentSongList().add(newSong);
             }

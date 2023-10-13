@@ -293,4 +293,5 @@ public class FirestoreDaoImpl implements FirestoreDao {
     public CollectionReference getSongsRef() {
         return songsRef;
     }
+    public CollectionReference getUsrRef(){ return usersRef; }
 }

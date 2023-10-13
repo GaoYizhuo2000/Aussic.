@@ -113,6 +113,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 for(String songID : (List<String>)userdata.get("favorites")) newUsr.addFavorites(songID);
                                                 for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
+
+                                                // Set up real time listener for user
+                                                RuntimeObserver.setUsrRealTimeListener(newUsr);
                                                 RuntimeObserver.currentUser = newUsr;
                                             });
 

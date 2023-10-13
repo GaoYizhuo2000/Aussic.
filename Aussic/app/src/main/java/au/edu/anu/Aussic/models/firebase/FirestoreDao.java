@@ -3,6 +3,7 @@ package au.edu.anu.Aussic.models.firebase;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -22,5 +23,6 @@ public interface FirestoreDao {
     CompletableFuture<String> updateUserLikes(String songId);
     CompletableFuture<List<Map<String, Object>>> getComment(String songId);
     CollectionReference getSongsRef();
+    CollectionReference getUsrRef();
 
 }

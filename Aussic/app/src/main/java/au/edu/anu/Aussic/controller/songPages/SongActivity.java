@@ -101,12 +101,6 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             @Override
             public void onClick(View v){
                 if(!RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId())){
-                    like.setImageResource(R.drawable.ic_song_like);
-
-                    // Update user favorites in runtime
-                    RuntimeObserver.currentUser.addLikes(RuntimeObserver.getCurrentSong().getId());
-
-                    //
                     firestoreDao.updateUserLikes(RuntimeObserver.getCurrentSong().getId())
                             .thenAccept(msg -> {
                                 if(msg == null){
@@ -123,12 +117,6 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             @Override
             public void onClick(View v){
                 if(!RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId())){
-                    fav.setImageResource(R.drawable.ic_song_fav);
-
-                    // Update user favorites in runtime
-                    RuntimeObserver.currentUser.addFavorites(RuntimeObserver.getCurrentSong().getId());
-
-                    //
                     firestoreDao.updateUserFavorites(RuntimeObserver.getCurrentSong().getId())
                             .thenAccept(msg -> {
                                 if(msg == null){
@@ -196,21 +184,9 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                     new Comment("comment", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName()
                             , Integer.parseInt(RuntimeObserver.getCurrentSong().getId()), commentText ).update();
 
-                    // Create a new CommentItem object and add it to the commentList
-                    CommentItem newComment = new CommentItem(RuntimeObserver.currentUser.iconUrl, RuntimeObserver.currentUser.username, commentText);
-                    commentList.add(newComment);
-
-                    // Update runtime song's comment value
-                    RuntimeObserver.getCurrentSong().addCommentItem(newComment);
-
-                    // Notify the adapter that an item was added to the end of the list
-                    commentAdapter.notifyItemInserted(commentList.size() - 1);
-
                     // Optional: Clear the EditText after sending the comment
                     commentInput.setText("");
 
-                    // Optional: Scroll the RecyclerView to show the new comment
-                    commentsRecyclerView.smoothScrollToPosition(commentList.size() - 1);
                 } else {
                     Toast.makeText(SongActivity.this, "Please enter a comment", Toast.LENGTH_SHORT).show();
                 }
@@ -237,8 +213,15 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
     @Override
     public void onDataChangeResponse(){
         if(RuntimeObserver.getCurrentSong() != null){
-            List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getCommentItems();
 
+            if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId()))
+                this.like.setImageResource(R.drawable.ic_song_like);
+
+            if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId()))
+                this.fav.setImageResource(R.drawable.ic_song_fav);
+
+
+            List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getCommentItems();
             // Setup the RecyclerView and its adapter
 
             this.commentAdapter = new CommentAdapter(commentList);

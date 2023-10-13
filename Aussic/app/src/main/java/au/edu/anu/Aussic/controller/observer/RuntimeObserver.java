@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.controller.homePages.HomeFragment;
@@ -65,7 +66,7 @@ public class RuntimeObserver {
         for(OnDataChangeListener listener : onDataChangeListeners) listener.onDataChangeResponse();
     }
 
-    public static void setRealTimeListener(Song song){
+    public static void setSongRealTimeListener(Song song){
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
         DocumentReference songRef = firestoreDao.getSongsRef().document(song.getId());
@@ -74,7 +75,31 @@ public class RuntimeObserver {
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 if (snapshot != null && snapshot.exists()) {
                     song.setSong(GsonSongLoader.loadSong(snapshot.getData()));
-                    snapshot.getData();
+                    // Notify subsequent change
+                    notifyOnDataChangeListeners();
+                }
+            }
+        });
+    }
+
+    public static void setUsrRealTimeListener(User usr){
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+
+        DocumentReference usrRef = firestoreDao.getUsrRef().document(usr.username);
+        usrRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (snapshot != null && snapshot.exists()) {
+                    Map<String, Object> usrData = snapshot.getData();
+                    String iconUrl = (String) usrData.get("iconUrl");
+                    String usrName = (String) usrData.get("username");
+
+                    User newUsr = new User(usrName, iconUrl);
+
+                    for(String songID : (List<String>)usrData.get("favorites")) newUsr.addFavorites(songID);
+                    for(String songID : (List<String>)usrData.get("likes")) newUsr.addLikes(songID);
+
+                    usr.setUsr(newUsr);
                     // Notify subsequent change
                     notifyOnDataChangeListeners();
                 }
