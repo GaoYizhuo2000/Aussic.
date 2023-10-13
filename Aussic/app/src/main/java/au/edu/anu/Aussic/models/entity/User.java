@@ -9,9 +9,9 @@ import java.util.List;
 //登陆之后把用户id传给homeactivity，实例化个人主页fragment的时候再传，然后在fragment初始化的时候根据用户id从firebastore获取用户信息展示出来
 public class User {
     public String username;
-    public List<String> favorites = new ArrayList<>(); //放歌曲id
-    public List<String> likes = new ArrayList<>();
-    String location = "";
+    private List<String> favorites = new ArrayList<>(); //放歌曲id
+    private List<String> likes = new ArrayList<>();
+    public String location = "";
     public String iconUrl;
 
     public User(String username, String iconUrl) {
@@ -29,5 +29,13 @@ public class User {
     }
     public List<String> getLikes() {
         return likes;
+    }
+
+    public void setUsr(User usr){
+        this.username = usr.username;
+        this.favorites = usr.getFavorites();
+        this.likes = usr.getLikes();
+        this.location = usr.location;
+        this.iconUrl = usr.iconUrl;
     }
 }

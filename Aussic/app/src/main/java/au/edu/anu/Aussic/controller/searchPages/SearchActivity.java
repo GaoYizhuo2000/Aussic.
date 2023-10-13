@@ -30,6 +30,7 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
@@ -215,7 +216,13 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
 
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
-            for(Map<String, Object> map : maps) RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
+            for(Map<String, Object> map : maps) {
+                Song newSong = GsonSongLoader.loadSong(map);
+
+                // Set up real time listener for song search results
+                RuntimeObserver.setSongRealTimeListener(newSong);
+                RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
+            }
             RuntimeObserver.notifyOnDataArrivedListener();
 
 //            results.toString();

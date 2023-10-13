@@ -95,6 +95,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     FirestoreDao firestoreDao = new FirestoreDaoImpl();
                                     firestoreDao.addUserdata(new User(email, "https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media"));
 
+                                    // Set up real time listener for user
+                                    RuntimeObserver.setUsrRealTimeListener(newUsr);
                                     // Load current usr into runtime
                                     RuntimeObserver.currentUser = newUsr;
 
