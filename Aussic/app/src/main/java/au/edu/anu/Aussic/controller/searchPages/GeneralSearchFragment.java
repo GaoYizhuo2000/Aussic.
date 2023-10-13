@@ -95,8 +95,10 @@ public class GeneralSearchFragment extends Fragment implements ChangeListener, O
     public void onChange() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
             List<ItemSpec> itemList = new ArrayList<>();
-            for (Song song : RuntimeObserver.getCurrentSongList())
-                itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+            if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+            else for (Song song : RuntimeObserver.currentSearchResultSongs)  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+
+
 
             this.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchRecyclerView.setAdapter(new ListAdapter(itemList, this));

@@ -33,6 +33,7 @@ import java.util.Set;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.observer.ChangeListener;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -216,10 +217,16 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
 
         firestoreDao.searchSongs(searchingTerms).thenAccept(results -> {
             //拿到查询结果后处理，放入listview展示 results是歌曲列表
+            RuntimeObserver.currentSearchResultSongs = new ArrayList<>();
 
-            results.toString();
-            System.out.println(results);
-            Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
+            List<Map<String, Object>> maps = new ArrayList<>();
+            maps.addAll(results);
+            for(Map<String, Object> map : maps) RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
+            RuntimeObserver.notifyListeners();
+
+//            results.toString();
+//            System.out.println(results);
+//            Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
 
         });
 
