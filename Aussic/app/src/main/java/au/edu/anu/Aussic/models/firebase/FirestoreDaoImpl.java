@@ -50,7 +50,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
                     Random random = new Random();
                     int index = random.nextInt(idList.size());
                     String id = idList.get(index);
-                    Map<String, Object> terms= new HashMap<>();
+                    Map<String, String> terms= new HashMap<>();
                     terms.put("id", id);
                     terms.put("artistName", null);
                     terms.put("name", null);
@@ -64,7 +64,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
             Random random = new Random();
             int index = random.nextInt(idList.size());
             String id = idList.get(index);
-            Map<String, Object> terms= new HashMap<>();
+            Map<String, String> terms= new HashMap<>();
             terms.put("id", id);
             terms.put("artistName", null);
             terms.put("name", null);
@@ -138,7 +138,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
     //search songs according to terms, to be improved later
     @Override
-    public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms) {
+    public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, String> terms) {
         Query query = songsRef;
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> results = new ArrayList<>();
@@ -146,17 +146,18 @@ public class FirestoreDaoImpl implements FirestoreDao {
         String name = (String) terms.get("name");
         String releaseDate = (String) terms.get("releaseDate");
         String id = (String) terms.get("id");
+        String undefinedTerm = (String) terms.get("undefinedTerm");
 
-        if(artistName != null){
+        if(terms.containsKey("artistName")&& terms.get("artistName") != null){
             query = query.whereEqualTo(FieldPath.of("attributes","artistName"), artistName);
         }
-        if(name != null){
+        if(terms.containsKey("name")&& terms.get("name") != null){
             query = query.whereEqualTo(FieldPath.of("attributes","name"), name);
         }
-        if(releaseDate != null){
+        if(terms.containsKey("releaseDate")&& terms.get("releaseDate") != null){
             query = query.whereEqualTo(FieldPath.of("attributes","releaseDate"), releaseDate);
         }
-        if(id != null){
+        if(terms.containsKey("id")&& terms.get("id") != null){
             query = query.whereEqualTo(FieldPath.of("id"), id);
         }
 

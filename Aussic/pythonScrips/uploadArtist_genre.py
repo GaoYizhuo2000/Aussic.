@@ -14,50 +14,70 @@ genres = {}
 i = 1
 for song in data:
     if song["attributes"]["artistName"] not in artists:
-        artists[song["attributes"]["artistName"]] = []
-        artists[song["attributes"]["artistName"]].append(song["id"])
-    else:
-        artists[song["attributes"]["artistName"]].append(song["id"])
-    genreNames =  song["attributes"]["genreNames"]
-    for genreName in genreNames:
-        if genreName not in genres:
-            genres[genreName] = []
-            genres[genreName].append(song["id"])
-        else:
-            genres[genreName].append(song["id"])
+        artists[song["attributes"]["artistName"]] = song["attributes"]["artwork"]["url"]
+ #   genreNames =  song["attributes"]["genreNames"]
+ #   for genreName in genreNames:
+ #       if genreName not in genres:
+ #           genres[genreName] = []
+ #           genres[genreName].append(song["id"])
+ #       else:
+ #           genres[genreName].append(song["id"])
     print(i)
     i+=1
 
-for i in artists:
-    if "/" in i:
-        continue
-    db.collection('artists').document(str(i)).set({i:artists[i]})
-    print("uploaded artist  " + i)
-for i in genres:
-    if "/" in i:
-        continue
-    db.collection('genres').document(str(i)).set({i:genres[i]})
-    print("uploaded genre  " + i)
+##
+##for i in artists:
+##    if "/" in i:
+##        continue
+##    db.collection('artists').document(str(i)).set({i:artists[i]})
+##    print("uploaded artist  " + i)
+##for i in genres:
+##    if "/" in i:
+##        continue
+##    db.collection('genres').document(str(i)).set({i:genres[i]})
+##    print("uploaded genre  " + i)
 
 
 
 
 
 #增加新参数
-##collection = db.collection('songs')
-##docs = db.collection('songs').stream()
+for i in artists:
+    if "/" in i:
+        continue
+    newAttr = {
+        "url": artists[i]
+    }
+    db.collection('artists').document(i).update(newAttr)
+    print("updated artist  " + i)
+
+
+
+##collection = db.collection('artists')
+##docs = db.collection('artists').stream()
 ##newAttr = {
-##    "likes": 0,
-##    "favorites": 0,
-##    "comments": {"num":1, "details":[{"uid": "nerogao777@gmail.com", "content":"Wonderful!"}]}
+##    "type": "artists"
 ##}
 ##i = 0
 ##for doc in docs:
-##
 ##    docRef = collection.document(doc.id)
-##    batch.update(docRef, newAttr)
+##    docRef.update(newAttr)
 ##    i +=1
-##    print("updated  " + str(i))
+##    print("updated "  + str(i) + doc.id)
+##
+##
+##collection = db.collection('genres')
+##docs = db.collection('genres').stream()
+##newAttr = {
+##    "type": "genres"
+##}
+##i = 0
+##for doc in docs:
+##    docRef = collection.document(doc.id)
+##    docRef.update(newAttr)
+##    i +=1
+##    print("updated "  + str(i)+ doc.id)
+
 
 
 

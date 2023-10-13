@@ -14,7 +14,7 @@ public interface FirestoreDao {
     CompletableFuture<Map<String, Object>> getRandomSong();
     CompletableFuture<List<Map<String, Object>>> getRandomSongs(int number);
     CompletableFuture<Map<String, Object>> getRandomUseraction();
-    CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, Object> terms);
+    CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, String> terms);
     void addUserdata(User user);
     CompletableFuture<Map<String, Object>> getUserdata(FirebaseUser user);
     CompletableFuture<String> updateUserFavorites(String songId);

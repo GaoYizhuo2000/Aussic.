@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -196,10 +197,10 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
     }
 
     private void doSearch(String input){
-        //check if empty input
-        if(input == null|| input.equals("")){
-            return;
-        }
+    //    //check if empty input
+    //    if(input == null|| input.equals("")){
+    //        return;
+    //    }
         // hide the keyboard when button is clicked
         searchView.setQuery("", false); // Set the query text to an empty string
         searchView.setIconified(true);
@@ -208,34 +209,19 @@ public class SearchActivity extends AppCompatActivity implements ChangeListener 
 
         Parser parser = new Parser(new Tokenizer(input));
         Map<String, String> searchingTerms = parser.Parse();
-
-
-
-
+        List<Set<Song>> resultSetList = new ArrayList<>();
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-//        firestoreDao.searchSongs(terms).thenAccept(results -> {
-//            //拿到查询结果后处理，放入listview
-//   test
-//        });
 
-        List<Map<String, Object>> songs = new ArrayList<>();
-        //String a = firestoreDao.getRandomSong().toString();
-        firestoreDao.getRandomSongs(100).thenAccept(results ->{
+        Map<String,String> testTerms = new HashMap<>();
+        testTerms.put("id", "1006237147");
 
-            songs.addAll(results);
-
-            Object attributes = songs.get(0).get("attributes");
-            Object artwork = ((Map<String, Object>) attributes).get("artwork");
-            String urlToImage = ((Map<String, Object>) artwork).get("url").toString();
-            Map<String, Object> a = songs.get(0);
-            Gson gson = new Gson();
-            String jsonData = gson.toJson(a);
-            Song song = gson.fromJson(jsonData, Song.class);
-
-//            Song song = new Song(songs.get(0));
-
-            Toast.makeText(this, urlToImage, Toast.LENGTH_SHORT).show();
+        firestoreDao.searchSongs(testTerms).thenAccept(results -> {
+            results.toString();
+            System.out.println(results);
+            //拿到查询结果后处理，放入listview
         });
+
+
 
 
         
