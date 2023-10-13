@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import au.edu.anu.Aussic.models.entity.User;
@@ -29,6 +30,8 @@ public class FirestoreDaoImpl implements FirestoreDao {
     FirebaseFirestore firestore = SingletonFirestoreDbConnection.getInstance();
     CollectionReference songsRef = firestore.collection("Songs");
     CollectionReference usersRef = firestore.collection("users");
+    CollectionReference artistsRef = firestore.collection("artists");
+    CollectionReference genresRef = firestore.collection("genres");
     List<String> idList = null;
 
     @Override
@@ -142,34 +145,60 @@ public class FirestoreDaoImpl implements FirestoreDao {
         Query query = songsRef;
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> results = new ArrayList<>();
-        String artistName = (String) terms.get("artistName");
-        String name = (String) terms.get("name");
-        String releaseDate = (String) terms.get("releaseDate");
-        String id = (String) terms.get("id");
-        String undefinedTerm = (String) terms.get("undefinedTerm");
+        AtomicInteger flag = new AtomicInteger();
 
-        if(terms.containsKey("artistName")&& terms.get("artistName") != null){
-            query = query.whereEqualTo(FieldPath.of("attributes","artistName"), artistName);
-        }
-        if(terms.containsKey("name")&& terms.get("name") != null){
-            query = query.whereEqualTo(FieldPath.of("attributes","name"), name);
-        }
-        if(terms.containsKey("releaseDate")&& terms.get("releaseDate") != null){
-            query = query.whereEqualTo(FieldPath.of("attributes","releaseDate"), releaseDate);
-        }
-        if(terms.containsKey("id")&& terms.get("id") != null){
-            query = query.whereEqualTo(FieldPath.of("id"), id);
-        }
+        if(terms.containsKey("undefinedTerm")&& terms.get("undefinedTerm") != null){// general search
 
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot documents = task.getResult();
-                for(QueryDocumentSnapshot document: documents){
-                    results.add(document.getData());
+            query = query.whereEqualTo(FieldPath.of("attributes","name"), terms.get("undefinedTerm"));
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot documents = task.getResult();
+                    for(QueryDocumentSnapshot document: documents){
+                        results.add(document.getData());
+                    }
+                    flag.addAndGet(1);
                 }
-                future.complete(results);
+            });
+            artistsRef.document(terms.get("undefinedTerm")).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                        results.add(task.getResult().getData());
+                    flag.addAndGet(1);
+
+                }
+            });
+            genresRef.document(terms.get("undefinedTerm")).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    results.add(task.getResult().getData());
+                    flag.addAndGet(1);
+
+                }
+            });
+            future.complete(results);
+
+        }else{
+            if(terms.containsKey("artistName")&& terms.get("artistName") != null){
+                query = query.whereEqualTo(FieldPath.of("attributes","artistName"), terms.get("artistName"));
             }
-        });
+            if(terms.containsKey("name")&& terms.get("name") != null){
+                query = query.whereEqualTo(FieldPath.of("attributes","name"), terms.get("name"));
+            }
+            if(terms.containsKey("releaseDate")&& terms.get("releaseDate") != null){
+                query = query.whereEqualTo(FieldPath.of("attributes","releaseDate"), terms.get("releaseDate"));
+            }
+            if(terms.containsKey("id")&& terms.get("id") != null){
+                query = query.whereEqualTo(FieldPath.of("id"), terms.get("id"));
+            }
+
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot documents = task.getResult();
+                    for(QueryDocumentSnapshot document: documents){
+                        results.add(document.getData());
+                    }
+                    future.complete(results);
+                }
+            });
+        }
 
         return future;
     }
