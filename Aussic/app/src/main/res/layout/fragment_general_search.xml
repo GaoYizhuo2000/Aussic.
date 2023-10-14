@@ -13,8 +13,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/search_general_songs"
                 android:layout_width="wrap_content"
@@ -26,7 +26,39 @@
                 android:fontFamily="casual"/>
             <!-- Placeholder for Song List (RecyclerView) -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_list_recyclerView"
+                android:id="@+id/search_list_song_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/search_general_artists"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:textSize="40dp"
+                android:text="Artists..."
+                android:fontFamily="casual"/>
+            <!-- Placeholder for Artist List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_list_artist_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/search_general_genres"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:textSize="40dp"
+                android:text="Genres..."
+                android:fontFamily="casual"/>
+            <!-- Placeholder for Genre List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_list_genre_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>

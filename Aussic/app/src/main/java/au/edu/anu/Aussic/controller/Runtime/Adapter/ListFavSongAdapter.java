@@ -36,12 +36,12 @@ public class ListFavSongAdapter extends RecyclerView.Adapter<ListFavSongAdapter.
     @Override
     public void onBindViewHolder(ListSongFavViewHolder holder, int position) {
         ItemSpec itemSpec = items.get(position);
-        holder.listTitle.setText(itemSpec.getName());
-        holder.listArtist.setText(itemSpec.getArtistName());
+        holder.listTitle.setText(itemSpec.getSongName());
+        holder.listArtist.setText(itemSpec.getSongArtistName());
 
         // Load image from the web using Glide
         Glide.with(holder.listImage.getContext())
-                .load(itemSpec.getImageUrl())
+                .load(itemSpec.getSongImageUrl())
                 .apply(new RequestOptions().override((int)(360 * 0.8), (int)(360 * 0.8)))
                 .into(holder.listImage);
     }

@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListFavSongAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnDeleteBtnClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.controller.songPages.SongActivity;
+import au.edu.anu.Aussic.controller.entityPages.SongActivity;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -49,7 +49,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
     private void setFavoritesList(List<Song> favorites){
         List<ItemSpec> itemList = new ArrayList<>();
-        for(Song song : favorites) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+        for(Song song : favorites) itemList.add(new ItemSpec(song));
         recyclerView.setLayoutManager(new LinearLayoutManager(FavouriteSongActivity.this));
         recyclerView.setAdapter(new ListFavSongAdapter(itemList, this));
     }

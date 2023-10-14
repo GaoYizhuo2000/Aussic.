@@ -20,7 +20,7 @@ public class RuntimeObserver {
     private static List<Song> currentSongList = new ArrayList<>();
     public static List<Song> currentUsrFavoriteSongs = new ArrayList<>();
     public static List<Song> currentSearchResultSongs = new ArrayList<>();
-    public static List<Artist> currentSearchResultsArtists = new ArrayList<>();
+    public static List<Artist> currentSearchResultArtists = new ArrayList<>();
     public static List<Genre> currentSearchResultGenres = new ArrayList<>();
 
     private static List<OnDataArrivedListener> onDataArrivedListeners = new ArrayList<>();
