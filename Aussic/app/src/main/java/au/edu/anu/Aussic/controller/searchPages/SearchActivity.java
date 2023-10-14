@@ -207,8 +207,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         Map<String, String> searchingTerms = parser.Parse();
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
-        Map<String,String> testTerms = new HashMap<>();
-        testTerms.put("id", "1006237147");
 
         firestoreDao.searchSongs(searchingTerms).thenAccept(results -> {
             //拿到查询结果后处理，放入listview展示 results是歌曲列表
@@ -217,18 +215,23 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
-                Song newSong = GsonSongLoader.loadSong(map);
+                String type = (String) map.get("type");
+                if(type.equals("songs") ){
+                    Song newSong = GsonSongLoader.loadSong(map);
 
-                // Set up real time listener for song search results
-                RuntimeObserver.setSongRealTimeListener(newSong);
-                RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
+                    // Set up real time listener for song search results
+                    RuntimeObserver.setSongRealTimeListener(newSong);
+                    RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
+                } else if (type.equals("artists")) {
+
+
+
+                }else if (type.equals("genres")) {
+
+                }
+
             }
             RuntimeObserver.notifyOnDataArrivedListener();
-
-//            results.toString();
-//            System.out.println(results);
-//            Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
-
         });
 
 

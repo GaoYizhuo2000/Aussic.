@@ -1,9 +1,12 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -149,31 +152,29 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
         if(terms.containsKey("undefinedTerm")&& terms.get("undefinedTerm") != null){// general search
 
-            query = query.whereEqualTo(FieldPath.of("attributes","name"), terms.get("undefinedTerm"));
-            query.get().addOnCompleteListener(task -> {
+            Task<QuerySnapshot> task1 = query.whereEqualTo(FieldPath.of("attributes", "name"), terms.get("undefinedTerm")).get();
+            Task<DocumentSnapshot> task2 = artistsRef.document(terms.get("undefinedTerm")).get();
+            Task<DocumentSnapshot> task3 = genresRef.document(terms.get("undefinedTerm")).get();
+
+            // 使用Tasks.whenAllSuccess来等待所有任务完成
+            Tasks.whenAllSuccess(task1, task2, task3).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    QuerySnapshot documents = task.getResult();
-                    for(QueryDocumentSnapshot document: documents){
-                        results.add(document.getData());
+                    if (task1.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task1.getResult()) {
+                            results.add(document.getData());
+                        }
                     }
-                    flag.addAndGet(1);
-                }
-            });
-            artistsRef.document(terms.get("undefinedTerm")).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                        results.add(task.getResult().getData());
-                    flag.addAndGet(1);
 
-                }
-            });
-            genresRef.document(terms.get("undefinedTerm")).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    results.add(task.getResult().getData());
-                    flag.addAndGet(1);
+                    if (task2.isSuccessful()) {
+                        results.add(task2.getResult().getData());
+                    }
 
+                    if (task3.isSuccessful()) {
+                        results.add(task3.getResult().getData());
+                    }
+                    future.complete(results);
                 }
             });
-            future.complete(results);
 
         }else{
             if(terms.containsKey("artistName")&& terms.get("artistName") != null){
@@ -285,6 +286,23 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 Map<String, Object> comments = (Map<String, Object>) data.get("comments");
                 List<Map<String, Object>> details = (List<Map<String, Object>>) comments.get("details");
                 future.complete(details);
+            }
+        });
+        return future;
+    }
+
+    @Override
+    public CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList) {
+        CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+        List<Map<String, Object>> results = new ArrayList<>();
+        Query query = songsRef.whereIn(FieldPath.documentId(), songIdList);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot documents = task.getResult();
+                for(QueryDocumentSnapshot document: documents){
+                    results.add(document.getData());
+                }
+                future.complete(results);
             }
         });
         return future;
