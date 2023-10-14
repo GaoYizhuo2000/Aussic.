@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".controller.SignUpActivity">
+    tools:context=".controller.loginPages.SignUpActivity">
 
     <EditText
         android:id="@+id/signUpUsername"

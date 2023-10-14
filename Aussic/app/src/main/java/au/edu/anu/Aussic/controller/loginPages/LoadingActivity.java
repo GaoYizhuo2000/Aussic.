@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller;
+package au.edu.anu.Aussic.controller.loginPages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,14 +6,19 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
@@ -24,8 +29,41 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        loadPlayingSong();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        loadUsrData(user);
+    }
+
+    private void loadUsrData(FirebaseUser user){
+        // Load current usr into runtime
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getUserdata(user)
+                .thenAccept(userdata -> {
+                    // Loading the usr icon url
+                    String iconUrl = (String) userdata.get("iconUrl");
+                    au.edu.anu.Aussic.models.entity.User newUsr = new User(user.getEmail(), iconUrl);
+
+                    for(String songID : (List<String>)userdata.get("favorites")) newUsr.addFavorites(songID);
+                    for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
+
+                    // Set up real time listener for user
+                    firestoreDao.setUsrRealTimeListener(newUsr);
+
+                    RuntimeObserver.currentUser = newUsr;
+
+                    firestoreDao.getSongsByIdList(newUsr.getFavorites()).thenAccept(results ->{
+                        List<Map<String, Object>> maps = new ArrayList<>();
+                        maps.addAll(results);
+                        for(Map<String, Object> map : maps) {
+                            Song newSong = GsonSongLoader.loadSong(map);
+
+                            RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
+
+                            firestoreDao.setSongRealTimeListener(newSong);
+                        }
+                        loadPlayingSong();
+                    });
+                });
     }
 
     private void loadPlayingSong(){
@@ -67,9 +105,7 @@ public class LoadingActivity extends AppCompatActivity {
                 RuntimeObserver.getCurrentSongList().add(newSong);
             }
 
-            //setViewList(maps);
-            //RuntimeObserver.notifyListeners();
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         });
     }

@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller;
+package au.edu.anu.Aussic.controller.loginPages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,14 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.List;
-
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.HomeActivity;
-import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.entity.User;
-import au.edu.anu.Aussic.models.firebase.FirestoreDao;
-import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
@@ -101,24 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
 
-                                    // Load current usr into runtime
-                                    FirestoreDao firestoreDao = new FirestoreDaoImpl();
-                                    firestoreDao.getUserdata(user)
-                                            .thenAccept(userdata -> {
-                                                // Loading the usr icon url
-                                                String iconUrl = (String) userdata.get("iconUrl");
-                                                User newUsr = new User(user_name, iconUrl);
-
-                                                for(String songID : (List<String>)userdata.get("favorites")) newUsr.addFavorites(songID);
-                                                for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
-
-                                                // Set up real time listener for user
-                                                firestoreDao.setUsrRealTimeListener(newUsr);
-
-                                                RuntimeObserver.currentUser = newUsr;
-
-                                                updateUI(user);
-                                            });
+                                    updateUI(user);
 
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -144,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(this, LoadingActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
         }

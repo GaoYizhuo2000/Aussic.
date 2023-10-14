@@ -21,7 +21,7 @@ import java.util.List;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
@@ -99,7 +99,7 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             else for (Song song : RuntimeObserver.currentSearchResultSongs)  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
 
             this.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            this.searchRecyclerView.setAdapter(new ListAdapter(itemList, this));
+            this.searchRecyclerView.setAdapter(new ListSongAdapter(itemList, this));
         }
     }
 

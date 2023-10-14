@@ -18,16 +18,11 @@
         android:theme="@style/Theme.Aussic"
         tools:targetApi="31">
         <activity
-            android:name=".controller.LoadingActivity"
+            android:name=".controller.loginPages.LoadingActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name=".FavouriteSongList"
+            android:name=".controller.homePages.userPages.FavouriteSongActivity"
             android:exported="false" />
         <activity
             android:name=".controller.songPages.SongActivity"
@@ -41,10 +36,15 @@
         <!-- android:theme="@style/Theme.Aussic.NoActionBar" /> -->
         <activity android:name=".controller.homePages.HomeActivity" />
         <activity
-            android:name=".controller.LoginActivity"
+            android:name=".controller.loginPages.LoginActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".controller.SignUpActivity" />
+        <activity android:name=".controller.loginPages.SignUpActivity" />
     </application>
 
 </manifest>

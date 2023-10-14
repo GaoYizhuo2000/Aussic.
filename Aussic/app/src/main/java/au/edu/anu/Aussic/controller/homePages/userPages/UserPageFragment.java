@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller.homePages;
+package au.edu.anu.Aussic.controller.homePages.userPages;
 
 import android.content.Intent;
 //import android.location.Location;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.squareup.picasso.Picasso;
 
-import au.edu.anu.Aussic.FavouriteSongList;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
@@ -131,7 +130,7 @@ public class UserPageFragment extends Fragment {
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FavouriteSongList.class);
+                Intent intent = new Intent(getActivity(), FavouriteSongActivity.class);
                 startActivity(intent);
             }
         });

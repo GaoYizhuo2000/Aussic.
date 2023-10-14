@@ -16,25 +16,25 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
+public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder> {
 
     private List<ItemSpec> items;
     private OnItemSpecClickListener listener;
 
 
-    public ListAdapter(List<ItemSpec> items, OnItemSpecClickListener listener) {
+    public ListSongAdapter(List<ItemSpec> items, OnItemSpecClickListener listener) {
         this.items = items;
         this.listener = listener;
     }
 
     @Override
-    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListSongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout, parent, false);
-        return new ListViewHolder(itemView, this);
+        return new ListSongViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(ListViewHolder holder, int position) {
+    public void onBindViewHolder(ListSongViewHolder holder, int position) {
         ItemSpec itemSpec = items.get(position);
         holder.listTitle.setText(itemSpec.getName());
         holder.listArtist.setText(itemSpec.getArtistName());
@@ -51,20 +51,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return items.size();
     }
 
-    public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ListSongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView listImage;
         public TextView listTitle;
         public TextView listArtist;
         private List<ItemSpec> items;
         private OnItemSpecClickListener listener;
 
-        public ListViewHolder(View view, ListAdapter listAdapter) {
+        public ListSongViewHolder(View view, ListSongAdapter listSongAdapter) {
             super(view);
             listImage = view.findViewById(R.id.item_image);
             listTitle = view.findViewById(R.id.item_title);
             listArtist = view.findViewById(R.id.item_artist);
-            items = listAdapter.items;
-            listener = listAdapter.listener;
+            items = listSongAdapter.items;
+            listener = listSongAdapter.listener;
             view.setOnClickListener(this);
         }
 

@@ -11,7 +11,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import au.edu.anu.Aussic.controller.LoginActivity;
+import au.edu.anu.Aussic.controller.loginPages.LoginActivity;
 public class SignUpTest {
     @Rule
     public ActivityScenarioRule<LoginActivity> mActivityRule = new ActivityScenarioRule<>(LoginActivity.class);

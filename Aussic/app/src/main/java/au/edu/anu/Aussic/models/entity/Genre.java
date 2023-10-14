@@ -6,6 +6,7 @@ public class Genre {
     String type;
     String genreName;
     List<String> songs;
+    String url;
 
     public String getType() {
         return type;
@@ -29,5 +30,9 @@ public class Genre {
 
     public void setSongs(List<String> songs) {
         this.songs = songs;
+    }
+
+    public String getImageUrl() {
+        return url;
     }
 }

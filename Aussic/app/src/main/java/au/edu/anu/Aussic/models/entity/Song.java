@@ -16,6 +16,8 @@ public class Song implements Comparable<Song> {
     private List<Integer> likeUserId = new ArrayList<>();
     private Map<Integer, String> uidComment = new HashMap<>();
     private Comments comments;
+    private int favorites;
+    private int likes;
 
     //private String
 
@@ -160,8 +162,12 @@ public class Song implements Comparable<Song> {
         return out;
     }
 
-    public void addCommentItem(CommentItem commentItem){
-        this.comments.getDetails().add(new Detail(commentItem.getCommentContent(), commentItem.getUserName()));
+    public int getFavorites() {
+        return favorites;
+    }
+
+    public int getLikes() {
+        return likes;
     }
 
     public void setSong(Song song){
@@ -173,6 +179,8 @@ public class Song implements Comparable<Song> {
         this.likeUserId = song.getLikeUserId();
         this.uidComment = song.getUidComment();
         this.comments = song.getComments();
+        this.favorites = song.getFavorites();
+        this.likes = song.getLikes();
 
     }
 }

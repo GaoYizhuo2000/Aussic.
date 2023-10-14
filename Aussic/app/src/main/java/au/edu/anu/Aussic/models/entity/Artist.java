@@ -32,11 +32,11 @@ public class Artist {
         this.songs = songs;
     }
 
-    public String getUrl() {
+    public String getImageUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setImageUrl(String url) {
         this.url = url;
     }
 }
