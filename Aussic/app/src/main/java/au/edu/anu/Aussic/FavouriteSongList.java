@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 

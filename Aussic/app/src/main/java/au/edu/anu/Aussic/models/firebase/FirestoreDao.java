@@ -25,8 +25,7 @@ public interface FirestoreDao {
     CompletableFuture<List<Map<String, Object>>> getComment(String songId);
     CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList);
 
-    CollectionReference getSongsRef();
-    CollectionReference getUsrRef();
+
     void setSongRealTimeListener(Song song);
     void setUsrRealTimeListener(User usr);
 
