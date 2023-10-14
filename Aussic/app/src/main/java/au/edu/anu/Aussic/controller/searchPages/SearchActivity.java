@@ -211,7 +211,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
             RuntimeObserver.currentSearchResultSongs = new ArrayList<>();
 
             List<Map<String, Object>> maps = new ArrayList<>();
-            maps.addAll(results);
+            maps.addAll(results); //结果里会有歌和genre和artist的对象json（用general 搜索的话），先检查type参数再分别处理
             for(Map<String, Object> map : maps) {
                 Song newSong = GsonSongLoader.loadSong(map);
 
