@@ -65,12 +65,12 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
     private JsonObject jsonObject = null;
     private JsonArray jsonArray;
     private int arrayLength = 0;
-    public int currentFragment = R.id.home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
 
         RuntimeObserver.addOnMediaChangeListener(this);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -110,12 +110,10 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
-        replaceFragment(homeFragment);
+//        replaceFragment(homeFragment);
 
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            currentFragment = item.getItemId();
 
                 if(item.getItemId() == R.id.home) replaceFragment(homeFragment);
 
@@ -130,7 +128,6 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             // Closing the drawer after selecting
-            currentFragment = menuItem.getItemId();
             drawerLayout.closeDrawer(GravityCompat.START);
             if(menuItem.getItemId() == R.id.nav_home) replaceFragment(homeFragment);
             else if (menuItem.getItemId() == R.id.nav_favorites) replaceFragment(favoritesFragment);
@@ -172,6 +169,7 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
     }
     // Outside Oncreate
     private void replaceFragment(Fragment fragment) {
+        // Find the existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, fragment);
