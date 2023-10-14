@@ -18,12 +18,14 @@ public class SignUpTest {
     @Test
     public void testSignUpFunctionality() {
 
-        onView(withId(R.id.SignUP)).perform(click());
+        onView(withId(R.id.GoToSignUP)).perform(click());
         onView(withId(R.id.signUpUsername)).perform(typeText("comp4690@anu.edu.au"));
+        closeSoftKeyboard();
         onView(withId(R.id.signUpPassword)).perform(typeText("comp4690"));
+        closeSoftKeyboard();
         onView(withId(R.id.comfirmPassword)).perform((typeText("comp4690")));
         closeSoftKeyboard();
-        onView(withId(R.id.SignUP)).perform(click()); //TODO: the id of Sign Up button
+        onView(withId(R.id.SignUp)).perform(click());
 
         //onView(withId(R.id.home)).check(matches(isDisplayed()));
     }

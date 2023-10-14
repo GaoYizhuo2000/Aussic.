@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.UserName);
         password = (EditText) findViewById(R.id.UserPassword);
         buttonSignIn = (Button) findViewById(R.id.SignIN);
-        buttonSignUp = (Button) findViewById(R.id.SignUP);
+        buttonSignUp = (Button) findViewById(R.id.GoToSignUP);
         viewable = (ToggleButton) findViewById(R.id.toggleButton);
 
 
