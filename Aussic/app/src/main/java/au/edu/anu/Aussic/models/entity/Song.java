@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 
 public class Song implements Comparable<Song> {
     private String id;

@@ -26,11 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CommentAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
-import au.edu.anu.Aussic.controller.observer.OnDataChangeListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.Comment;

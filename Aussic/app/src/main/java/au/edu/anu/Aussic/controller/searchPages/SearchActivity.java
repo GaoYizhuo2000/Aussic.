@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -220,7 +220,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 Song newSong = GsonSongLoader.loadSong(map);
 
                 // Set up real time listener for song search results
-                RuntimeObserver.setSongRealTimeListener(newSong);
+                firestoreDao.setSongRealTimeListener(newSong);
                 RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
             }
             RuntimeObserver.notifyOnDataArrivedListener();
@@ -263,7 +263,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
     }
 
     @Override
-    public void onChange(){
+    public void onDataArrivedResponse(){
         this.mediaPlayer = RuntimeObserver.getCurrentMediaPlayer();
         if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
         else this.fab.setImageResource(R.drawable.ic_bottom_play);

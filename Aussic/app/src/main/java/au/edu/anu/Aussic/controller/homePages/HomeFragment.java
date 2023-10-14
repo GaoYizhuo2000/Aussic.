@@ -25,14 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListAdapter;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
-import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
     }
 
     @Override
-    public void onChange() {
+    public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentMediaPlayer() != null){
             if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
             else RuntimeObserver.roundImage.clearAnimation();

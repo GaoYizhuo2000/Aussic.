@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.homePages.Adapter.ListAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListAdapter;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
-import au.edu.anu.Aussic.controller.observer.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +81,7 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.searchRecyclerView = view.findViewById(R.id.search_list_recyclerView);
-        onChange();
+        onDataArrivedResponse();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     }
 
     @Override
-    public void onChange() {
+    public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
             List<ItemSpec> itemList = new ArrayList<>();
             if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));

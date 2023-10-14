@@ -18,17 +18,15 @@ import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -115,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
 
                                                 // Set up real time listener for user
-                                                RuntimeObserver.setUsrRealTimeListener(newUsr);
+                                                firestoreDao.setUsrRealTimeListener(newUsr);
                                                 RuntimeObserver.currentUser = newUsr;
                                             });
 

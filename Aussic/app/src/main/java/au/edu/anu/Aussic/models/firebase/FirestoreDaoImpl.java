@@ -1,11 +1,16 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,6 +29,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
 public class FirestoreDaoImpl implements FirestoreDao {
@@ -33,6 +41,45 @@ public class FirestoreDaoImpl implements FirestoreDao {
     CollectionReference artistsRef = firestore.collection("artists");
     CollectionReference genresRef = firestore.collection("genres");
     List<String> idList = null;
+
+    public void setSongRealTimeListener(Song song){
+
+        DocumentReference songRef = songsRef.document(song.getId());
+        songRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (snapshot != null && snapshot.exists()) {
+                    song.setSong(GsonSongLoader.loadSong(snapshot.getData()));
+                    // Notify subsequent change
+                    RuntimeObserver.notifyOnDataChangeListeners();
+                }
+            }
+        });
+    }
+
+    public void setUsrRealTimeListener(User usr){
+
+        DocumentReference usrRef = usersRef.document(usr.username);
+        usrRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (snapshot != null && snapshot.exists()) {
+                    Map<String, Object> usrData = snapshot.getData();
+                    String iconUrl = (String) usrData.get("iconUrl");
+                    String usrName = (String) usrData.get("username");
+
+                    User newUsr = new User(usrName, iconUrl);
+
+                    for(String songID : (List<String>)usrData.get("favorites")) newUsr.addFavorites(songID);
+                    for(String songID : (List<String>)usrData.get("likes")) newUsr.addLikes(songID);
+
+                    usr.setUsr(newUsr);
+                    // Notify subsequent change
+                    RuntimeObserver.notifyOnDataChangeListeners();
+                }
+            }
+        });
+    }
 
     @Override
     public void updateSongs() {
@@ -290,8 +337,4 @@ public class FirestoreDaoImpl implements FirestoreDao {
         return future;
     }
 
-    public CollectionReference getSongsRef() {
-        return songsRef;
-    }
-    public CollectionReference getUsrRef(){ return usersRef; }
 }

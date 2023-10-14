@@ -40,8 +40,8 @@ import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
-import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.UserAction;
@@ -295,7 +295,7 @@ public class HomeActivity extends AppCompatActivity implements OnDataArrivedList
     }
 
     @Override
-    public void onChange() {
+    public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentMediaPlayer() != null){
             if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) this.fab.setImageResource(R.drawable.ic_bottom_stop);
             else this.fab.setImageResource(R.drawable.ic_bottom_play);
