@@ -1,9 +1,12 @@
 package au.edu.anu.Aussic.controller.homePages;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 //import android.location.Location;
 //import android.location.LocationListener;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
@@ -21,11 +24,17 @@ import android.widget.Toast;
 
 //import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
-//import au.edu.anu.Aussic.Manifest;
+import android.Manifest;
+
+import au.edu.anu.Aussic.FavouriteSongList;
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.LoginActivity;
+import au.edu.anu.Aussic.controller.SignUpActivity;
 import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -37,7 +46,7 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
  * create an instance of this fragment.
  */
 public class UserPageFragment extends Fragment {
-//    FusedLocationProviderClient fusedLocationProviderClient;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,12 +103,11 @@ public class UserPageFragment extends Fragment {
 
         email = rootView.findViewById(R.id.userEmail);
         favorites = rootView.findViewById(R.id.favoritesListButton);
-//        songList = rootView.findViewById(R.id.songListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
         location = rootView.findViewById(R.id.userLocation);
         getLocation = rootView.findViewById(R.id.getUserLocationButton);
 
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient();//TODO
+        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient();//TODO
 //        getLocation.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -108,7 +116,7 @@ public class UserPageFragment extends Fragment {
 //        });
 
 
-        //获取并显示用户数据
+//        获取并显示用户数据
 //        FirestoreDao firestoreDao = new FirestoreDaoImpl();
 //        firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
 //                .thenAccept(userdata -> {
@@ -118,7 +126,7 @@ public class UserPageFragment extends Fragment {
 //                    String iconUrl = (String) userdata.get("iconUrl");
 //                    Picasso.get().load(iconUrl ).into(userPhoto);
 //
-//                }
+//                });
         // Directly load user data from runtime storage
         User usr = RuntimeObserver.currentUser;
         email.append(usr.username);
@@ -138,34 +146,16 @@ public class UserPageFragment extends Fragment {
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Navigate to the collections page or implement another functionality
-                Toast.makeText(getContext(), "Viewing collections!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), FavouriteSongList.class);
+                startActivity(intent);
             }
         });
-
-        // Click listener for playlist
-//        songList.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO: Navigate to the playlists page or implement another functionality
-//                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        songList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // TODO: Navigate to the playlists page or implement another functionality
-//                Toast.makeText(getContext(), "Viewing playlists!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
 
 //        LocationListener locationListener = new LocationListener() {
 //            @Override
 //            public void onLocationChanged(Location location) {
 //                // When user location changed...
-//
 //            }
 //
 //            @Override
@@ -177,19 +167,17 @@ public class UserPageFragment extends Fragment {
 //            @Override
 //            public void onProviderDisabled(String provider) {}
 //        };
-
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//        } else {
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 //        }
 
 
         return rootView;
-       // return inflater.inflate(R.layout.fragment_userpage, container, false);
+//        return inflater.inflate(R.layout.fragment_userpage, container, false);
     }
 
 //    private void getLastLocation() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission))
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION))
 //    }
 }

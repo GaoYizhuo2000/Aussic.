@@ -27,6 +27,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FavouriteSongList"
+            android:exported="false" />
+        <activity
             android:name=".controller.songPages.SongActivity"
             android:exported="false" />
         <activity
