@@ -56,7 +56,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
-        RuntimeObserver.addOnDataChangeListeners(this);
+        RuntimeObserver.addOnDataChangeListener(this);
 
         this.roundImageView = findViewById(R.id.song_spinning_round_image);
         this.nameText = findViewById(R.id.song_song_name);
@@ -86,13 +86,12 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                         RuntimeObserver.getCurrentMediaPlayer().pause();
                         play.setImageResource(R.drawable.ic_song_play);
                         roundImageView.clearAnimation();
-                        RuntimeObserver.notifyOnDataArrivedListener();
                     } else {
                         RuntimeObserver.getCurrentMediaPlayer().start();
                         play.setImageResource(R.drawable.ic_song_pause);
                         roundImageView.startAnimation(AnimationUtils.loadAnimation(SongActivity.this, R.anim.spinning));
-                        RuntimeObserver.notifyOnDataArrivedListener();
                     }
+                    RuntimeObserver.notifyOnMediaChangeListeners();
                 }
             }
         });

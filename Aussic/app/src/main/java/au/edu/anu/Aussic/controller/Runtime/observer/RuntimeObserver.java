@@ -1,13 +1,10 @@
 package au.edu.anu.Aussic.controller.Runtime.observer;
 
 import android.media.MediaPlayer;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import au.edu.anu.Aussic.controller.homePages.HomeActivity;
-import au.edu.anu.Aussic.controller.homePages.HomeFragment;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
@@ -18,16 +15,14 @@ public class RuntimeObserver {
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
     public static User currentUser;
-    public static ImageView roundImage;
-    public static HomeFragment homeFragment;
-    public static HomeActivity homeActivity;
     private static List<Song> currentSongList = new ArrayList<>();
     public static List<Song> currentSearchResultSongs;
     private static List<OnDataArrivedListener> onDataArrivedListeners = new ArrayList<>();
     private static List<OnDataChangeListener> onDataChangeListeners = new ArrayList<>();
+    private static List<OnMediaChangeListener> onMediaChangeListeners = new ArrayList<>();
     public static void setMediaPlayer(MediaPlayer mediaPlayer){
         currentMediaPlayer = mediaPlayer;
-        notifyOnDataArrivedListener();
+        notifyOnDataArrivedListeners();
     }
     public static void setCurrentSong(Song song){
         currentSong = song;
@@ -45,14 +40,20 @@ public class RuntimeObserver {
     public static void addOnDataArrivedListener(OnDataArrivedListener newListener) {
         onDataArrivedListeners.add(newListener);
     }
-    public static void addOnDataChangeListeners(OnDataChangeListener newListener) {
+    public static void addOnDataChangeListener(OnDataChangeListener newListener) {
         onDataChangeListeners.add(newListener);
     }
-    public static void notifyOnDataArrivedListener() {
+    public static void addOnMediaChangeListener(OnMediaChangeListener newListener) {
+        onMediaChangeListeners.add(newListener);
+    }
+    public static void notifyOnDataArrivedListeners() {
         for (OnDataArrivedListener listener : onDataArrivedListeners) listener.onDataArrivedResponse();
     }
     public static void notifyOnDataChangeListeners(){
         for(OnDataChangeListener listener : onDataChangeListeners) listener.onDataChangeResponse();
+    }
+    public static void notifyOnMediaChangeListeners(){
+        for(OnMediaChangeListener listener : onMediaChangeListeners) listener.onMediaChangeResponse();
     }
 
 }

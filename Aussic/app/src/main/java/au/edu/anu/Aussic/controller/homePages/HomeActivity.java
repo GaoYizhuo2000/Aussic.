@@ -39,6 +39,7 @@ import android.widget.Toast;
 import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnMediaChangeListener;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
@@ -49,7 +50,7 @@ import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
 
 
-public class HomeActivity extends AppCompatActivity implements OnDataArrivedListener {
+public class HomeActivity extends AppCompatActivity implements OnMediaChangeListener {
 
     FloatingActionButton fab;
     DrawerLayout drawerLayout;
@@ -71,8 +72,7 @@ public class HomeActivity extends AppCompatActivity implements OnDataArrivedList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        RuntimeObserver.homeActivity = this;
-        RuntimeObserver.addOnDataArrivedListener(this);
+        RuntimeObserver.addOnMediaChangeListener(this);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         fab =findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -158,13 +158,11 @@ public class HomeActivity extends AppCompatActivity implements OnDataArrivedList
                     if (RuntimeObserver.getCurrentMediaPlayer().isPlaying()) {
                         RuntimeObserver.getCurrentMediaPlayer().pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
-                        if(RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.clearAnimation();
                     } else {
                         RuntimeObserver.getCurrentMediaPlayer().start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
-                        if((currentFragment == R.id.home || currentFragment == R.id.nav_home) && RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(homeFragment.getContext(), R.anim.spinning));
                     }
-                    //showBottomDialog();
+                    RuntimeObserver.notifyOnMediaChangeListeners();
                 }
             }
         });
@@ -178,62 +176,6 @@ public class HomeActivity extends AppCompatActivity implements OnDataArrivedList
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout, fragment);
         fragmentTransaction.commit();
-    }
-
-    private void showBottomDialog() {
-
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottomsheetlayout);
-
-        LinearLayout videoLayout = dialog.findViewById(R.id.layoutVideo);
-        LinearLayout shortsLayout = dialog.findViewById(R.id.layoutShorts);
-        LinearLayout liveLayout = dialog.findViewById(R.id.layoutLive);
-        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
-
-        videoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Toast.makeText(HomeActivity.this,"Upload a Video is clicked",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        shortsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Toast.makeText(HomeActivity.this,"Create a short is Clicked",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        liveLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Toast.makeText(HomeActivity.this,"Go live is Clicked",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-
     }
 
     private Runnable timerRunnable = new Runnable() {
@@ -295,7 +237,7 @@ public class HomeActivity extends AppCompatActivity implements OnDataArrivedList
     }
 
     @Override
-    public void onDataArrivedResponse() {
+    public void onMediaChangeResponse() {
         if(RuntimeObserver.getCurrentMediaPlayer() != null){
             if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) this.fab.setImageResource(R.drawable.ic_bottom_stop);
             else this.fab.setImageResource(R.drawable.ic_bottom_play);

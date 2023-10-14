@@ -155,13 +155,11 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
-                        if(RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.clearAnimation();
                     } else {
                         mediaPlayer.start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
-                        if((RuntimeObserver.homeActivity.currentFragment == R.id.home || RuntimeObserver.homeActivity.currentFragment == R.id.nav_home) && RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(RuntimeObserver.homeFragment.getContext(), R.anim.spinning));
                     }
-                    //showBottomDialog();
+                    RuntimeObserver.notifyOnMediaChangeListeners();
                 }
             }
         });
@@ -223,7 +221,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 firestoreDao.setSongRealTimeListener(newSong);
                 RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
             }
-            RuntimeObserver.notifyOnDataArrivedListener();
+            RuntimeObserver.notifyOnDataArrivedListeners();
 
 //            results.toString();
 //            System.out.println(results);

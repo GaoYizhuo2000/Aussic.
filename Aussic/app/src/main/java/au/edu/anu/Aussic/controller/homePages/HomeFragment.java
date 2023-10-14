@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,6 +29,7 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListAdapter;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnMediaChangeListener;
 import au.edu.anu.Aussic.controller.songPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
@@ -39,7 +41,7 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements OnItemSpecClickListener, OnDataArrivedListener {
+public class HomeFragment extends Fragment implements OnItemSpecClickListener, OnMediaChangeListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,11 +54,13 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
     private RecyclerView cardRecyclerView;
     private RecyclerView listRecyclerView;
     private TextView roundUnderText;
+    private ImageView roundImage;
+    // Flag to keep track of view state
+    private boolean isViewAlive;
 
     public HomeFragment() {
         // Required empty public constructor
-        RuntimeObserver.homeFragment = this;
-        RuntimeObserver.addOnDataArrivedListener(this);
+        RuntimeObserver.addOnMediaChangeListener(this);
     }
 
     /**
@@ -76,31 +80,32 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
         fragment.setArguments(args);
         return fragment;
     }
+    @Override
+    public void onDestroyView() {
+        this.isViewAlive = false;
+        super.onDestroyView();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        this.isViewAlive = true;
 
         this.cardRecyclerView = view.findViewById(R.id.card_recyclerView);
         this.listRecyclerView = view.findViewById(R.id.list_recyclerView);
         this.roundUnderText = view.findViewById(R.id.round_image_name);
-        RuntimeObserver.roundImage = view.findViewById(R.id.spinning_round_image);
-        RuntimeObserver.roundImage.setOnClickListener(new View.OnClickListener() {
+        this.roundImage = view.findViewById(R.id.spinning_round_image);
+        this.roundImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 Intent intent = new Intent(getContext(), SongActivity.class);
                 startActivity(intent);
             }
         });
 
-
-        if(RuntimeObserver.getCurrentSongList() == null || RuntimeObserver.getCurrentSongList().isEmpty()){}
-        else setViewList();
-
-
+        setViewList();
+        onMediaChangeResponse();
 
     }
 
@@ -133,20 +138,6 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
         listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listRecyclerView.setAdapter(new ListAdapter(itemList, this));
     }
-    public void setViewList(List<Map<String, Object>> maps){
-        cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        List<ItemSpec> itemList = new ArrayList<>();
-
-        //for(Map<String, Object> map : maps) RuntimeObserver.getCurrentSongList().add(GsonSongLoader.loadSong(map));
-        for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
-
-        // Set up the RecyclerView with the fetched data
-        cardRecyclerView.setAdapter(new CardAdapter(itemList, this));
-        if(RuntimeObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
-
-        listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listRecyclerView.setAdapter(new ListAdapter(itemList, this));
-    }
 
     private void setRoundImage(String imageUrl,String songName){
 
@@ -154,8 +145,8 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
                 .load(imageUrl)
                 .apply(new RequestOptions().override((int)(1200 * 0.8), (int)(1200 * 0.8)))
                 .circleCrop()
-                .into(RuntimeObserver.roundImage);
-        if(RuntimeObserver.getCurrentMediaPlayer().isPlaying())   RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
+                .into(this.roundImage);
+        if(RuntimeObserver.getCurrentMediaPlayer().isPlaying())   this.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
         roundUnderText.setText(CardAdapter.adjustLength(songName));
     }
 
@@ -175,12 +166,13 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
         startActivity(intent);
     }
 
-    @Override
-    public void onDataArrivedResponse() {
-        if(RuntimeObserver.getCurrentMediaPlayer() != null){
-            if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
-            else RuntimeObserver.roundImage.clearAnimation();
-        }
 
+
+    @Override
+    public void onMediaChangeResponse() {
+        if(this.isViewAlive && RuntimeObserver.getCurrentMediaPlayer() != null){
+            if ((RuntimeObserver.getCurrentMediaPlayer().isPlaying())) this.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
+            else this.roundImage.clearAnimation();
+        }
     }
 }
