@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
 public interface FirestoreDao {
@@ -26,5 +27,7 @@ public interface FirestoreDao {
 
     CollectionReference getSongsRef();
     CollectionReference getUsrRef();
+    void setSongRealTimeListener(Song song);
+    void setUsrRealTimeListener(User usr);
 
 }

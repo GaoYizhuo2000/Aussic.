@@ -25,6 +25,7 @@ public class LoginTest {
     @Test
     public void testLoginFunctionality() {
         onView(withId(R.id.UserName)).perform(typeText("comp2100@anu.edu.au"));
+        closeSoftKeyboard();
         onView(withId(R.id.UserPassword)).perform(typeText("comp2100"));
         closeSoftKeyboard();
         onView(withId(R.id.SignIN)).perform(click());

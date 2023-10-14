@@ -1,17 +1,10 @@
 package au.edu.anu.Aussic.controller.homePages;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 //import android.location.Location;
 //import android.location.LocationListener;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -25,20 +18,12 @@ import android.widget.Toast;
 //import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
-
-import android.Manifest;
 
 import au.edu.anu.Aussic.FavouriteSongList;
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.LoginActivity;
-import au.edu.anu.Aussic.controller.SignUpActivity;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
-import au.edu.anu.Aussic.models.firebase.FirestoreDao;
-import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 /**
  * A simple {@link Fragment} subclass.

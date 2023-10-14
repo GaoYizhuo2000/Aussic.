@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -35,7 +35,7 @@ public class LoadingActivity extends AppCompatActivity {
             RuntimeObserver.setCurrentSong(newSong);
 
             // Setup realtime listener for the song
-            RuntimeObserver.setSongRealTimeListener(newSong);
+            firestoreDao.setSongRealTimeListener(newSong);
 
             RuntimeObserver.setMediaPlayer(new MediaPlayer());
 
@@ -62,7 +62,7 @@ public class LoadingActivity extends AppCompatActivity {
                 Song newSong = GsonSongLoader.loadSong(map);
 
                 // Setup realtime listener for the song
-                RuntimeObserver.setSongRealTimeListener(newSong);
+                firestoreDao.setSongRealTimeListener(newSong);
 
                 RuntimeObserver.getCurrentSongList().add(newSong);
             }

@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller.homePages.Adapter;
+package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
 public class CommentItem {
     private String iconUrl;  // Let's assume it's a drawable resource ID for simplicity

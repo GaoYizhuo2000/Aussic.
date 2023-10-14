@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -155,13 +155,11 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         fab.setImageResource(R.drawable.ic_bottom_play);
-                        if(RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.clearAnimation();
                     } else {
                         mediaPlayer.start();
                         fab.setImageResource(R.drawable.ic_bottom_stop);
-                        if((RuntimeObserver.homeActivity.currentFragment == R.id.home || RuntimeObserver.homeActivity.currentFragment == R.id.nav_home) && RuntimeObserver.roundImage != null) RuntimeObserver.roundImage.startAnimation(AnimationUtils.loadAnimation(RuntimeObserver.homeFragment.getContext(), R.anim.spinning));
                     }
-                    //showBottomDialog();
+                    RuntimeObserver.notifyOnMediaChangeListeners();
                 }
             }
         });
@@ -215,23 +213,18 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
-                String type = (String) map.get("type");
-                if(type.equals("songs") ){
-                    Song newSong = GsonSongLoader.loadSong(map);
+                Song newSong = GsonSongLoader.loadSong(map);
 
-                    // Set up real time listener for song search results
-                    RuntimeObserver.setSongRealTimeListener(newSong);
-                    RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
-                } else if (type.equals("artists")) {
-
-
-
-                }else if (type.equals("genres")) {
-
-                }
-
+                // Set up real time listener for song search results
+                firestoreDao.setSongRealTimeListener(newSong);
+                RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
             }
-            RuntimeObserver.notifyOnDataArrivedListener();
+            RuntimeObserver.notifyOnDataArrivedListeners();
+
+//            results.toString();
+//            System.out.println(results);
+//            Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
+
         });
 
 
@@ -266,7 +259,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
     }
 
     @Override
-    public void onChange(){
+    public void onDataArrivedResponse(){
         this.mediaPlayer = RuntimeObserver.getCurrentMediaPlayer();
         if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
         else this.fab.setImageResource(R.drawable.ic_bottom_play);

@@ -110,7 +110,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             return newTree;
         } else if (song.getArtistName().compareTo(key) < 0) {
             AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByArtistName(song), rightNode);
-            if(newTree.getBalanceFactor()>1 && newTree.leftNode.leftNode.find(song.getSongName()) != null){
+            if(newTree.getBalanceFactor()>1 && newTree.leftNode.leftNode.find(song.getArtistName()) != null){
                 newTree = newTree.rightRotate();
             } else if (newTree.getBalanceFactor()>1 && newTree.leftNode.rightNode.find(song.getArtistName()) != null) {
                 AVLTree<T> leftNode = (AVLTree<T>) newTree.leftNode;
@@ -358,7 +358,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         public Tree<T> insertByArtistName(Song song) {
             List<Song> songList = new ArrayList<>()    ;
             songList.add(song);// The creation of a new Tree, hence, return tree.
-            return new BinarySearchTree<T>(song.getArtistName(), (T) songList) ;
+            return new AVLTree<T>(song.getArtistName(), (T) songList) ;
         }
 
         @Override

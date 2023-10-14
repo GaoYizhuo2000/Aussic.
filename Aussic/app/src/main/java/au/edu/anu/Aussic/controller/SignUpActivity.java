@@ -10,7 +10,7 @@ import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 
 import androidx.annotation.NonNull;
 
@@ -96,7 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     firestoreDao.addUserdata(new User(email, "https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media"));
 
                                     // Set up real time listener for user
-                                    RuntimeObserver.setUsrRealTimeListener(newUsr);
+                                    firestoreDao.setUsrRealTimeListener(newUsr);
                                     // Load current usr into runtime
                                     RuntimeObserver.currentUser = newUsr;
 

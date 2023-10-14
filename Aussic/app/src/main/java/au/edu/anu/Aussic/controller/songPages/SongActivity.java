@@ -26,11 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CardAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CommentAdapter;
-import au.edu.anu.Aussic.controller.homePages.Adapter.CommentItem;
-import au.edu.anu.Aussic.controller.observer.OnDataChangeListener;
-import au.edu.anu.Aussic.controller.observer.RuntimeObserver;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.Comment;
@@ -56,7 +56,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
-        RuntimeObserver.addOnDataChangeListeners(this);
+        RuntimeObserver.addOnDataChangeListener(this);
 
         this.roundImageView = findViewById(R.id.song_spinning_round_image);
         this.nameText = findViewById(R.id.song_song_name);
@@ -86,13 +86,12 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                         RuntimeObserver.getCurrentMediaPlayer().pause();
                         play.setImageResource(R.drawable.ic_song_play);
                         roundImageView.clearAnimation();
-                        RuntimeObserver.notifyOnDataArrivedListener();
                     } else {
                         RuntimeObserver.getCurrentMediaPlayer().start();
                         play.setImageResource(R.drawable.ic_song_pause);
                         roundImageView.startAnimation(AnimationUtils.loadAnimation(SongActivity.this, R.anim.spinning));
-                        RuntimeObserver.notifyOnDataArrivedListener();
                     }
+                    RuntimeObserver.notifyOnMediaChangeListeners();
                 }
             }
         });
