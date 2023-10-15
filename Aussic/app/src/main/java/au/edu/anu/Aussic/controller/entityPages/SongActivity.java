@@ -79,8 +79,12 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         }
 
 
-        if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId()))
+        if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId())){
             this.fav.setImageResource(R.drawable.ic_song_fav);
+            TextView favText = findViewById(R.id.fav_count);
+            int favCount = RuntimeObserver.getCurrentSong().getFavorites();
+            favText.setText(favCount > 99 ? "99+" : "" + favCount);
+        }
 
         this.play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,8 +230,13 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                 likeText.setText(likeCount > 99 ? "99+" : "" + likeCount);
             }
 
-            if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId()))
+            if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId())){
                 this.fav.setImageResource(R.drawable.ic_song_fav);
+                TextView favText = findViewById(R.id.fav_count);
+                int favCount = RuntimeObserver.getCurrentSong().getFavorites();
+                favText.setText(favCount > 99 ? "99+" : "" + favCount);
+            }
+
 
 
             List<CommentItem> commentList = RuntimeObserver.getCurrentSong().getCommentItems();

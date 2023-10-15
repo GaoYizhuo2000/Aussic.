@@ -125,15 +125,15 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new ItemSpec(genre));
 
 
-            if(songList.isEmpty()) songs.setText("");
+            if(songList.isEmpty()) songs.setText("Songs : no results...");
             this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchSongRecyclerView.setAdapter(new ListSongAdapter(songList, this));
 
-            if(artistList.isEmpty()) artists.setText("");
+            if(artistList.isEmpty()) artists.setText("Artists : no results...");
             this.searchArtistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchArtistRecyclerView.setAdapter(new ListArtistAdapter(artistList, this));
 
-            if(genreList.isEmpty()) genres.setText("");
+            if(genreList.isEmpty()) genres.setText("Genres :  no results...");
             this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchGenreRecyclerView.setAdapter(new ListGenreAdapter(genreList, this));
         }
