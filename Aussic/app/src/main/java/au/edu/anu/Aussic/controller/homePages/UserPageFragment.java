@@ -3,8 +3,15 @@ package au.edu.anu.Aussic.controller.homePages;
 import android.content.Intent;
 //import android.location.Location;
 //import android.location.LocationListener;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,10 +22,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.Manifest;
+
 //import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import au.edu.anu.Aussic.FavouriteSongList;
 import au.edu.anu.Aussic.R;
@@ -32,6 +48,7 @@ import au.edu.anu.Aussic.models.entity.User;
  */
 public class UserPageFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,50 +101,37 @@ public class UserPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_userpage, container, false);
 
-        //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
         email = rootView.findViewById(R.id.userEmail);
         favorites = rootView.findViewById(R.id.favoritesListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
         location = rootView.findViewById(R.id.userLocation);
         getLocation = rootView.findViewById(R.id.getUserLocationButton);
 
-        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient();//TODO
-//        getLocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getLastLocation();
-//            }
-//        });
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        getLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkLocationPermission()){
+                    getLastLocation();
+                } else {
+                    requestLocationPermission();
+                }
+            }
+        });
 
-//        获取并显示用户数据
-//        FirestoreDao firestoreDao = new FirestoreDaoImpl();
-//        firestoreDao.getUserdata(FirebaseAuth.getInstance().getCurrentUser())
-//                .thenAccept(userdata -> {
-//                    String username = (String) userdata.get("username");
-//                    //显示用户email
-//                    email.append(username);
-//                    String iconUrl = (String) userdata.get("iconUrl");
-//                    Picasso.get().load(iconUrl ).into(userPhoto);
-//
-//                });
         // Directly load user data from runtime storage
         User usr = RuntimeObserver.currentUser;
         email.append(usr.username);
         Picasso.get().load(usr.iconUrl).into(userPhoto);
 
-
-        // Example: Click on the profile image to change it
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Implement functionality to change the profile image
                 Toast.makeText(getContext(), "Change profile image feature not implemented yet.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Click listener for collections list
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +140,133 @@ public class UserPageFragment extends Fragment {
             }
         });
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
 
+        return rootView; // 返回先前创建和配置的 rootView
+    }
+
+    private void getLastLocation() {
+        try {
+            fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                String cityName = getCityNameByCoordinates(location.getLatitude(), location.getLongitude());
+                                updateLocationInUI(cityName);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(getActivity(), new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getActivity(), "Failed to get location.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (SecurityException e) {
+            Toast.makeText(getActivity(), "Location permission was revoked by the user.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateLocationInUI(String cityName) {
+        location.setText("Location: " + cityName);
+    }
+
+    private boolean checkLocationPermission() {
+        return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Toast.makeText(getActivity(), "Please allow location permission for proper functioning.", Toast.LENGTH_SHORT).show();
+        }
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            } else {
+                Toast.makeText(getActivity(), "Location permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private String getCityNameByCoordinates(double lat, double lon) {
+        String cityName = "";
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lon, 10);
+            if (addresses != null && !addresses.isEmpty()) {
+                for (Address address : addresses) {
+                    if (address.getLocality() != null && !address.getLocality().isEmpty()) {
+                        cityName = address.getLocality();
+                        break;
+                    } else if (address.getAdminArea() != null && !address.getAdminArea().isEmpty()) {
+                        cityName = address.getAdminArea();
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return cityName;
+    }
+
+
+
+    //    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        View rootView = inflater.inflate(R.layout.fragment_userpage, container, false);
+//
+//        //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//
+//        email = rootView.findViewById(R.id.userEmail);
+//        favorites = rootView.findViewById(R.id.favoritesListButton);
+//        userPhoto = rootView.findViewById(R.id.userPhoto);
+//        location = rootView.findViewById(R.id.userLocation);
+//        getLocation = rootView.findViewById(R.id.getUserLocationButton);
+//
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient();//TODO
+//        getLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getLastLocation();
+//            }
+//        });
+//        // Directly load user data from runtime storage
+//        User usr = RuntimeObserver.currentUser;
+//        email.append(usr.username);
+//        Picasso.get().load(usr.iconUrl).into(userPhoto);
+//
+//
+//        // Example: Click on the profile image to change it
+//        userPhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // TODO: Implement functionality to change the profile image
+//                Toast.makeText(getContext(), "Change profile image feature not implemented yet.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        // Click listener for collections list
+//        favorites.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), FavouriteSongList.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//
 //        LocationListener locationListener = new LocationListener() {
 //            @Override
 //            public void onLocationChanged(Location location) {
@@ -156,13 +286,13 @@ public class UserPageFragment extends Fragment {
 //        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 //        }
-
-
-        return rootView;
+//
+//
+////        return rootView;
 //        return inflater.inflate(R.layout.fragment_userpage, container, false);
-    }
-
+//    }
+//
 //    private void getLastLocation() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION))
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION));
 //    }
 }
