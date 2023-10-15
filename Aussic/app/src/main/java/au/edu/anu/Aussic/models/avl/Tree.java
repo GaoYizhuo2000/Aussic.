@@ -13,7 +13,7 @@ public abstract class Tree<T> {
     /**
      * Here we store our class fields.
      */
-    public final String key;
+    public String key;
     public  T value;
     // element stored in this node of the tree.
     public Tree<T> leftNode;    // less than the node.
@@ -72,8 +72,14 @@ public abstract class Tree<T> {
     public abstract Tree<T> insertByReleaseDate(Song song);
     public abstract Tree<T> insertByGenre(String genre, Song song);
 
+    public abstract Tree<T> deleteById(Song song);
 
-    public abstract Tree<T> delete(T element);   // Deletes the element and returns the node deleted.
+    public abstract Tree<T> deleteByName(String songName, String songId);
+
+
+
+
+    //public abstract Tree<T> delete(T element);   // Deletes the element and returns the node deleted.
 /////////////////////////////////////////////////////
     /**
      * Height of current node.
@@ -95,6 +101,7 @@ public abstract class Tree<T> {
                 ", rightNode=" + rightNode +
                 '}';
     }
+
 
 
 }

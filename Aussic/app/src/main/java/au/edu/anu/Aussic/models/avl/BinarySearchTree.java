@@ -147,9 +147,28 @@ public class BinarySearchTree<T> extends Tree<T> {
     }
 
     @Override
-    public BinarySearchTree<T> delete(T element) {
+    public Tree<T> deleteById(Song song) {
+        // Ensure input is not null.
+        if (song == null)
+            throw new IllegalArgumentException("Input cannot be null");
+
+        // If the two values are equal, in this implementation we want to insert to the left.
+        if (song.getId().compareTo(key) > 0) {
+            return new BinarySearchTree<>(key, value, leftNode, rightNode.deleteById(song));
+        } else {
+            return new BinarySearchTree<>(key, value, leftNode.deleteById(song), rightNode);
+        }
+    }
+
+    @Override
+    public Tree<T> deleteByName(String songName, String songId) {
         return null;
     }
+
+//    @Override
+//    public BinarySearchTree<T> delete(T element) {
+//        return null;
+//    }
 
     /**
      * Note that this is not within a file of its own... WHY?
@@ -193,13 +212,20 @@ public class BinarySearchTree<T> extends Tree<T> {
         }
 
         @Override
-        public Tree<T> delete(T element) {
+        public Tree<T> deleteById(Song song){
             return null;
         }
 
-        // @Override
-      // public Tree<T> deleteById(T element) {
-      //     return new BinarySearchTree<>(element);
-      // }
+        @Override
+        public Tree<T> deleteByName(String songName, String songId) {
+            return null;
+        }
+
+//        @Override
+//        public Tree<T> delete(T element) {
+//            return null;
+//        }
+
+
     }
 }

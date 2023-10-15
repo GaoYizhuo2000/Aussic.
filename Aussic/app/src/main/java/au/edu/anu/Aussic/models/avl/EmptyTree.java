@@ -10,7 +10,7 @@ public abstract class EmptyTree<T> extends Tree<T> {
     // Will need to be implemented by the subclass inheriting this class.
     public abstract Tree<T> insertById(Song song);
 
-    public abstract Tree<T> delete(T element);
+    //public abstract Tree<T> delete(T element);
 ////////////////////////////////////////////////////
     @Override
     public T min() {
