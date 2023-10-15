@@ -12,26 +12,26 @@ with open('../pythonScrips/backup/songs.json', 'r', encoding='utf-8') as json_fi
 artists = {}
 genres = {}
 i = 1
-for song in data:
-    ##if song["attributes"]["artistName"] not in artists:
-    ##    attr = {}
-    ##    attr["artistName"] = song["attributes"]["artistName"]
-    ##    attr["songs"] = []
-    ##    attr["songs"].append(song["id"])
-    ##    attr["type"] = "artists"
-    ##    attr["url"] = song["attributes"]["artwork"]["url"]
-    ##    artists[song["attributes"]["artistName"]] = attr
-    ##else:
-    ##    artists[song["attributes"]["artistName"]]["songs"].append(song["id"])
-    genreNames =  song["attributes"]["genreNames"]
-    print(i)
-    i+=1
-    for genreName in genreNames:
-        if genreName not in genres:
-            genres[genreName] = {"genreName":genreName, "type":"genres", "songs":[]}
-            genres[genreName]["songs"].append(song["id"])
-        else:
-            genres[genreName]["songs"].append(song["id"])
+##for song in data:
+##    ##if song["attributes"]["artistName"] not in artists:
+##    ##    attr = {}
+##    ##    attr["artistName"] = song["attributes"]["artistName"]
+##    ##    attr["songs"] = []
+##    ##    attr["songs"].append(song["id"])
+##    ##    attr["type"] = "artists"
+##    ##    attr["url"] = song["attributes"]["artwork"]["url"]
+##    ##    artists[song["attributes"]["artistName"]] = attr
+##    ##else:
+##    ##    artists[song["attributes"]["artistName"]]["songs"].append(song["id"])
+##    genreNames =  song["attributes"]["genreNames"]
+##    print(i)
+##    i+=1
+##    for genreName in genreNames:
+##        if genreName not in genres:
+##            genres[genreName] = {"genreName":genreName, "type":"genres", "songs":[], "url": song["attributes"]["artwork"]["url"]}
+##            genres[genreName]["songs"].append(song["id"])
+##        else:
+##            genres[genreName]["songs"].append(song["id"])
 
 
 
@@ -41,11 +41,11 @@ for song in data:
 ##    db.collection('artists').document(str(i)).set(artists[i])
 ##    print("uploaded artist  " + i)
 
-for i in genres:
-    if "/" in i:
-        continue
-    db.collection('genres').document(str(i)).set(genres[i])
-    print("uploaded genre  " + i)
+##for i in genres:
+##    if "/" in i:
+##        continue
+##    db.collection('genres').document(str(i)).set(genres[i])
+##    print("uploaded genre  " + i)
 
 
 
@@ -76,17 +76,17 @@ for i in genres:
 ##    print("updated "  + str(i) + doc.id)
 ##
 ##
-##collection = db.collection('genres')
-##docs = db.collection('genres').stream()
-##newAttr = {
-##    "type": "genres"
-##}
-##i = 0
-##for doc in docs:
-##    docRef = collection.document(doc.id)
-##    docRef.update(newAttr)
-##    i +=1
-##    print("updated "  + str(i)+ doc.id)
+collection = db.collection('users')
+docs = db.collection('users').stream()
+newAttr = {
+    "blockList": []
+}
+i = 0
+for doc in docs:
+    docRef = collection.document(doc.id)
+    docRef.update(newAttr)
+    i +=1
+    print("updated "  + str(i)+ doc.id)
 
 
 
