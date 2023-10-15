@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavouriteSongList">
+    tools:context=".controller.homePages.userPages.FavouriteSongActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/favorites_return_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/baseline_arrow_circle_left_24"
@@ -19,7 +19,7 @@
         app:layout_constraintDimensionRatio="1:1" />
 
     <ImageView
-        android:id="@+id/starImage"
+        android:id="@+id/favorites_starImage"
         android:layout_width="69dp"
         android:layout_height="59dp"
         android:layout_marginStart="30dp"
@@ -29,18 +29,18 @@
         app:srcCompat="@drawable/ic_song_fav" />
 
     <TextView
-        android:id="@+id/favourieSongListText"
+        android:id="@+id/favorites_SongListText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="95dp"
         android:text="Favourit Song List"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/starImage"
+        app:layout_constraintStart_toEndOf="@+id/favorites_starImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/favorites_searchView"
         android:layout_width="280dp"
         android:layout_height="30dp"
         android:layout_marginStart="28dp"
@@ -50,7 +50,7 @@
         android:visibility="visible"
         app:iconifiedByDefault="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/starImage"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_starImage"
         app:searchIcon="@drawable/ic_bar_search" />
 
     <Button
@@ -64,8 +64,17 @@
         android:text="Search"
         android:textColor="@color/black"
         android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/searchView"
-        app:layout_constraintTop_toBottomOf="@+id/favourieSongListText" />
+        app:layout_constraintStart_toEndOf="@+id/favorites_searchView"
+        app:layout_constraintTop_toBottomOf="@+id/favorites_SongListText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favorites_search_list_recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/favorites_searchView"
+        android:paddingTop="30dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

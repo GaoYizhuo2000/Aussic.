@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller.songPages;
+package au.edu.anu.Aussic.controller.entityPages;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,9 +26,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -67,7 +67,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         this.comment = findViewById(R.id.song_comment);
 
 
-        if (RuntimeObserver.getCurrentSong() != null) setTheSong(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
+        if (RuntimeObserver.getCurrentSong() != null) setTheSong(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
 
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
 
@@ -148,8 +148,8 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                 .into(this.roundImageView);
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying())   this.roundImageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.spinning));
         else this.roundImageView.clearAnimation();
-        nameText.setText(CardAdapter.adjustLength(songName));
-        artistText.setText(CardAdapter.adjustLength(artistName));
+        nameText.setText(Functions.adjustLength(songName));
+        artistText.setText(Functions.adjustLength(artistName));
     }
 
     private void setUpComments(){

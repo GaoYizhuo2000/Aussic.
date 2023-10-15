@@ -205,15 +205,13 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         Map<String, String> searchingTerms = parser.Parse();
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
-        Map<String,String> testTerms = new HashMap<>();
-        testTerms.put("id", "1006237147");
 
         firestoreDao.searchSongs(searchingTerms).thenAccept(results -> {
             //拿到查询结果后处理，放入listview展示 results是歌曲列表
             RuntimeObserver.currentSearchResultSongs = new ArrayList<>();
 
             List<Map<String, Object>> maps = new ArrayList<>();
-            maps.addAll(results);
+            maps.addAll(results); //结果里会有歌和genre和artist的对象json（用general 搜索的话），先检查type参数再分别处理
             for(Map<String, Object> map : maps) {
                 Song newSong = GsonSongLoader.loadSong(map);
 

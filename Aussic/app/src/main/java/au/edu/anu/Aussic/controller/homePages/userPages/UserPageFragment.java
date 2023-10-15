@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller.homePages;
+package au.edu.anu.Aussic.controller.homePages.userPages;
 
 import android.content.Intent;
 //import android.location.Location;

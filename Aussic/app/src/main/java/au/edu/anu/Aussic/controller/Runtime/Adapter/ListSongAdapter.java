@@ -16,32 +16,32 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
+public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListItemViewHolder> {
 
-    private List<ItemSpec> items;
-    private OnItemSpecClickListener listener;
+    protected List<ItemSpec> items;
+    protected OnItemSpecClickListener listener;
 
 
-    public ListAdapter(List<ItemSpec> items, OnItemSpecClickListener listener) {
+    public ListSongAdapter(List<ItemSpec> items, OnItemSpecClickListener listener) {
         this.items = items;
         this.listener = listener;
     }
 
     @Override
-    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout, parent, false);
-        return new ListViewHolder(itemView, this);
+        return new ListItemViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(ListViewHolder holder, int position) {
+    public void onBindViewHolder(ListItemViewHolder holder, int position) {
         ItemSpec itemSpec = items.get(position);
-        holder.listTitle.setText(itemSpec.getName());
-        holder.listArtist.setText(itemSpec.getArtistName());
+        holder.listTitle.setText(itemSpec.getSongName());
+        holder.listArtist.setText(itemSpec.getSongArtistName());
 
         // Load image from the web using Glide
         Glide.with(holder.listImage.getContext())
-                .load(itemSpec.getImageUrl())
+                .load(itemSpec.getSongImageUrl())
                 .apply(new RequestOptions().override((int)(360 * 0.8), (int)(360 * 0.8)))
                 .into(holder.listImage);
     }
@@ -51,20 +51,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return items.size();
     }
 
-    public class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView listImage;
         public TextView listTitle;
         public TextView listArtist;
         private List<ItemSpec> items;
         private OnItemSpecClickListener listener;
 
-        public ListViewHolder(View view, ListAdapter listAdapter) {
+        public ListItemViewHolder(View view, ListSongAdapter listSongAdapter) {
             super(view);
             listImage = view.findViewById(R.id.item_image);
             listTitle = view.findViewById(R.id.item_title);
             listArtist = view.findViewById(R.id.item_artist);
-            items = listAdapter.items;
-            listener = listAdapter.listener;
+            items = listSongAdapter.items;
+            listener = listSongAdapter.listener;
             view.setOnClickListener(this);
         }
 

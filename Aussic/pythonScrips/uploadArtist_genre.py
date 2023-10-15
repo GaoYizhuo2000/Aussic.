@@ -13,43 +13,53 @@ artists = {}
 genres = {}
 i = 1
 for song in data:
-    if song["attributes"]["artistName"] not in artists:
-        artists[song["attributes"]["artistName"]] = song["attributes"]["artwork"]["url"]
- #   genreNames =  song["attributes"]["genreNames"]
- #   for genreName in genreNames:
- #       if genreName not in genres:
- #           genres[genreName] = []
- #           genres[genreName].append(song["id"])
- #       else:
- #           genres[genreName].append(song["id"])
+    ##if song["attributes"]["artistName"] not in artists:
+    ##    attr = {}
+    ##    attr["artistName"] = song["attributes"]["artistName"]
+    ##    attr["songs"] = []
+    ##    attr["songs"].append(song["id"])
+    ##    attr["type"] = "artists"
+    ##    attr["url"] = song["attributes"]["artwork"]["url"]
+    ##    artists[song["attributes"]["artistName"]] = attr
+    ##else:
+    ##    artists[song["attributes"]["artistName"]]["songs"].append(song["id"])
+    genreNames =  song["attributes"]["genreNames"]
     print(i)
     i+=1
+    for genreName in genreNames:
+        if genreName not in genres:
+            genres[genreName] = {"genreName":genreName, "type":"genres", "songs":[]}
+            genres[genreName]["songs"].append(song["id"])
+        else:
+            genres[genreName]["songs"].append(song["id"])
 
-##
+
+
 ##for i in artists:
 ##    if "/" in i:
 ##        continue
-##    db.collection('artists').document(str(i)).set({i:artists[i]})
+##    db.collection('artists').document(str(i)).set(artists[i])
 ##    print("uploaded artist  " + i)
-##for i in genres:
-##    if "/" in i:
-##        continue
-##    db.collection('genres').document(str(i)).set({i:genres[i]})
-##    print("uploaded genre  " + i)
+
+for i in genres:
+    if "/" in i:
+        continue
+    db.collection('genres').document(str(i)).set(genres[i])
+    print("uploaded genre  " + i)
 
 
 
 
 
 #增加新参数
-for i in artists:
-    if "/" in i:
-        continue
-    newAttr = {
-        "url": artists[i]
-    }
-    db.collection('artists').document(i).update(newAttr)
-    print("updated artist  " + i)
+##for i in artists:
+##    if "/" in i:
+##        continue
+##    newAttr = {
+##        "url": artists[i]
+##    }
+##    db.collection('artists').document(i).update(newAttr)
+##    print("updated artist  " + i)
 
 
 

@@ -23,16 +23,15 @@ import com.bumptech.glide.request.RequestOptions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnMediaChangeListener;
-import au.edu.anu.Aussic.controller.songPages.SongActivity;
+import au.edu.anu.Aussic.controller.entityPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
 
@@ -129,14 +128,14 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
     public void setViewList(){
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         List<ItemSpec> itemList = new ArrayList<>();
-        for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+        for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(song));
 
         // Set up the RecyclerView with the fetched data
         cardRecyclerView.setAdapter(new CardAdapter(itemList, this));
-        if(RuntimeObserver.getCurrentSong() != null) setRoundImage(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
+        if(RuntimeObserver.getCurrentSong() != null) setRoundImage(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
 
         listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listRecyclerView.setAdapter(new ListAdapter(itemList, this));
+        listRecyclerView.setAdapter(new ListSongAdapter(itemList, this));
     }
 
     private void setRoundImage(String imageUrl,String songName){
@@ -147,7 +146,7 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
                 .circleCrop()
                 .into(this.roundImage);
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying())   this.roundImage.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.spinning));
-        roundUnderText.setText(CardAdapter.adjustLength(songName));
+        roundUnderText.setText(Functions.adjustLength(songName));
     }
 
     @Override
@@ -160,7 +159,7 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
         RuntimeObserver.getCurrentMediaPlayer().prepare();
         RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
         RuntimeObserver.getCurrentMediaPlayer().start();
-        setRoundImage(CardAdapter.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
+        setRoundImage(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
         Intent intent = new Intent(getContext(), SongActivity.class);
         // add more extras if necessary
         startActivity(intent);

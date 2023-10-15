@@ -38,11 +38,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         ItemSpec itemSpec = itemSpecList.get(position);
-        holder.description.setText(itemSpec.getName());
+        holder.description.setText(itemSpec.getSongName());
 
         // TODO: Load the image into holder.image using an image loading library like Glide or Picasso
         Glide.with(holder.image.getContext())
-                .load(itemSpec.getImageUrl())
+                .load(itemSpec.getSongImageUrl())
                 .into(holder.image);
     }
 
@@ -82,25 +82,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
     }
 
-    public static String makeImageUrl(int width, int height, String rawUrl){
-        StringBuilder out = new StringBuilder();
-        out.append(rawUrl);
-        int wIndex = out.indexOf("{w}");
-        if (wIndex != -1) {
-            out.replace(wIndex, wIndex + 3, String.valueOf(width));
-        }
-
-        int hIndex = out.indexOf("{h}");
-        if (hIndex != -1) {
-            out.replace(hIndex, hIndex + 3, String.valueOf(height));
-        }
-
-        return out.toString();
-    }
-
-    public static String adjustLength(String text){
-        if(text.length() > 18) return text.substring(0, 17) + "...";
-        else return text;
-    }
 }
 

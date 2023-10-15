@@ -13,16 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListAdapter;
-import au.edu.anu.Aussic.controller.songPages.SongActivity;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListGenreAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
+import au.edu.anu.Aussic.controller.entityPages.SongActivity;
+import au.edu.anu.Aussic.models.entity.Artist;
+import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
@@ -43,7 +47,12 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView searchRecyclerView;
+    private TextView songs;
+    private RecyclerView searchSongRecyclerView;
+    private TextView artists;
+    private RecyclerView searchArtistRecyclerView;
+    private TextView genres;
+    private RecyclerView searchGenreRecyclerView;
 
     public GeneralSearchFragment() {
         // Required empty public constructor
@@ -80,7 +89,17 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.searchRecyclerView = view.findViewById(R.id.search_list_recyclerView);
+
+        this.songs = view.findViewById(R.id.search_general_songs);
+        this.searchSongRecyclerView = view.findViewById(R.id.search_list_song_recyclerView);
+
+        this.artists = view.findViewById(R.id.search_general_artists);
+        this.searchArtistRecyclerView = view.findViewById(R.id.search_list_artist_recyclerView);
+
+        this.genres = view.findViewById(R.id.search_general_genres);
+        this.searchGenreRecyclerView = view.findViewById(R.id.search_list_genre_recyclerView);
+
+
         onDataArrivedResponse();
     }
 
@@ -94,12 +113,29 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     @Override
     public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
-            List<ItemSpec> itemList = new ArrayList<>();
-            if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
-            else for (Song song : RuntimeObserver.currentSearchResultSongs)  itemList.add(new ItemSpec(CardAdapter.adjustLength(song.getSongName()), CardAdapter.makeImageUrl(200, 200, song.getUrlToImage()), song.getArtistName(), song));
+            List<ItemSpec> songList = new ArrayList<>();
+            List<ItemSpec> artistList = new ArrayList<>();
+            List<ItemSpec> genreList = new ArrayList<>();
 
-            this.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            this.searchRecyclerView.setAdapter(new ListAdapter(itemList, this));
+            if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  songList.add(new ItemSpec(song));
+            else for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new ItemSpec(song));
+
+            for (Artist artist : RuntimeObserver.currentSearchResultArtists)  artistList.add(new ItemSpec(artist));
+
+            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new ItemSpec(genre));
+
+
+            if(songList.isEmpty()) songs.setText("");
+            this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            this.searchSongRecyclerView.setAdapter(new ListSongAdapter(songList, this));
+
+            if(artistList.isEmpty()) artists.setText("");
+            this.searchArtistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            this.searchArtistRecyclerView.setAdapter(new ListArtistAdapter(artistList, this));
+
+            if(genreList.isEmpty()) genres.setText("");
+            this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            this.searchGenreRecyclerView.setAdapter(new ListGenreAdapter(genreList, this));
         }
     }
 

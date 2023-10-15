@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.controller;
+package au.edu.anu.Aussic.controller.loginPages;
 
 import androidx.appcompat.app.AppCompatActivity;
 

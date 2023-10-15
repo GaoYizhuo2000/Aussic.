@@ -52,6 +52,13 @@
             android:text="Placeholder Artist" />
 
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/item_delete_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_fav_delete"
+        android:textColor="#000000"
+        android:background="@android:color/transparent" />
 
 </LinearLayout>

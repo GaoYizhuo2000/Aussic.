@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.edu.anu.Aussic.models.entity.Artist;
+import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
@@ -16,7 +18,11 @@ public class RuntimeObserver {
     private static Song currentSong;
     public static User currentUser;
     private static List<Song> currentSongList = new ArrayList<>();
-    public static List<Song> currentSearchResultSongs;
+    public static List<Song> currentUsrFavoriteSongs = new ArrayList<>();
+    public static List<Song> currentSearchResultSongs = new ArrayList<>();
+    public static List<Artist> currentSearchResultArtists = new ArrayList<>();
+    public static List<Genre> currentSearchResultGenres = new ArrayList<>();
+
     private static List<OnDataArrivedListener> onDataArrivedListeners = new ArrayList<>();
     private static List<OnDataChangeListener> onDataChangeListeners = new ArrayList<>();
     private static List<OnMediaChangeListener> onMediaChangeListeners = new ArrayList<>();
