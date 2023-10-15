@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import au.edu.anu.Aussic.FavouriteSongList;
+import au.edu.anu.Aussic.controller.homePages.userPages.FavouriteSongActivity;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
