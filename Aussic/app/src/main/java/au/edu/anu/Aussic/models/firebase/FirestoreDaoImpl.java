@@ -1,5 +1,6 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import androidx.annotation.Nullable;
@@ -38,11 +39,13 @@ import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
 public class FirestoreDaoImpl implements FirestoreDao {
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore firestore = SingletonFirestoreDbConnection.getInstance();
     CollectionReference songsRef = firestore.collection("Songs");
     CollectionReference usersRef = firestore.collection("users");
     CollectionReference artistsRef = firestore.collection("artists");
     CollectionReference genresRef = firestore.collection("genres");
+    CollectionReference sessionsRef = firestore.collection("sessions");
     List<String> idList = null;
 
     public void setSongRealTimeListener(Song song){
@@ -274,8 +277,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
     @Override
     public CompletableFuture<String> updateUserFavorites(String songId) {
         CompletableFuture<String> future = new CompletableFuture<>();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String username = user.getEmail();
+        String username = currentUser.getEmail();
         DocumentReference docRef = firestore.collection("users").document(username);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -368,6 +370,49 @@ public class FirestoreDaoImpl implements FirestoreDao {
                     results.add(document.getData());
                 }
                 future.complete(results);
+            }
+        });
+        return future;
+    }
+
+    @Override
+    public CompletableFuture<List<Map<String, Object>>> getSessions() {
+        CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+        List<Map<String, Object>> sessionList = new ArrayList<>();
+        String userName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        Query query = sessionsRef.whereArrayContains("users", userName);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    sessionList.add(document.getData());
+                }
+                future.complete(sessionList);
+            }
+        });
+        return future;
+    }
+
+    @Override
+    public CompletableFuture<String> createSession(String targetUserName) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        //check if the target user exist
+        DocumentReference docRef = usersRef.document(targetUserName);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Map<String, Object> sessionData = new HashMap<>();
+                    List<String> users = new ArrayList<>();
+                    users.add(currentUser.getEmail());
+                    users.add(targetUserName);
+                    List<Map<String, Object>> history = new ArrayList<>();
+                    sessionData.put("users", users);
+                    sessionData.put("history", history);
+                    sessionsRef.document(currentUser.getEmail() + "&" + targetUserName).set(sessionData);
+                    future.complete(null);
+                } else {
+                    future.complete("user " + targetUserName + "doesn't exist !");
+                }
             }
         });
         return future;

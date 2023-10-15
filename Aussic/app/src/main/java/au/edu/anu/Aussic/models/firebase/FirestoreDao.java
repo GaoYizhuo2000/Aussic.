@@ -26,6 +26,11 @@ public interface FirestoreDao {
     CompletableFuture<List<Map<String, Object>>> getComment(String songId);
     CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList);
 
+    //get all the sessions that the current user is involved in
+    CompletableFuture<List<Map<String, Object>>> getSessions();
+    // create new session with the target user, if succeed, return null, else return a message
+    CompletableFuture<String> createSession(String targetUserName);
+
 
     void setSongRealTimeListener(Song song);
     void setUsrRealTimeListener(User usr);
