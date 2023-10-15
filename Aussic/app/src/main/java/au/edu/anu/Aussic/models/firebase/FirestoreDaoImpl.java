@@ -1,6 +1,5 @@
 package au.edu.anu.Aussic.models.firebase;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import androidx.annotation.Nullable;
@@ -10,9 +9,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -376,6 +375,22 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public CompletableFuture<List<Map<String, Object>>> getAllUsers() {
+        CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+        List<Map<String, Object>> users = new ArrayList<>();
+        usersRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot documents = task.getResult();
+                for(DocumentSnapshot document: documents){
+                    users.add(document.getData());
+                }
+                future.complete(users);
+            }
+        });
+        return future;
+    }
+
+    @Override
     public CompletableFuture<List<Map<String, Object>>> getSessions() {
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> sessionList = new ArrayList<>();
@@ -393,29 +408,22 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
-    public CompletableFuture<String> createSession(String targetUserName) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        //check if the target user exist
-        DocumentReference docRef = usersRef.document(targetUserName);
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    Map<String, Object> sessionData = new HashMap<>();
-                    List<String> users = new ArrayList<>();
-                    users.add(currentUser.getEmail());
-                    users.add(targetUserName);
-                    List<Map<String, Object>> history = new ArrayList<>();
-                    sessionData.put("users", users);
-                    sessionData.put("history", history);
-                    sessionsRef.document(currentUser.getEmail() + "&" + targetUserName).set(sessionData);
-                    future.complete(null);
-                } else {
-                    future.complete("user " + targetUserName + "doesn't exist !");
-                }
-            }
-        });
-        return future;
+    public void createSession(String targetUserName) {
+        Map<String, Object> sessionData = new HashMap<>();
+        List<String> users = new ArrayList<>();
+        users.add(currentUser.getEmail());
+        users.add(targetUserName);
+        List<Map<String, Object>> history = new ArrayList<>();
+        sessionData.put("users", users);
+        sessionData.put("history", history);
+        sessionsRef.document(currentUser.getEmail() + "&" + targetUserName).set(sessionData);
+    }
+
+    @Override
+    public void updateHistory(String sessionId, String message) {
+        Map<String, Object> newMessage = new HashMap<>();
+        newMessage.put(currentUser.getEmail(),message);
+        sessionsRef.document(sessionId).update("history", FieldValue.arrayUnion(newMessage));
     }
 
 }

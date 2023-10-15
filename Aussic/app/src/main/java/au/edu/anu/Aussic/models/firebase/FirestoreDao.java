@@ -1,9 +1,7 @@
 package au.edu.anu.Aussic.models.firebase;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -26,13 +24,20 @@ public interface FirestoreDao {
     CompletableFuture<List<Map<String, Object>>> getComment(String songId);
     CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList);
 
+    //get all existing users
+    CompletableFuture<List<Map<String, Object>>> getAllUsers();
     //get all the sessions that the current user is involved in
     CompletableFuture<List<Map<String, Object>>> getSessions();
     // create new session with the target user, if succeed, return null, else return a message
-    CompletableFuture<String> createSession(String targetUserName);
-
-
+    void createSession(String targetUserName);
+    /**
+     * update chatting history
+     * @param sessionId the documentId in collection sessions eg.:t1@gmail.com&t2@gmail.com
+     * @param message  message the current user has just sent
+     * **/
+    void updateHistory(String sessionId, String message);
     void setSongRealTimeListener(Song song);
     void setUsrRealTimeListener(User usr);
+    //
 
 }
