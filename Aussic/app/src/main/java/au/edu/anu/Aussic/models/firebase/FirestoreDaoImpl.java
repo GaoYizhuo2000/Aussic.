@@ -343,21 +343,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
-    public CompletableFuture<List<Map<String, Object>>> getComment(String songId) {
-        DocumentReference docRef = firestore.collection("Songs").document(songId);
-        CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Map<String, Object> data = task.getResult().getData();
-                Map<String, Object> comments = (Map<String, Object>) data.get("comments");
-                List<Map<String, Object>> details = (List<Map<String, Object>>) comments.get("details");
-                future.complete(details);
-            }
-        });
-        return future;
-    }
-
-    @Override
     public CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList) {
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> results = new ArrayList<>();

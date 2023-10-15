@@ -21,7 +21,6 @@ public interface FirestoreDao {
     CompletableFuture<String> updateUserFavorites(String songId);
     void deleteUserFavorites(String songId);
     CompletableFuture<String> updateUserLikes(String songId);
-    CompletableFuture<List<Map<String, Object>>> getComment(String songId);
     CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList);
 
     //get all existing users
