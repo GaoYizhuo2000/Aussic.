@@ -103,7 +103,15 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
     @Override
     public void onDeleteBtnClicked(int position) {
+
         // Add delete event here
+        //delete this song from firestore
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+      //  firestoreDao.deleteUserFavorites();
+        //delete this song from search engine
+        //RuntimeObserver.musicSearchEngine.
+
+        //delete this song from view
 
     }
 }
