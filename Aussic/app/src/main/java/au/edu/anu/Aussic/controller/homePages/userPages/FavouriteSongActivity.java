@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SearchView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListFavSongAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnDeleteBtnClickListener;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.entityPages.SongActivity;
@@ -29,6 +31,8 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 public class FavouriteSongActivity extends AppCompatActivity implements OnDeleteBtnClickListener, OnDataChangeListener {
     private RecyclerView recyclerView;
+    private SearchView searchView;
+    private Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,42 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
         RuntimeObserver.addOnDataChangeListener(this);
 
         this.recyclerView = findViewById(R.id.favorites_search_list_recyclerView);
+
+        this.searchView = findViewById(R.id.favorites_searchView);
+        this.searchButton = findViewById(R.id.fav_searchButton);
+
+        this.searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Request focus and show the soft keyboard
+                searchView.setIconified(false);
+            }
+        });
+
+        this.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String input) {
+                // The IME action was detected, perform the same action as your search button
+                doSearch(input);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle real-time query changes if needed
+                return false;
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String query = searchView.getQuery().toString();
+                doSearch(query);
+            }
+        });
+
+
 
         onDataChangeResponse();
 
@@ -112,6 +152,10 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
         //RuntimeObserver.musicSearchEngine.
 
         //delete this song from view
+
+    }
+
+    private void doSearch(String query){
 
     }
 }

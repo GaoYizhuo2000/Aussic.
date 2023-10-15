@@ -54,7 +54,7 @@
         app:searchIcon="@drawable/ic_bar_search" />
 
     <Button
-        android:id="@+id/searchButton"
+        android:id="@+id/fav_searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
