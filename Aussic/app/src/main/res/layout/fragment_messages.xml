@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.homePages.SubscriptionsFragment">
+    tools:context=".controller.homePages.P2P.MessagesFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Subscriptions"
+        android:text="Messages"
         android:gravity="center"
         android:textSize="30sp"
         android:textColor="@color/sky_blue"/>

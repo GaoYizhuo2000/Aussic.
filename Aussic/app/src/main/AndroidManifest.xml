@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Aussic"
         tools:targetApi="31">
         <activity
+            android:name=".controller.homePages.P2P.MessageActivity"
+            android:exported="false" />
+        <activity
             android:name=".controller.entityPages.GenreActivity"
             android:exported="false" />
         <activity

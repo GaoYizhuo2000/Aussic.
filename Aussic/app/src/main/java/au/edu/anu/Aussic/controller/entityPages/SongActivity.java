@@ -71,8 +71,13 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
 
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
 
-        if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId()))
+        if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId())){
             this.like.setImageResource(R.drawable.ic_song_like);
+            TextView likeText = findViewById(R.id.like_count);
+            int likeCount = RuntimeObserver.getCurrentSong().getLikes();
+            likeText.setText(likeCount > 99 ? "99+" : "" + likeCount);
+        }
+
 
         if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId()))
             this.fav.setImageResource(R.drawable.ic_song_fav);
@@ -213,8 +218,12 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
     public void onDataChangeResponse(){
         if(RuntimeObserver.getCurrentSong() != null){
 
-            if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId()))
+            if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId())){
                 this.like.setImageResource(R.drawable.ic_song_like);
+                TextView likeText = findViewById(R.id.like_count);
+                int likeCount = RuntimeObserver.getCurrentSong().getLikes();
+                likeText.setText(likeCount > 99 ? "99+" : "" + likeCount);
+            }
 
             if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId()))
                 this.fav.setImageResource(R.drawable.ic_song_fav);
