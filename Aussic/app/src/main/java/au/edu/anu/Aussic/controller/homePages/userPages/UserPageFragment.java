@@ -135,7 +135,7 @@ public class UserPageFragment extends Fragment {
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FavouriteSongList.class);
+                Intent intent = new Intent(getActivity(), FavouriteSongActivity.class);
                 startActivity(intent);
             }
         });
@@ -218,81 +218,4 @@ public class UserPageFragment extends Fragment {
         }
         return cityName;
     }
-
-
-
-    //    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View rootView = inflater.inflate(R.layout.fragment_userpage, container, false);
-//
-//        //locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-//
-//        email = rootView.findViewById(R.id.userEmail);
-//        favorites = rootView.findViewById(R.id.favoritesListButton);
-//        userPhoto = rootView.findViewById(R.id.userPhoto);
-//        location = rootView.findViewById(R.id.userLocation);
-//        getLocation = rootView.findViewById(R.id.getUserLocationButton);
-//
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient();//TODO
-//        getLocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getLastLocation();
-//            }
-//        });
-//        // Directly load user data from runtime storage
-//        User usr = RuntimeObserver.currentUser;
-//        email.append(usr.username);
-//        Picasso.get().load(usr.iconUrl).into(userPhoto);
-//
-//
-//        // Example: Click on the profile image to change it
-//        userPhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // TODO: Implement functionality to change the profile image
-//                Toast.makeText(getContext(), "Change profile image feature not implemented yet.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        // Click listener for collections list
-//        favorites.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), FavouriteSongList.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//
-//        LocationListener locationListener = new LocationListener() {
-//            @Override
-//            public void onLocationChanged(Location location) {
-//                // When user location changed...
-//            }
-//
-//            @Override
-//            public void onStatusChanged(String provider, int status, Bundle extras) {}
-//
-//            @Override
-//            public void onProviderEnabled(String provider) {}
-//
-//            @Override
-//            public void onProviderDisabled(String provider) {}
-//        };
-//
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//        }
-//
-//
-////        return rootView;
-//        return inflater.inflate(R.layout.fragment_userpage, container, false);
-//    }
-//
-//    private void getLastLocation() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION));
-//    }
 }
