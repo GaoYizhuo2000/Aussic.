@@ -45,6 +45,16 @@ public class MusicSearchEngine {
 
     }
 
+    public void addSong(Song song){
+        idTree = idTree.insertById(song);
+        songNameTree.insertByName(song);
+        artistTree.insertByArtistName(song);
+        releaseDateTree.insertByReleaseDate(song);
+        for(String genre: song.getGenre()){
+            genreTree.insertByGenre(genre, song);
+        }
+    };
+
     public Set<Song> search(Map<String, String> terms){
         Set<Song> idTreeRes =  new HashSet<>();
         Set<Song> songNameTreeRes= new HashSet<>();

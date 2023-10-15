@@ -21,6 +21,7 @@ import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
+import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -62,6 +63,7 @@ public class LoadingActivity extends AppCompatActivity {
                             firestoreDao.setSongRealTimeListener(newSong);
                         }
                         loadPlayingSong();
+                        RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
                     });
                 });
     }

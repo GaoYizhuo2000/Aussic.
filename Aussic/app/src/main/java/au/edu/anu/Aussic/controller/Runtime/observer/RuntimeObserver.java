@@ -9,11 +9,13 @@ import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
+import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 /**
  * The class for song playing and pausing
  */
 public class RuntimeObserver {
+    public static MusicSearchEngine musicSearchEngine;
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
     public static User currentUser;

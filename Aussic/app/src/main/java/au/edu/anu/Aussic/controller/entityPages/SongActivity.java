@@ -125,6 +125,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                             .thenAccept(msg -> {
                                 if(msg == null){
                                     new Favorites("favorites", FirebaseAuth.getInstance().getCurrentUser().getEmail(), RuntimeObserver.getCurrentSong().getSongName(), Integer.parseInt(RuntimeObserver.getCurrentSong().getId())).update();
+                                    RuntimeObserver.musicSearchEngine.addSong(RuntimeObserver.getCurrentSong());
                                 }else {
                                     Toast.makeText(SongActivity.this,msg,Toast.LENGTH_SHORT).show();
                                 }
