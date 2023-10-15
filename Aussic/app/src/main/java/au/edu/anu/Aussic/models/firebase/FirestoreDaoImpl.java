@@ -298,6 +298,24 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public void deleteUserFavorites(String songId) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String username = user.getEmail();
+        DocumentReference docRef = firestore.collection("users").document(username);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> userdata = task.getResult().getData();
+                List<String> favorites = new ArrayList<>();
+                if(userdata.get("favorites") != null){
+                    favorites = (List<String>)userdata.get("favorites");
+                }
+                favorites.remove(songId);
+                docRef.update("favorites", favorites);
+            }
+        });
+    }
+
+    @Override
     public CompletableFuture<String> updateUserLikes(String songId) {
         CompletableFuture<String> future = new CompletableFuture<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
