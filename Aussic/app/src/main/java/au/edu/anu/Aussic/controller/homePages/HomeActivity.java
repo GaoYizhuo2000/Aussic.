@@ -31,7 +31,9 @@ import java.io.InputStreamReader;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnMediaChangeListener;
+import au.edu.anu.Aussic.controller.homePages.P2P.MessagesFragment;
 import au.edu.anu.Aussic.controller.homePages.userPages.UserPageFragment;
+import au.edu.anu.Aussic.controller.loginPages.LoginActivity;
 import au.edu.anu.Aussic.controller.searchPages.SearchActivity;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -48,10 +50,8 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
     BottomNavigationView bottomNavigationView;
     NavigationView navigationView;
     private HomeFragment homeFragment = new HomeFragment();
-    private ShortsFragment shortsFragment= new ShortsFragment();
-    private SubscriptionsFragment subscriptionsFragment = new SubscriptionsFragment();
     private UserPageFragment userPageFragment = new UserPageFragment();
-    private FavoritesFragment favoritesFragment = new FavoritesFragment();
+    private MessagesFragment messagesFragment = new MessagesFragment();
     private Handler timerHandler = new Handler();
     private JsonObject jsonObject = null;
     private JsonArray jsonArray;
@@ -108,11 +108,7 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
 
                 if(item.getItemId() == R.id.home) replaceFragment(homeFragment);
 
-                else if(item.getItemId() == R.id.shorts) replaceFragment(shortsFragment);
-
-                else if(item.getItemId() == R.id.subscriptions) replaceFragment(subscriptionsFragment);
-
-                else if(item.getItemId() == R.id.library) replaceFragment(userPageFragment);
+                else if(item.getItemId() == R.id.user_profile) replaceFragment(userPageFragment);
 
             return true;
         });
@@ -121,13 +117,16 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             // Closing the drawer after selecting
             drawerLayout.closeDrawer(GravityCompat.START);
             if(menuItem.getItemId() == R.id.nav_home) replaceFragment(homeFragment);
-            else if (menuItem.getItemId() == R.id.nav_favorites) replaceFragment(favoritesFragment);
-            else if(menuItem.getItemId() == R.id.nav_settings) {
-                //TODO:test
 
+            else if(menuItem.getItemId() == R.id.nav_messages) replaceFragment(messagesFragment);
+
+            else if(menuItem.getItemId() == R.id.nav_logout) {
+                // Finish the Home activity and return back to the login activity
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
-            else if(menuItem.getItemId() == R.id.nav_share) replaceFragment(subscriptionsFragment);
-            else if(menuItem.getItemId() == R.id.nav_about) replaceFragment(userPageFragment);
 
             return true;
         });
