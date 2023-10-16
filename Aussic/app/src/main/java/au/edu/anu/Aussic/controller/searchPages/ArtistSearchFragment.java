@@ -9,13 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ArtistSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArtistSearchFragment extends Fragment {
+public class ArtistSearchFragment extends Fragment implements OnDataArrivedListener, OnItemSpecClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +64,10 @@ public class ArtistSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_artist_search, container, false);
+    }
+
+    @Override
+    public void onDataArrivedResponse() {
+
     }
 }

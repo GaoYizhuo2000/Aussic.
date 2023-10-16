@@ -21,6 +21,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -145,6 +149,9 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                     comments.setEnabled(true);
                     comments.setVisibility(View.VISIBLE);
                 }
+
+                if(sortID == 0) sortByLikes(RuntimeObserver.currentSearchResultSongs);
+                else if(sortID == 1) sortByFavorites(RuntimeObserver.currentSearchResultSongs);
             }
 
             @Override
@@ -255,6 +262,8 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                         RuntimeObserver.currentSearchResultGenres.add(newGenre);
                         break;
                 }
+                if(sortID == 0) sortByLikes(RuntimeObserver.currentSearchResultSongs);
+                else if(sortID == 1) sortByFavorites(RuntimeObserver.currentSearchResultSongs);
 
 
             }
@@ -304,14 +313,22 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         else this.fab.setImageResource(R.drawable.ic_bottom_play);
     }
 
-    private void hideTabWithTitle(String title) {
-        for (int i = 0; i < tabs.getTabCount(); i++) {
-            TabLayout.Tab tab = tabs.getTabAt(i);
-            if (tab != null && title.equals(tab.getText())) {
-                // Using View.GONE makes the tab disappear, reordering the visible tabs
-                Objects.requireNonNull(tab.getCustomView()).setVisibility(View.GONE);
-                break;
+
+    private void sortByLikes(List<Song> songList){
+        Collections.sort(songList, new Comparator<Song>(){
+            @Override
+            public int compare(Song s1, Song s2) {
+                return s1.getLikes() - s2.getLikes();
             }
-        }
+        });
+    }
+
+    private void sortByFavorites(List<Song> songList){
+        Collections.sort(songList, new Comparator<Song>(){
+            @Override
+            public int compare(Song s1, Song s2) {
+                return s1.getFavorites() - s2.getFavorites();
+            }
+        });
     }
 }
