@@ -194,7 +194,10 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getRandomUseraction().thenAccept(useraction -> {
             Gson gson = new Gson();
+            useraction.put("targetSongId", RuntimeObserver.getCurrentSong().getId());
+            useraction.put("targetSong", RuntimeObserver.getCurrentSong().getSongName());
             JsonObject jsonObject = gson.toJsonTree(useraction).getAsJsonObject();
+
             UserAction userAction = UserActionFactory.createUserAction(jsonObject);
             userAction.update();
            // Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
