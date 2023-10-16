@@ -92,6 +92,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
     }
 
     private void setFavoritesList(List<Song> favorites){
+
         List<ItemSpec> itemList = new ArrayList<>();
         for(Song song : favorites) itemList.add(new ItemSpec(song));
         recyclerView.setLayoutManager(new LinearLayoutManager(FavouriteSongActivity.this));
@@ -116,29 +117,35 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
     @Override
     public void onDataChangeResponse() {
-        if(RuntimeObserver.currentUser.getFavorites().size() > RuntimeObserver.currentUsrFavoriteSongs.size()){
+        if(RuntimeObserver.currentUsrFavoriteSearchResults.isEmpty()){
+            if(RuntimeObserver.currentUser.getFavorites().size() > RuntimeObserver.currentUsrFavoriteSongs.size()){
 
-            FirestoreDao firestoreDao = new FirestoreDaoImpl();
-            firestoreDao.getSongsByIdList(RuntimeObserver.currentUser.getFavorites()).thenAccept(results ->{
-                // Clear the currentUsrFavoriteSongs in runtime
-                RuntimeObserver.currentUsrFavoriteSongs = new ArrayList<>();
+                FirestoreDao firestoreDao = new FirestoreDaoImpl();
+                firestoreDao.getSongsByIdList(RuntimeObserver.currentUser.getFavorites()).thenAccept(results ->{
+                    // Clear the currentUsrFavoriteSongs in runtime
+                    RuntimeObserver.currentUsrFavoriteSongs = new ArrayList<>();
 
-                List<Map<String, Object>> maps = new ArrayList<>();
-                maps.addAll(results);
-                for(Map<String, Object> map : maps) {
-                    Song newSong = GsonLoader.loadSong(map);
+                    List<Map<String, Object>> maps = new ArrayList<>();
+                    maps.addAll(results);
+                    for(Map<String, Object> map : maps) {
+                        Song newSong = GsonLoader.loadSong(map);
 
-                    RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
+                        RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
 
-                    firestoreDao.setSongRealTimeListener(newSong);
-                }
+                        firestoreDao.setSongRealTimeListener(newSong);
+                    }
+                    List<Song> favorites = RuntimeObserver.currentUsrFavoriteSongs;
+                    setFavoritesList(favorites);
+                });
+            } else {
                 List<Song> favorites = RuntimeObserver.currentUsrFavoriteSongs;
                 setFavoritesList(favorites);
-            });
+            }
         } else {
-            List<Song> favorites = RuntimeObserver.currentUsrFavoriteSongs;
+            List<Song> favorites = RuntimeObserver.currentUsrFavoriteSearchResults;
             setFavoritesList(favorites);
         }
+
     }
 
     @Override
@@ -162,6 +169,8 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
     private void doSearch(String input){
         if(input == null|| input.equals("")){
+            RuntimeObserver.currentUsrFavoriteSearchResults = new ArrayList<>();
+            RuntimeObserver.notifyOnDataChangeListeners();
             return;
         }
         // hide the keyboard when button is clicked
@@ -171,6 +180,12 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
         Parser parser = new Parser(new Tokenizer(input));
         Map<String, String> searchingTerms = parser.Parse();
         Set<Song> result = RuntimeObserver.musicSearchEngine.search(searchingTerms);
+
+        if (!result.isEmpty()){
+            RuntimeObserver.currentUsrFavoriteSearchResults = new ArrayList<>();
+            RuntimeObserver.currentUsrFavoriteSearchResults.addAll(result);
+            RuntimeObserver.notifyOnDataChangeListeners();
+        }
 
 
     }
