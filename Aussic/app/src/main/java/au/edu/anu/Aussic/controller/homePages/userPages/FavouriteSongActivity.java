@@ -23,6 +23,8 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.OnDeleteBtnClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.entityPages.SongActivity;
+import au.edu.anu.Aussic.controller.loginPages.LoginActivity;
+import au.edu.anu.Aussic.controller.loginPages.SignUpActivity;
 import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -32,7 +34,7 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 public class FavouriteSongActivity extends AppCompatActivity implements OnDeleteBtnClickListener, OnDataChangeListener {
     private RecyclerView recyclerView;
     private SearchView searchView;
-    private Button searchButton;
+    private Button searchButton, goBackUserPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
         this.searchView = findViewById(R.id.fav_searchview);
         this.searchButton = findViewById(R.id.fav_searchButton);
+        goBackUserPage = findViewById(R.id.favorites_return_button);
+
+        goBackUserPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         this.searchView.setOnClickListener(new View.OnClickListener() {
             @Override
