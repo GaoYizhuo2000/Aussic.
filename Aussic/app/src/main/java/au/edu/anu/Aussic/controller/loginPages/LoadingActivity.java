@@ -24,7 +24,6 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 public class LoadingActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,35 +35,49 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     private void loadUsrData(FirebaseUser user){
-        // Load current usr into runtime
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getUserdata(user)
                 .thenAccept(userdata -> {
+                    if(userdata == null) {
+                        // TODO: Handle this scenario, e.g., show an error message or redirect user
+                        return;
+                    }
+
                     // Loading the usr icon url
                     String iconUrl = (String) userdata.get("iconUrl");
                     au.edu.anu.Aussic.models.entity.User newUsr = new User(user.getEmail(), iconUrl);
 
-                    for(String songID : (List<String>)userdata.get("favorites")) newUsr.addFavorites(songID);
-                    for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
+                    // ** Modification: Check if "favorites" and "likes" are not null before iterating over them
+                    List<String> favorites = (List<String>)userdata.get("favorites");
+                    if(favorites != null) {
+                        for(String songID : favorites) newUsr.addFavorites(songID);
+                    }
+                    List<String> likes = (List<String>)userdata.get("likes");
+                    if(likes != null) {
+                        for(String songID : likes) newUsr.addLikes(songID);
+                    }
 
-                    // Set up real time listener for user
                     firestoreDao.setUsrRealTimeListener(newUsr);
-
                     RuntimeObserver.currentUser = newUsr;
 
-                    firestoreDao.getSongsByIdList(newUsr.getFavorites()).thenAccept(results ->{
-                        List<Map<String, Object>> maps = new ArrayList<>();
-                        maps.addAll(results);
-                        for(Map<String, Object> map : maps) {
-                            Song newSong = GsonSongLoader.loadSong(map);
-
-                            RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
-
-                            firestoreDao.setSongRealTimeListener(newSong);
-                        }
+                    // ** Modification: Only call getSongsByIdList if favorites is not null and not empty
+                    if (favorites != null && !favorites.isEmpty()) {
+                        firestoreDao.getSongsByIdList(newUsr.getFavorites()).thenAccept(results -> {
+                            List<Map<String, Object>> maps = new ArrayList<>();
+                            if(results != null) {
+                                maps.addAll(results);
+                                for(Map<String, Object> map : maps) {
+                                    Song newSong = GsonSongLoader.loadSong(map);
+                                    RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
+                                    firestoreDao.setSongRealTimeListener(newSong);
+                                }
+                            }
+                            loadPlayingSong();
+                            RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
+                        });
+                    } else {
                         loadPlayingSong();
-                        RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
-                    });
+                    }
                 });
     }
 

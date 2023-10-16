@@ -76,15 +76,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
                 doSearch(query);
             }
         });
-
-
-
         onDataChangeResponse();
-
-
-
-
-
     }
 
     private void setFavoritesList(List<Song> favorites){
