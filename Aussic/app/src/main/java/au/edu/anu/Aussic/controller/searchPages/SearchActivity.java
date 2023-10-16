@@ -10,7 +10,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import androidx.appcompat.widget.SearchView;
@@ -22,14 +21,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
+import au.edu.anu.Aussic.models.entity.Artist;
+import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -209,15 +209,31 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         firestoreDao.searchSongs(searchingTerms).thenAccept(results -> {
             //拿到查询结果后处理，放入listview展示 results是歌曲列表
             RuntimeObserver.currentSearchResultSongs = new ArrayList<>();
+            RuntimeObserver.currentSearchResultArtists = new ArrayList<>();
+            RuntimeObserver.currentSearchResultGenres = new ArrayList<>();
 
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results); //结果里会有歌和genre和artist的对象json（用general 搜索的话），先检查type参数再分别处理
             for(Map<String, Object> map : maps) {
-                Song newSong = GsonSongLoader.loadSong(map);
+                if (map == null) continue;
+                switch ((String) map.get("type")){
+                    case "songs":
+                        Song newSong = GsonLoader.loadSong(map);
+                        // Set up real time listener for song search results
+                        firestoreDao.setSongRealTimeListener(newSong);
+                        RuntimeObserver.currentSearchResultSongs.add(newSong);
+                        break;
+                    case "artists":
+                        Artist newArtist = GsonLoader.loadArtist(map);
+                        RuntimeObserver.currentSearchResultArtists.add(newArtist);
+                        break;
+                    case "genres":
+                        Genre newGenre = GsonLoader.loadGenre(map);
+                        RuntimeObserver.currentSearchResultGenres.add(newGenre);
+                        break;
+                }
 
-                // Set up real time listener for song search results
-                firestoreDao.setSongRealTimeListener(newSong);
-                RuntimeObserver.currentSearchResultSongs.add(GsonSongLoader.loadSong(map));
+
             }
             RuntimeObserver.notifyOnDataArrivedListeners();
 

@@ -149,23 +149,6 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
         roundUnderText.setText(Functions.adjustLength(songName));
     }
 
-    @Override
-    public void onItemClicked(ItemSpec itemSpec) throws IOException {
-        RuntimeObserver.setCurrentSong(itemSpec.getSong());
-        RuntimeObserver.getCurrentMediaPlayer().pause();
-        RuntimeObserver.getCurrentMediaPlayer().release();
-        RuntimeObserver.setMediaPlayer(new MediaPlayer());
-        RuntimeObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
-        RuntimeObserver.getCurrentMediaPlayer().prepare();
-        RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
-        RuntimeObserver.getCurrentMediaPlayer().start();
-        setRoundImage(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
-        Intent intent = new Intent(getContext(), SongActivity.class);
-        // add more extras if necessary
-        startActivity(intent);
-    }
-
-
 
     @Override
     public void onMediaChangeResponse() {

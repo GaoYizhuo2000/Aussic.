@@ -18,8 +18,8 @@ import au.edu.anu.Aussic.R;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    private List<ItemSpec> itemSpecList;
-    private OnItemSpecClickListener listener;
+    protected List<ItemSpec> itemSpecList;
+    protected OnItemSpecClickListener listener;
 
 
     public CardAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {

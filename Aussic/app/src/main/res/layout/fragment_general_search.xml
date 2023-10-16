@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.searchPages.GeneralSearchFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -32,6 +33,23 @@
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/search_general_genres"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:textSize="40dp"
+                android:text="Genres..."
+                android:fontFamily="casual"/>
+            <!-- Placeholder for Genre List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_list_genre_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            <TextView
                 android:id="@+id/search_general_artists"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -47,21 +65,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-            <TextView
-                android:id="@+id/search_general_genres"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="15dp"
-                android:paddingTop="20dp"
-                android:textSize="40dp"
-                android:text="Genres..."
-                android:fontFamily="casual"/>
-            <!-- Placeholder for Genre List (RecyclerView) -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_list_genre_recyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+
 
 
         </LinearLayout>

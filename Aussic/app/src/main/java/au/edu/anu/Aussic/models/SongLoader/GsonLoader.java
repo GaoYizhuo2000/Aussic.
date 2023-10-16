@@ -11,9 +11,11 @@ package au.edu.anu.Aussic.models.SongLoader;
         import java.util.List;
         import java.util.Map;
 
+        import au.edu.anu.Aussic.models.entity.Artist;
+        import au.edu.anu.Aussic.models.entity.Genre;
         import au.edu.anu.Aussic.models.entity.Song;
 
-public class GsonSongLoader {
+public class GsonLoader {
 
     public static List<Song> loadSongsFromJson(String filename) {
         try (Reader reader = Files.newBufferedReader(Paths.get(filename))) {
@@ -29,5 +31,17 @@ public class GsonSongLoader {
         Gson gson = new Gson();
         String jsonData = gson.toJson(fromFireStore);
         return gson.fromJson(jsonData, Song.class);
+    }
+
+    public static Artist loadArtist(Map<String, Object> fromFireStore){
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(fromFireStore);
+        return gson.fromJson(jsonData, Artist.class);
+    }
+
+    public static Genre loadGenre(Map<String, Object> fromFireStore){
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(fromFireStore);
+        return gson.fromJson(jsonData, Genre.class);
     }
 }
