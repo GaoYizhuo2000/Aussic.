@@ -157,7 +157,22 @@ public class BinarySearchTree<T> extends Tree<T> {
     }
 
     @Override
-    public Tree<T> deleteByName(String songName, String songId) {
+    public Tree<T> deleteByName(Song song) {
+        return null;
+    }
+
+    @Override
+    public Tree<T> deleteByArtistName(Song song) {
+        return null;
+    }
+
+    @Override
+    public Tree<T> deleteByReleaseDate(Song song) {
+        return null;
+    }
+
+    @Override
+    public Tree<T> deleteByGenre(String genre, Song song) {
         return null;
     }
 
@@ -213,9 +228,21 @@ public class BinarySearchTree<T> extends Tree<T> {
         }
 
         @Override
-        public Tree<T> deleteByName(String songName, String songId) {
+        public Tree<T> deleteByName(Song song) {
             return null;
         }
+
+        @Override
+        public Tree<T> deleteByArtistName(Song song) {return null;}
+
+        @Override
+        public Tree<T> deleteByReleaseDate(Song song){return null;}
+
+        @Override
+        public Tree<T> deleteByGenre(String genre, Song song) {
+            return null;
+        }
+
 
 //        @Override
 //        public Tree<T> delete(T element) {

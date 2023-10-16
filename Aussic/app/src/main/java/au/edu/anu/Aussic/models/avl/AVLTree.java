@@ -2,9 +2,11 @@ package au.edu.anu.Aussic.models.avl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 
 public class AVLTree<T> extends BinarySearchTree<T> {
@@ -238,9 +240,11 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             if (leftNode == null && rightNode == null) { //Leaf node
                 return null;
             } else if (leftNode == null) {  // Right child only
-                return (AVLTree<T>) rightNode;
+                //return (AVLTree<T>) rightNode;
+                return new AVLTree<>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.leftNode);
             } else if (rightNode == null) { //Left child only
-                return (AVLTree<T>) leftNode;
+                //return (AVLTree<T>) leftNode;
+                return new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
             } else { //Two children
                 AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
                 T predecessorT = newLeft.findMaxNode();
@@ -274,35 +278,98 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return balanceTree(newTree);
     }
 
-    public AVLTree<T> deleteByName(String songName, String songId) {
-        if (songName == null || songId == null)
-            throw new IllegalArgumentException("Deletion arguments cannot be null");
 
-        if (leftNode instanceof EmptyAVL) {
-            leftNode = null;
-        }
-        if (rightNode instanceof EmptyAVL) {
-            rightNode = null;
-        }
+    public AVLTree<T> deleteByName(Song song) {
+        if (song == null || song.getSongName() == null || song.getId() == null)
+            throw new IllegalArgumentException("Deletion arguments cannot be null");
+        String songName = song.getSongName();
+        String songId = song.getId();
 
         AVLTree<T> newTree = null;
         if (songName.compareTo(key) > 0 && rightNode != null) {
-            AVLTree<T> t = (AVLTree<T>) rightNode.deleteByName(songName, songId);
+            AVLTree<T> t = (AVLTree<T>) rightNode.deleteByName(song);
             newTree = new AVLTree<>(key, value, leftNode, t != null ? t : new EmptyAVL<>());
         } else if (songName.compareTo(key) < 0 && leftNode != null) {
-            AVLTree<T> t = (AVLTree<T>) leftNode.deleteByName(songName, songId);
+            AVLTree<T> t = (AVLTree<T>) leftNode.deleteByName(song);
             newTree = new AVLTree<>(key, value, t != null ? t : new EmptyAVL<>(), rightNode);
         } else { // Song name matches the current node's key
             List<Song> songList = (List<Song>) value;
-            if (songList.size() == 1 && songList.get(0).getId().equals(songId)) {
-                // If it's the only song in the node, delete the entire node
-                if (leftNode == null && rightNode == null) { // Leaf node
+            songList.removeIf(s -> s.getId().equals(songId));
+            //for(Song s: songList)System.out.println(s);
+                if (!songList.isEmpty()) {
+                    //return this;
+                    return new AVLTree<>(key, value, leftNode, rightNode);
+                } else {
+                    if (leftNode == null && rightNode == null) {
+                        // Leaf node without any songs left
+                        return null;
+                    } else if (leftNode == null) {
+                        // Only right child is present
+                        // return (AVLTree<T>) rightNode;
+                        return new AVLTree<T>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.rightNode);
+                    } else if (rightNode == null) {
+                        // Only left child is present
+                        //return (AVLTree<T>) leftNode;
+                        return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                    } else {
+                        // Both children are present, need to find predecessor or successor to replace
+                        AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                        T predecessorT = newLeft.findMaxNode();
+                        Song predecessor = null;
+                        if (predecessorT instanceof List<?>) {
+                            List<Song> predecessorList = (List<Song>) predecessorT;
+                            if (!predecessorList.isEmpty()) {
+                                predecessor = predecessorList.get(0);
+                            }
+                        }
+                        if (predecessor == null) {
+                            throw new IllegalStateException("Predecessor song was not found.");
+                        }
+                        newLeft = newLeft.deleteByName(predecessor);
+                        List<Song> newPredecessorList = new ArrayList<>();
+                        newPredecessorList.add(predecessor);
+                        return new AVLTree<T>(predecessor.getSongName(), (T) newPredecessorList, newLeft, rightNode);
+                        //return new AVLTree<T>(predecessor.getSongName(), predecessorT, newLeft, rightNode);
+                    }
+                }
+            }
+
+        // Balance the tree
+        return balanceTree(newTree);
+    }
+
+    public AVLTree<T> deleteByArtistName(Song song) {
+        if (song == null || song.getArtistName() == null)
+            throw new IllegalArgumentException("Deletion arguments cannot be null");
+
+        String artistName = song.getArtistName();
+
+        AVLTree<T> newTree = null;
+        if (artistName.compareTo(key) > 0 && rightNode != null) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.deleteByArtistName(song);
+            newTree = new AVLTree<>(key, value, leftNode, t != null ? t : new EmptyAVL<>());
+        } else if (artistName.compareTo(key) < 0 && leftNode != null) {
+            AVLTree<T> t = (AVLTree<T>) leftNode.deleteByArtistName(song);
+            newTree = new AVLTree<>(key, value, t != null ? t : new EmptyAVL<>(), rightNode);
+        } else { // Artist name matches the current node's key
+            List<Song> songList = (List<Song>) value;
+            songList.removeIf(s -> s.getArtistName().equals(artistName));
+            if (!songList.isEmpty()) {
+                return new AVLTree<>(key, value, leftNode, rightNode);
+            } else {
+                if (leftNode == null && rightNode == null) {
+                    // Leaf node without any songs left
                     return null;
-                } else if (leftNode == null) {  // Right child only
-                    return (AVLTree<T>) rightNode;
-                } else if (rightNode == null) { // Left child only
-                    return (AVLTree<T>) leftNode;
-                } else { // Node with two children
+                } else if (leftNode == null) {
+                    // Only right child is present
+                    // return (AVLTree<T>) rightNode;
+                    return new AVLTree<T>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.rightNode);
+                } else if (rightNode == null) {
+                    // Only left child is present
+                    //return (AVLTree<T>) leftNode;
+                    return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                } else {
+                    // Both children are present, need to find predecessor or successor to replace
                     AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
                     T predecessorT = newLeft.findMaxNode();
                     Song predecessor = null;
@@ -315,39 +382,153 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                     if (predecessor == null) {
                         throw new IllegalStateException("Predecessor song was not found.");
                     }
-                    newLeft = newLeft.deleteById(predecessor);
-                    newTree = new AVLTree<T>(predecessor.getSongName(), predecessorT, (newLeft != null ? newLeft : new EmptyAVL<>()), rightNode);
+                    newLeft = newLeft.deleteByArtistName(predecessor);
+                    List<Song> newPredecessorList = new ArrayList<>();
+                    newPredecessorList.add(predecessor);
+                    return new AVLTree<T>(predecessor.getArtistName(), (T) newPredecessorList, newLeft, rightNode);
                 }
-            } else {
-                // If there are multiple songs in the node, just remove the song with matching ID
-                songList.removeIf(song -> song.getId().equals(songId));
             }
         }
+
         // Balance the tree
-        assert newTree != null;
+        return balanceTree(newTree);
+    }
+
+    public AVLTree<T> deleteByReleaseDate(Song song) {
+        if (song == null || song.getReleaseDate() == null)
+            throw new IllegalArgumentException("Deletion arguments cannot be null");
+
+        String releaseDate = song.getReleaseDate();
+
+        AVLTree<T> newTree = null;
+        if (releaseDate.compareTo(key) > 0 && rightNode != null) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.deleteByReleaseDate(song);
+            newTree = new AVLTree<>(key, value, leftNode, t != null ? t : new EmptyAVL<>());
+        } else if (releaseDate.compareTo(key) < 0 && leftNode != null) {
+            AVLTree<T> t = (AVLTree<T>) leftNode.deleteByReleaseDate(song);
+            newTree = new AVLTree<>(key, value, t != null ? t : new EmptyAVL<>(), rightNode);
+        } else { // Release date matches the current node's key
+            List<Song> songList = (List<Song>) value;
+            songList.removeIf(s -> s.getReleaseDate().equals(releaseDate));
+            if (!songList.isEmpty()) {
+                return new AVLTree<>(key, value, leftNode, rightNode);
+            } else {
+                    if (leftNode == null && rightNode == null) {
+                        // Leaf node without any songs left
+                        return null;
+                    } else if (leftNode == null) {
+                        // Only right child is present
+                        // return (AVLTree<T>) rightNode;
+                        return new AVLTree<T>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.rightNode);
+                    } else if (rightNode == null) {
+                        // Only left child is present
+                        //return (AVLTree<T>) leftNode;
+                        return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                    } else {
+                        // Both children are present, need to find predecessor or successor to replace
+                        AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                        T predecessorT = newLeft.findMaxNode();
+                        Song predecessor = null;
+                        if (predecessorT instanceof List<?>) {
+                            List<Song> predecessorList = (List<Song>) predecessorT;
+                            if (!predecessorList.isEmpty()) {
+                                predecessor = predecessorList.get(0);
+                            }
+                        }
+                        if (predecessor == null) {
+                            throw new IllegalStateException("Predecessor song was not found.");
+                        }
+                        newLeft = newLeft.deleteByReleaseDate(predecessor);
+                        List<Song> newPredecessorList = new ArrayList<>();
+                        newPredecessorList.add(predecessor);
+                        return new AVLTree<T>(predecessor.getReleaseDate(), (T) newPredecessorList, newLeft, rightNode);
+                    }
+                }
+            }
+        return balanceTree(newTree);
+    }
+
+    public AVLTree<T> deleteByGenre(String genre, Song song) {
+        if (song == null || song.getId() == null || genre == null)
+            throw new IllegalArgumentException("Deletion arguments cannot be null");
+
+        AVLTree<T> newTree = null;
+        if (genre.compareTo(key) > 0 && rightNode != null) {
+            AVLTree<T> t = (AVLTree<T>) rightNode.deleteByGenre(genre, song);
+            newTree = new AVLTree<>(key, value, leftNode, t != null ? t : new EmptyAVL<>());
+        } else if (genre.compareTo(key) < 0 && leftNode != null) {
+            AVLTree<T> t = (AVLTree<T>) leftNode.deleteByGenre(genre, song);
+            newTree = new AVLTree<>(key, value, t != null ? t : new EmptyAVL<>(), rightNode);
+        } else { // Genre matches the current node's key
+            List<Song> songList = (List<Song>) value;
+            songList.removeIf(s -> s.getId().equals(song.getId()));
+            if (!songList.isEmpty()) {
+                return new AVLTree<>(key, value, leftNode, rightNode);
+            } else {
+                if (leftNode == null && rightNode == null) {
+                    // Leaf node without any songs left
+                    return null;
+                } else if (leftNode == null) {
+                    // Only right child is present
+                    // return (AVLTree<T>) rightNode;
+                    return new AVLTree<T>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.rightNode);
+                } else if (rightNode == null) {
+                    // Only left child is present
+                    //return (AVLTree<T>) leftNode;
+                    return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                } else {
+                    // Both children are present, need to find predecessor or successor to replace
+                    AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
+                    T predecessorT = newLeft.findMaxNode();
+                    Song predecessor = null;
+                    if (predecessorT instanceof List<?>) {
+                        List<Song> predecessorList = (List<Song>) predecessorT;
+                        if (!predecessorList.isEmpty()) {
+                            predecessor = predecessorList.get(0);
+                        }
+                    }
+                    if (predecessor == null) {
+                        throw new IllegalStateException("Predecessor song was not found.");
+                    }
+                    newLeft = newLeft.deleteByGenre(genre, predecessor);
+                    List<Song> newPredecessorList = new ArrayList<>();
+                    newPredecessorList.add(predecessor);
+                    return new AVLTree<T>(genre, (T) newPredecessorList, newLeft, rightNode);
+                }
+            }
+        }
+
         return balanceTree(newTree);
     }
 
 
-        private AVLTree<T> balanceTree (AVLTree <T> newTree) {
-            if (newTree.getBalanceFactor() < -1) {
-                newTree = newTree.leftRotate();
-            } else if (newTree.getBalanceFactor() < -1) {
-                AVLTree<T> rightNode = (AVLTree<T>) newTree.rightNode;
-                newTree.rightNode = rightNode.rightRotate();
-                newTree = newTree.leftRotate();
-            } else if (newTree.getBalanceFactor() > 1) {
-                newTree = newTree.rightRotate();
-            } else if (newTree.getBalanceFactor() > 1) {
-                AVLTree<T> leftNode = (AVLTree<T>) newTree.leftNode;
-                newTree.leftNode = leftNode.leftRotate();
-                newTree = newTree.rightRotate();
+    /**
+     *
+     * @param node
+     * @return
+     */
+    private AVLTree<T> balanceTree(AVLTree<T> node) {
+        if (node.getBalanceFactor() < -1) {  // Right heavy
+            // Check if we need a double rotation (right-left)
+            if (((AVLTree<T>)node.rightNode).getBalanceFactor() > 0) {
+                AVLTree<T> rightNode = (AVLTree<T>) node.rightNode;
+                node.rightNode = rightNode.leftRotate();
             }
-            return newTree;
+            node = node.leftRotate();
+        } else if (node.getBalanceFactor() > 1) {  // Left heavy
+            // Check if we need a double rotation (left-right)
+            if (((AVLTree<T>)node.leftNode).getBalanceFactor() < 0) {
+                AVLTree<T> leftNode = (AVLTree<T>) node.leftNode;
+                node.leftNode = leftNode.rightRotate();
+            }
+            node = node.rightRotate();
         }
+        return node;
+    }
 
 
-        /**
+
+    /**
          * Helper for deleteById()
          * To find the
          * Finds the rightmost (largest) element in the left subtree
@@ -409,7 +590,22 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             }
 
             @Override
-            public Tree<T> deleteByName(String songName, String songId){
+            public Tree<T> deleteByName(Song song){
+                return null;
+            }
+
+            @Override
+            public Tree<T> deleteByArtistName(Song song) {
+                return null;
+            }
+
+            @Override
+            public Tree<T> deleteByReleaseDate(Song song) {
+                return null;
+            }
+
+            @Override
+            public Tree<T> deleteByGenre(String genre, Song song) {
                 return null;
             }
 

@@ -74,7 +74,13 @@ public abstract class Tree<T> {
 
     public abstract Tree<T> deleteById(Song song);
 
-    public abstract Tree<T> deleteByName(String songName, String songId);
+    public abstract Tree<T> deleteByName(Song song);
+
+    public abstract Tree<T> deleteByArtistName(Song song);
+
+    public abstract Tree<T> deleteByReleaseDate(Song song);
+
+    public abstract Tree<T> deleteByGenre(String genre, Song song);
 
 
 
@@ -101,7 +107,6 @@ public abstract class Tree<T> {
                 ", rightNode=" + rightNode +
                 '}';
     }
-
 
 
 }

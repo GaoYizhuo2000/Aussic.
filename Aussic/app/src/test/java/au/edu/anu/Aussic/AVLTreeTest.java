@@ -427,7 +427,7 @@ public class AVLTreeTest {
         SongAttributes song1attr = new SongAttributes("AAA", "artist1") ;
         song1.setAttributes(song1attr);
         List<Song> l = new ArrayList<>();
-        //l.add(song1);
+        l.add(song1);
 
         AVLTree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
 
@@ -449,10 +449,9 @@ public class AVLTreeTest {
         testTree = testTree.insertByName(song4);
 
         //Todo: test the deleteByName method.
-        //testTree.deleteByName("CCC", "4");
-        //testTree.deleteByName("BBB", "4");
-//        testTree.deleteByName("AAA", "2");
-//        assertEquals("", testTree.toString());
+        //testTree = testTree.deleteByName(song4);
+        testTree = testTree.deleteByName(song1);
+        assertEquals("", testTree.toString());
 
     }
 
