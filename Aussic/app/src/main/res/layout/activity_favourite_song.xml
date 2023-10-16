@@ -39,8 +39,8 @@
         app:layout_constraintStart_toEndOf="@+id/favorites_starImage"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/favorites_searchView"
+    <SearchView
+        android:id="@+id/fav_searchview"
         android:layout_width="280dp"
         android:layout_height="30dp"
         android:layout_marginStart="28dp"
@@ -64,7 +64,7 @@
         android:text="Search"
         android:textColor="@color/black"
         android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/favorites_searchView"
+        app:layout_constraintStart_toEndOf="@+id/fav_searchview"
         app:layout_constraintTop_toBottomOf="@+id/favorites_SongListText" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -73,7 +73,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@id/favorites_searchView"
+        app:layout_constraintTop_toBottomOf="@id/fav_searchview"
         android:paddingTop="30dp"/>
 
 

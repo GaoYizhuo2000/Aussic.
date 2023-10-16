@@ -43,7 +43,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
         this.recyclerView = findViewById(R.id.favorites_search_list_recyclerView);
 
-        this.searchView = findViewById(R.id.favorites_searchView);
+        this.searchView = findViewById(R.id.fav_searchview);
         this.searchButton = findViewById(R.id.fav_searchButton);
 
         this.searchView.setOnClickListener(new View.OnClickListener() {

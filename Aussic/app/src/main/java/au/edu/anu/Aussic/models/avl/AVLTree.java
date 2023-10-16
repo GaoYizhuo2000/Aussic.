@@ -133,7 +133,10 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             throw new IllegalArgumentException("Input cannot be null");
 
         if (song.getReleaseDate().compareTo(key) > 0) {
-            AVLTree<T> t = (AVLTree<T>) rightNode.insertByReleaseDate(song);
+            Tree<T> tree = rightNode.insertByReleaseDate(song);
+
+            // Type tree cannot be directly casted into AVLtree
+            AVLTree<T> t = (AVLTree<T>) tree;
             AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
             if (newTree.getBalanceFactor() < -1 && newTree.rightNode.rightNode.find(song.getReleaseDate()) != null) {
                 newTree = newTree.leftRotate();

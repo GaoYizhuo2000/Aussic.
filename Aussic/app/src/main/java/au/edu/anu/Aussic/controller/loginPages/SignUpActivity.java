@@ -125,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(this, LoadingActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
         }

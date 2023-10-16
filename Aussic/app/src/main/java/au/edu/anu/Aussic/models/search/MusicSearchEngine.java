@@ -32,13 +32,21 @@ public class MusicSearchEngine {
         songNameTree = new AVLTree<>(song0.getSongName(), l);
         artistTree = new AVLTree<>(song0.getArtistName(), l);
         releaseDateTree = new AVLTree<>(song0.getReleaseDate(), l);
+
+//        // Init genreTree
+//        genreTree = new AVLTree<>(song0.getGenre().get(0), l);
+//        for(String genre : song0.getGenre()){
+//            if(genre.equals(song0.getGenre().get(0))) continue;
+//            genreTree.insertByGenre(genre, song0);
+//        }
+
         for(Song song: songList){
             idTree = idTree.insertById(song);
             songNameTree.insertByName(song);
             artistTree.insertByArtistName(song);
             releaseDateTree.insertByReleaseDate(song);
             for(String genre: song.getGenre()){
-                genreTree.insertByGenre(genre, song);
+//                genreTree.insertByGenre(genre, song);
             }
         }
 
