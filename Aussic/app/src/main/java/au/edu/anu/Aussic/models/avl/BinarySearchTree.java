@@ -74,8 +74,7 @@ public class BinarySearchTree<T> extends Tree<T> {
             throw new IllegalArgumentException("Input cannot be null");
 
         if (song.getSongName().compareTo(key) > 0) {
-            AVLTree<T> t = (AVLTree<T>) rightNode.insertByName(song);
-            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, rightNode.insertByName(song));
             return newTree;
         } else if (song.getSongName().compareTo(key) < 0) {
             AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByName(song), rightNode);
@@ -93,8 +92,7 @@ public class BinarySearchTree<T> extends Tree<T> {
             throw new IllegalArgumentException("Input cannot be null");
 
         if (song.getArtistName().compareTo(key) > 0) {
-            AVLTree<T> t = (AVLTree<T>) rightNode.insertByArtistName(song);
-            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, rightNode.insertByArtistName(song));
             return newTree;
         } else if (song.getArtistName().compareTo(key) < 0) {
             AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByArtistName(song), rightNode);
@@ -112,8 +110,7 @@ public class BinarySearchTree<T> extends Tree<T> {
             throw new IllegalArgumentException("Input cannot be null");
 
         if (song.getReleaseDate().compareTo(key) > 0) {
-            AVLTree<T> t = (AVLTree<T>) rightNode.insertByReleaseDate(song);
-            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, rightNode.insertByReleaseDate(song));
             return newTree;
         } else if (song.getReleaseDate().compareTo(key) < 0) {
             AVLTree<T> newTree = new AVLTree<>(key, value, leftNode.insertByReleaseDate(song), rightNode);
@@ -131,8 +128,7 @@ public class BinarySearchTree<T> extends Tree<T> {
             throw new IllegalArgumentException("Input cannot be null");
 
         if (genre.compareTo(key) > 0) {
-            AVLTree<T> t = (AVLTree<T>) rightNode.insertByGenre(genre, song);
-            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, t);
+            AVLTree<T> newTree = new AVLTree<>(key, value, leftNode, rightNode.insertByGenre(genre, song));
 
             return newTree;
         } else if (genre.compareTo(key) < 0) {

@@ -55,7 +55,6 @@ public class LoadingActivity extends AppCompatActivity {
                     if(!newUsr.getFavorites().isEmpty()){
                         loadUsrFavSongs();
                     }else {
-//                        RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
                         loadPlayingSong();
                     }
                 });
@@ -74,7 +73,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                 firestoreDao.setSongRealTimeListener(newSong);
             }
-//            RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
+            RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
             loadPlayingSong();
         });
     }
