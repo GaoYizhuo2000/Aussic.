@@ -116,11 +116,12 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
     @Override
     public void onDataChangeResponse() {
         if(RuntimeObserver.currentUser.getFavorites().size() > RuntimeObserver.currentUsrFavoriteSongs.size()){
-            // Clear the currentUsrFavoriteSongs in runtime
-            RuntimeObserver.currentUsrFavoriteSongs = new ArrayList<>();
 
             FirestoreDao firestoreDao = new FirestoreDaoImpl();
             firestoreDao.getSongsByIdList(RuntimeObserver.currentUser.getFavorites()).thenAccept(results ->{
+                // Clear the currentUsrFavoriteSongs in runtime
+                RuntimeObserver.currentUsrFavoriteSongs = new ArrayList<>();
+
                 List<Map<String, Object>> maps = new ArrayList<>();
                 maps.addAll(results);
                 for(Map<String, Object> map : maps) {
