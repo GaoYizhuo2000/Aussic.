@@ -8,18 +8,18 @@ import java.util.List;
 
 public class CardGenreAdapter extends CardSongAdapter {
 
-    public CardGenreAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
+    public CardGenreAdapter(List<GeneralItem> cardDataList, OnGeneralItemClickListener listener) {
         super(cardDataList, listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        ItemSpec itemSpec = itemSpecList.get(position);
-        holder.description.setText(itemSpec.getGenreName());
+        GeneralItem generalItem = generalItemList.get(position);
+        holder.description.setText(generalItem.getGenreName());
 
         // TODO: Load the image into holder.image using an image loading library like Glide or Picasso
         Glide.with(holder.image.getContext())
-                .load(itemSpec.getGenreImageUrl())
+                .load(generalItem.getGenreImageUrl())
                 .into(holder.image);
     }
 }

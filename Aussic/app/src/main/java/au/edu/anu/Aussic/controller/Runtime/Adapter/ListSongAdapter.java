@@ -18,11 +18,11 @@ import au.edu.anu.Aussic.R;
 
 public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder> {
 
-    protected List<ItemSpec> items;
-    protected OnItemSpecClickListener listener;
+    protected List<GeneralItem> items;
+    protected OnGeneralItemClickListener listener;
 
 
-    public ListSongAdapter(List<ItemSpec> items, OnItemSpecClickListener listener) {
+    public ListSongAdapter(List<GeneralItem> items, OnGeneralItemClickListener listener) {
         this.items = items;
         this.listener = listener;
     }
@@ -36,13 +36,13 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListSo
 
     @Override
     public void onBindViewHolder(ListSongViewHolder holder, int position) {
-        ItemSpec itemSpec = items.get(position);
-        holder.listTitle.setText(itemSpec.getSongName());
-        holder.listArtist.setText(itemSpec.getSongArtistName());
+        GeneralItem generalItem = items.get(position);
+        holder.listTitle.setText(generalItem.getSongName());
+        holder.listArtist.setText(generalItem.getSongArtistName());
 
         // Load image from the web using Glide
         Glide.with(holder.listImage.getContext())
-                .load(itemSpec.getSongImageUrl())
+                .load(generalItem.getSongImageUrl())
                 .apply(new RequestOptions().override((int)(360 * 0.8), (int)(360 * 0.8)))
                 .into(holder.listImage);
     }
@@ -56,8 +56,8 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListSo
         protected ImageView listImage;
         protected TextView listTitle;
         protected TextView listArtist;
-        protected List<ItemSpec> items;
-        protected OnItemSpecClickListener listener;
+        protected List<GeneralItem> items;
+        protected OnGeneralItemClickListener listener;
 
         public ListSongViewHolder(View view, ListSongAdapter listSongAdapter) {
             super(view);

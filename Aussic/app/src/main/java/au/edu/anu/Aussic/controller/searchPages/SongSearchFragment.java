@@ -17,16 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.entity.Artist;
-import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 
 /**
@@ -34,7 +30,7 @@ import au.edu.anu.Aussic.models.entity.Song;
  * Use the {@link SongSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SongSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnItemSpecClickListener {
+public class SongSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnGeneralItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -100,9 +96,9 @@ public class SongSearchFragment extends Fragment implements OnDataArrivedListene
     @Override
     public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
-            List<ItemSpec> songList = new ArrayList<>();
+            List<GeneralItem> songList = new ArrayList<>();
 
-            for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new ItemSpec(song));
+            for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new GeneralItem(song));
 
 
             if(songList.isEmpty()) songs.setText("Songs:...\nno results...");

@@ -17,24 +17,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListUsrAdapter;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
+import au.edu.anu.Aussic.models.entity.User;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GeneralSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GeneralSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnItemSpecClickListener {
+public class GeneralSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnGeneralItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,6 +52,8 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     private RecyclerView searchArtistRecyclerView;
     private TextView genres;
     private RecyclerView searchGenreRecyclerView;
+    private TextView users;
+    private RecyclerView searchUserRecyclerView;
 
     public GeneralSearchFragment() {
         // Required empty public constructor
@@ -97,6 +101,9 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
         this.genres = view.findViewById(R.id.search_general_genres);
         this.searchGenreRecyclerView = view.findViewById(R.id.search_list_genre_recyclerView);
 
+        this.users = view.findViewById(R.id.search_general_users);
+        this.searchUserRecyclerView = view.findViewById(R.id.search_list_user_recyclerView);
+
 
         onDataArrivedResponse();
     }
@@ -111,16 +118,19 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
     @Override
     public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
-            List<ItemSpec> songList = new ArrayList<>();
-            List<ItemSpec> artistList = new ArrayList<>();
-            List<ItemSpec> genreList = new ArrayList<>();
+            List<GeneralItem> songList = new ArrayList<>();
+            List<GeneralItem> artistList = new ArrayList<>();
+            List<GeneralItem> genreList = new ArrayList<>();
+            List<GeneralItem> userList = new ArrayList<>();
 
-            if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  songList.add(new ItemSpec(song));
-            else for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new ItemSpec(song));
+            if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  songList.add(new GeneralItem(song));
+            else for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new GeneralItem(song));
 
-            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new ItemSpec(genre));
+            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new GeneralItem(genre));
 
-            for (Artist artist : RuntimeObserver.currentSearchResultArtists)  artistList.add(new ItemSpec(artist));
+            for (Artist artist : RuntimeObserver.currentSearchResultArtists)  artistList.add(new GeneralItem(artist));
+
+            for (User user : RuntimeObserver.currentSearchResultUsers) userList.add(new GeneralItem(user));
 
 
 
@@ -139,6 +149,11 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             else artists.setText("Artists:...");
             this.searchArtistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchArtistRecyclerView.setAdapter(new ListArtistAdapter(artistList, this));
+
+            if(userList.isEmpty()) users.setText("Users:...\nno results...");
+            else users.setText("Users:...");
+            this.searchUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            this.searchUserRecyclerView.setAdapter(new ListUsrAdapter(userList, this));
 
 
         }

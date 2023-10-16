@@ -15,6 +15,7 @@ public class User {
     public String location = "";
 
     public String iconUrl;
+    public String type;
 
     public User(String username, String iconUrl) {
         this.username = username;
@@ -39,5 +40,6 @@ public class User {
         this.likes = usr.getLikes();
         this.location = usr.location;
         this.iconUrl = usr.iconUrl;
+        this.type = usr.type;
     }
 }

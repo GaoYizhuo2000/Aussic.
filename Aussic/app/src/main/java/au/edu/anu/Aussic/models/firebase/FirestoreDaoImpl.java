@@ -1,10 +1,8 @@
 package au.edu.anu.Aussic.models.firebase;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
+import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
@@ -197,7 +195,12 @@ public class FirestoreDaoImpl implements FirestoreDao {
     //search songs according to terms, to be improved later
     @Override
     public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, String> terms) {
+        List<Task> allTask = new ArrayList<>();
         Query query = songsRef;
+        Task<DocumentSnapshot> taskUsrSearch;
+        Task<DocumentSnapshot> taskArtistSearch;
+        Task<DocumentSnapshot> taskGenreSearch;
+        Task<QuerySnapshot> taskSongSearch;
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> results = new ArrayList<>();
         AtomicInteger flag = new AtomicInteger();
@@ -207,22 +210,25 @@ public class FirestoreDaoImpl implements FirestoreDao {
             Task<QuerySnapshot> task1 = query.whereEqualTo(FieldPath.of("attributes", "name"), terms.get("undefinedTerm")).get();
             Task<DocumentSnapshot> task2 = artistsRef.document(terms.get("undefinedTerm")).get();
             Task<DocumentSnapshot> task3 = genresRef.document(terms.get("undefinedTerm")).get();
+            Task<DocumentSnapshot> task4 = usersRef.document(terms.get("undefinedTerm")).get();
 
             // 使用Tasks.whenAllSuccess来等待所有任务完成
-            Tasks.whenAllSuccess(task1, task2, task3).addOnCompleteListener(task -> {
+            Tasks.whenAllSuccess(task1, task2, task3, task4).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task1.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task1.getResult()) {
                             results.add(document.getData());
                         }
                     }
-
                     if (task2.isSuccessful()) {
                         results.add(task2.getResult().getData());
                     }
 
                     if (task3.isSuccessful()) {
                         results.add(task3.getResult().getData());
+                    }
+                    if (task4.isSuccessful()) {
+                        results.add(task4.getResult().getData());
                     }
                     future.complete(results);
                 }
@@ -231,6 +237,17 @@ public class FirestoreDaoImpl implements FirestoreDao {
         }else{
             if(terms.containsKey("artistName")&& terms.get("artistName") != null){
                 query = query.whereEqualTo(FieldPath.of("attributes","artistName"), terms.get("artistName"));
+                taskArtistSearch = artistsRef.document(terms.get("artistName")).get();
+                allTask.add(taskArtistSearch);
+            }
+            if(terms.containsKey("genre")&& terms.get("genre") != null){
+                query = query.whereArrayContains(FieldPath.of("attributes","genreNames"), terms.get("genre"));
+                taskGenreSearch = genresRef.document(terms.get("genre")).get();
+                allTask.add(taskGenreSearch);
+            }
+            if(terms.containsKey("user")&& terms.get("user") != null) {
+                taskUsrSearch = usersRef.document(terms.get("user")).get();
+                allTask.add(taskUsrSearch);
             }
             if(terms.containsKey("name")&& terms.get("name") != null){
                 query = query.whereEqualTo(FieldPath.of("attributes","name"), terms.get("name"));
@@ -241,17 +258,27 @@ public class FirestoreDaoImpl implements FirestoreDao {
             if(terms.containsKey("id")&& terms.get("id") != null){
                 query = query.whereEqualTo(FieldPath.of("id"), terms.get("id"));
             }
-            if(terms.containsKey("genre")&& terms.get("genre") != null)
-                query = query.whereArrayContains(FieldPath.of("attributes","genreNames"), terms.get("genre"));
 
-            query.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    QuerySnapshot documents = task.getResult();
+
+
+            taskSongSearch = query.get();
+            allTask.add(taskSongSearch);
+
+
+            Tasks.whenAllSuccess(allTask).addOnCompleteListener(task -> {
+                if (allTask.get(allTask.size() - 1).isSuccessful()) {
+                    QuerySnapshot documents = (QuerySnapshot) allTask.get(allTask.size() - 1).getResult();
                     for(QueryDocumentSnapshot document: documents){
                         results.add(document.getData());
                     }
-                    future.complete(results);
                 }
+                for(int i = 0; i < allTask.size() - 1; i++){
+                    if (allTask.get(i).isSuccessful()) {
+                        results.add(((DocumentSnapshot)(allTask.get(i).getResult())).getData());
+                    }
+                }
+
+                future.complete(results);
             });
         }
 
@@ -263,6 +290,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, Object>>(){}.getType();
         Map<String, Object> userdata = gson.fromJson(gson.toJson(user), type);
+        userdata.put("type", "users");
         usersRef.document((String) userdata.get("username")).set(userdata);
     }
 

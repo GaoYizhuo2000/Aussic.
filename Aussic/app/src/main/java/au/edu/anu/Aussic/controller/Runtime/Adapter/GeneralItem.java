@@ -3,24 +3,30 @@ package au.edu.anu.Aussic.controller.Runtime.Adapter;
 import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.entity.User;
 
-public class ItemSpec {
+public class GeneralItem {
     private Song song;
     private Artist artist;
     private Genre genre;
+    private User user;
     private String type;
 
-    public ItemSpec(Song song) {
+    public GeneralItem(Song song) {
         this.song = song;
         this.type = "songs";
     }
-    public ItemSpec(Artist artist){
+    public GeneralItem(Artist artist){
         this.artist = artist;
         this.type = "artists";
     }
-    public ItemSpec(Genre genre){
+    public GeneralItem(Genre genre){
         this.genre = genre;
         this.type = "genres";
+    }
+    public GeneralItem(User user){
+        this.user = user;
+        this.type = "users";
     }
     public String getSongName() {
         return Functions.adjustLength(song.getSongName());
@@ -39,6 +45,8 @@ public class ItemSpec {
     public String getArtistImageUrl(){ return Functions.makeImageUrl(200, 200, artist.getImageUrl()); }
     public String getGenreName(){ return genre.getGenreName(); }
     public String getGenreImageUrl(){ return Functions.makeImageUrl(200, 200, genre.getImageUrl()); }
+    public String getUserName(){ return user.username; }
+    public String getUserImageUrl() { return user.iconUrl; }
 
     public Song getSong() {
         return song;
@@ -51,4 +59,6 @@ public class ItemSpec {
     public Genre getGenre() {
         return genre;
     }
+
+    public User getUser() { return user; }
 }

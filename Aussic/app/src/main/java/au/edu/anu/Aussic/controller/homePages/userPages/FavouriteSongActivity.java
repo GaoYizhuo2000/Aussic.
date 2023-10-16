@@ -18,13 +18,13 @@ import java.util.Map;
 import java.util.Set;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListFavSongAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnDeleteBtnClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralDeleteBtnClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.entityPages.SongActivity;
-import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
+import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -32,7 +32,7 @@ import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 
 
-public class FavouriteSongActivity extends AppCompatActivity implements OnDeleteBtnClickListener, OnDataChangeListener {
+public class FavouriteSongActivity extends AppCompatActivity implements OnGeneralDeleteBtnClickListener, OnDataChangeListener {
     private RecyclerView recyclerView;
     private SearchView searchView;
     private Button searchButton, goBackUserPage;
@@ -93,19 +93,19 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
     private void setFavoritesList(List<Song> favorites){
 
-        List<ItemSpec> itemList = new ArrayList<>();
-        for(Song song : favorites) itemList.add(new ItemSpec(song));
+        List<GeneralItem> itemList = new ArrayList<>();
+        for(Song song : favorites) itemList.add(new GeneralItem(song));
         recyclerView.setLayoutManager(new LinearLayoutManager(FavouriteSongActivity.this));
         recyclerView.setAdapter(new ListFavSongAdapter(itemList, this));
     }
 
     @Override
-    public void onItemClicked(ItemSpec itemSpec) throws IOException {
-        RuntimeObserver.setCurrentSong(itemSpec.getSong());
+    public void onItemClicked(GeneralItem generalItem) throws IOException {
+        RuntimeObserver.setCurrentSong(generalItem.getSong());
         RuntimeObserver.getCurrentMediaPlayer().pause();
         RuntimeObserver.getCurrentMediaPlayer().release();
         RuntimeObserver.setMediaPlayer(new MediaPlayer());
-        RuntimeObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
+        RuntimeObserver.getCurrentMediaPlayer().setDataSource(generalItem.getSong().getUrlToListen());
         RuntimeObserver.getCurrentMediaPlayer().prepare();
         RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
         RuntimeObserver.getCurrentMediaPlayer().start();

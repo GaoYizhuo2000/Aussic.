@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
@@ -32,14 +32,14 @@ import au.edu.anu.Aussic.controller.entityPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements OnItemSpecClickListener, OnMediaChangeListener {
+public class HomeFragment extends Fragment implements OnGeneralItemClickListener, OnMediaChangeListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -126,10 +126,10 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
 
     public void setViewList(){
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        List<ItemSpec> songList = new ArrayList<>();
-        List<ItemSpec> genreList = new ArrayList<>();
-        for(Song song : RuntimeObserver.getCurrentSongList()) songList.add(new ItemSpec(song));
-        for (Genre genre : RuntimeObserver.currentGenreList) genreList.add(new ItemSpec(genre));
+        List<GeneralItem> songList = new ArrayList<>();
+        List<GeneralItem> genreList = new ArrayList<>();
+        for(Song song : RuntimeObserver.getCurrentSongList()) songList.add(new GeneralItem(song));
+        for (Genre genre : RuntimeObserver.currentGenreList) genreList.add(new GeneralItem(genre));
 
         // Set up the RecyclerView with the fetched data
         if(RuntimeObserver.getCurrentSong() != null) setRoundImage(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());

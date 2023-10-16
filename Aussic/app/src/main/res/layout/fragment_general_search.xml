@@ -69,6 +69,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
+            <TextView
+                android:id="@+id/search_general_users"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:textSize="40dp"
+                android:text="Users..."
+                android:fontFamily="casual"/>
+            <!-- Placeholder for Artist List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_list_user_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

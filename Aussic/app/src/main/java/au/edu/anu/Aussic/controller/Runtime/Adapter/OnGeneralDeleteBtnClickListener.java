@@ -1,5 +1,5 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-public interface OnDeleteBtnClickListener extends OnItemSpecClickListener {
+public interface OnGeneralDeleteBtnClickListener extends OnGeneralItemClickListener {
     void onDeleteBtnClicked(int position);
 }

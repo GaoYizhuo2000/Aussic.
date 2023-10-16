@@ -1,4 +1,4 @@
-package au.edu.anu.Aussic.models.SongLoader;
+package au.edu.anu.Aussic.models.GsonLoader;
 
         import com.google.gson.Gson;
         import com.google.gson.reflect.TypeToken;
@@ -14,6 +14,7 @@ package au.edu.anu.Aussic.models.SongLoader;
         import au.edu.anu.Aussic.models.entity.Artist;
         import au.edu.anu.Aussic.models.entity.Genre;
         import au.edu.anu.Aussic.models.entity.Song;
+        import au.edu.anu.Aussic.models.entity.User;
 
 public class GsonLoader {
 
@@ -43,5 +44,11 @@ public class GsonLoader {
         Gson gson = new Gson();
         String jsonData = gson.toJson(fromFireStore);
         return gson.fromJson(jsonData, Genre.class);
+    }
+
+    public static User loadUser(Map<String, Object> fromFireStore){
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(fromFireStore);
+        return gson.fromJson(jsonData, User.class);
     }
 }

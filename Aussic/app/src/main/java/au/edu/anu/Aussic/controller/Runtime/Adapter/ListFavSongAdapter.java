@@ -13,9 +13,9 @@ import au.edu.anu.Aussic.R;
 
 public class ListFavSongAdapter extends ListSongAdapter {
 
-    private OnDeleteBtnClickListener deleteListener;
+    private OnGeneralDeleteBtnClickListener deleteListener;
 
-    public ListFavSongAdapter(List<ItemSpec> items, OnDeleteBtnClickListener listener) {
+    public ListFavSongAdapter(List<GeneralItem> items, OnGeneralDeleteBtnClickListener listener) {
         super(items, listener);
         this.deleteListener = listener;
     }
@@ -29,7 +29,7 @@ public class ListFavSongAdapter extends ListSongAdapter {
 
     public class ListSongFavViewHolder extends ListSongViewHolder {
         private ImageView deleteBtn;
-        private OnDeleteBtnClickListener deleteListener;
+        private OnGeneralDeleteBtnClickListener deleteListener;
 
         public ListSongFavViewHolder(View view, ListFavSongAdapter listFavSongAdapter) {
             super(view, listFavSongAdapter);

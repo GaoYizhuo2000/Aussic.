@@ -18,13 +18,13 @@ import au.edu.anu.Aussic.R;
 
 public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardViewHolder> {
 
-    protected List<ItemSpec> itemSpecList;
-    protected OnItemSpecClickListener listener;
+    protected List<GeneralItem> generalItemList;
+    protected OnGeneralItemClickListener listener;
 
 
-    public CardSongAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
+    public CardSongAdapter(List<GeneralItem> cardDataList, OnGeneralItemClickListener listener) {
 
-        this.itemSpecList = cardDataList;
+        this.generalItemList = cardDataList;
         this.listener = listener;
     }
 
@@ -37,18 +37,18 @@ public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardVi
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        ItemSpec itemSpec = itemSpecList.get(position);
-        holder.description.setText(itemSpec.getSongName());
+        GeneralItem generalItem = generalItemList.get(position);
+        holder.description.setText(generalItem.getSongName());
 
         // TODO: Load the image into holder.image using an image loading library like Glide or Picasso
         Glide.with(holder.image.getContext())
-                .load(itemSpec.getSongImageUrl())
+                .load(generalItem.getSongImageUrl())
                 .into(holder.image);
     }
 
     @Override
     public int getItemCount() {
-        return itemSpecList.size();
+        return generalItemList.size();
     }
 
     static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -56,9 +56,9 @@ public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardVi
         ImageView image;
         TextView description;
 
-        OnItemSpecClickListener listener;
+        OnGeneralItemClickListener listener;
 
-        List<ItemSpec> itemSpecList;
+        List<GeneralItem> generalItemList;
 
 
         public CardViewHolder(@NonNull View itemView, CardSongAdapter cardSongAdapter) {
@@ -66,7 +66,7 @@ public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardVi
             image = itemView.findViewById(R.id.home_hor_cardview_image);
             description = itemView.findViewById(R.id.home_hor_cardview_description);
             listener = cardSongAdapter.listener;
-            itemSpecList = cardSongAdapter.itemSpecList;
+            generalItemList = cardSongAdapter.generalItemList;
             itemView.setOnClickListener(this);
         }
         @Override
@@ -74,7 +74,7 @@ public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardVi
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 try {
-                    listener.onItemClicked(itemSpecList.get(position));
+                    listener.onItemClicked(generalItemList.get(position));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

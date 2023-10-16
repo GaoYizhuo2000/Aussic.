@@ -18,23 +18,18 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
-import au.edu.anu.Aussic.models.entity.Song;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GenreSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GenreSearchFragment extends Fragment implements OnDataArrivedListener, OnItemSpecClickListener {
+public class GenreSearchFragment extends Fragment implements OnDataArrivedListener, OnGeneralItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,10 +96,10 @@ public class GenreSearchFragment extends Fragment implements OnDataArrivedListen
     @Override
     public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
-            List<ItemSpec> genreList = new ArrayList<>();
+            List<GeneralItem> genreList = new ArrayList<>();
 
 
-            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new ItemSpec(genre));
+            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new GeneralItem(genre));
 
 
 

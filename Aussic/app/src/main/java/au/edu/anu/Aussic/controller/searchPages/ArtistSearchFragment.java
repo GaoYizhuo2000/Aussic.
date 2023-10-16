@@ -17,24 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
-import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.Artist;
-import au.edu.anu.Aussic.models.entity.Genre;
-import au.edu.anu.Aussic.models.entity.Song;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ArtistSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ArtistSearchFragment extends Fragment implements OnDataArrivedListener, OnItemSpecClickListener {
+public class ArtistSearchFragment extends Fragment implements OnDataArrivedListener, OnGeneralItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,9 +97,9 @@ public class ArtistSearchFragment extends Fragment implements OnDataArrivedListe
     @Override
     public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
-            List<ItemSpec> artistList = new ArrayList<>();
+            List<GeneralItem> artistList = new ArrayList<>();
 
-            for (Artist artist : RuntimeObserver.currentSearchResultArtists)  artistList.add(new ItemSpec(artist));
+            for (Artist artist : RuntimeObserver.currentSearchResultArtists)  artistList.add(new GeneralItem(artist));
 
             if(artistList.isEmpty()) artists.setText("Artists:...\nno results...");
             else artists.setText("Artists:...");

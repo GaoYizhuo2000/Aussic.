@@ -17,21 +17,19 @@ import java.util.Map;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
-import au.edu.anu.Aussic.models.entity.Artist;
-import au.edu.anu.Aussic.models.entity.Genre;
+import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 
-public class ArtistActivity extends AppCompatActivity implements OnDataArrivedListener, OnItemSpecClickListener {
+public class ArtistActivity extends AppCompatActivity implements OnDataArrivedListener, OnGeneralItemClickListener {
     private ImageView imageView;
     private TextView name;
     private RecyclerView recyclerView;
@@ -79,8 +77,8 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
     @Override
     public void onDataArrivedResponse() {
 
-        List<ItemSpec> songList = new ArrayList<>();
-        for(Song song : RuntimeObserver.songsUnderCurrentDisplayingArtist) songList.add(new ItemSpec(song));
+        List<GeneralItem> songList = new ArrayList<>();
+        for(Song song : RuntimeObserver.songsUnderCurrentDisplayingArtist) songList.add(new GeneralItem(song));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(ArtistActivity.this));
         recyclerView.setAdapter(new ListSongAdapter(songList, this));

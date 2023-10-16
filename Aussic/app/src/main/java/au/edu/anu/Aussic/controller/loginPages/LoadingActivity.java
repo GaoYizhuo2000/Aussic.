@@ -16,7 +16,7 @@ import java.util.Map;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
-import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
+import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
@@ -40,12 +40,7 @@ public class LoadingActivity extends AppCompatActivity {
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getUserdata(user)
                 .thenAccept(userdata -> {
-                    // Loading the usr icon url
-                    String iconUrl = (String) userdata.get("iconUrl");
-                    au.edu.anu.Aussic.models.entity.User newUsr = new User(user.getEmail(), iconUrl);
-
-                    for(String songID : (List<String>)userdata.get("favorites")) newUsr.addFavorites(songID);
-                    for(String songID : (List<String>)userdata.get("likes")) newUsr.addLikes(songID);
+                    au.edu.anu.Aussic.models.entity.User newUsr = GsonLoader.loadUser(userdata);
 
                     // Set up real time listener for user
                     firestoreDao.setUsrRealTimeListener(newUsr);

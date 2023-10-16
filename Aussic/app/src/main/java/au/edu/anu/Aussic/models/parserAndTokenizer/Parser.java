@@ -65,7 +65,17 @@ public class Parser {
                     break;
                 }
             }
-
+            else if(tokenizer.current().getType() == Token.Type.USER){
+                tokenizer.next();
+                if(tokenizer.hasNext()){
+                    String value = tokenizer.current().getToken();
+                    searchingTerms.put("user", value);
+                    tokenizer.next();
+                }else{
+                    isInputValid = false;
+                    break;
+                }
+            }
             else if(tokenizer.current().getType() == Token.Type.SEMICOLON){
                 tokenizer.next();
                 if(!tokenizer.hasNext()){break;}

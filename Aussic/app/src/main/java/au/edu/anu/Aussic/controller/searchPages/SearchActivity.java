@@ -21,21 +21,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
+import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
+import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
@@ -250,7 +248,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 switch ((String) map.get("type")){
                     case "songs":
                         Song newSong = GsonLoader.loadSong(map);
-
+                        firestoreDao.setSongRealTimeListener(newSong);
                         RuntimeObserver.currentSearchResultSongs.add(newSong);
                         break;
                     case "artists":
@@ -260,6 +258,10 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                     case "genres":
                         Genre newGenre = GsonLoader.loadGenre(map);
                         RuntimeObserver.currentSearchResultGenres.add(newGenre);
+                        break;
+                    case "users":
+                        User newUsr = GsonLoader.loadUser(map);
+                        RuntimeObserver.currentSearchResultUsers.add(newUsr);
                         break;
                 }
                 if(sortID == 0) sortByLikes(RuntimeObserver.currentSearchResultSongs);
