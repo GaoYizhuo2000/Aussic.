@@ -16,7 +16,7 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 
-public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListItemViewHolder> {
+public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder> {
 
     protected List<ItemSpec> items;
     protected OnItemSpecClickListener listener;
@@ -27,14 +27,15 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListIt
         this.listener = listener;
     }
 
+
     @Override
-    public ListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout, parent, false);
-        return new ListItemViewHolder(itemView, this);
+    public ListSongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_song_layout, parent, false);
+        return new ListSongViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(ListItemViewHolder holder, int position) {
+    public void onBindViewHolder(ListSongViewHolder holder, int position) {
         ItemSpec itemSpec = items.get(position);
         holder.listTitle.setText(itemSpec.getSongName());
         holder.listArtist.setText(itemSpec.getSongArtistName());
@@ -51,14 +52,14 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListIt
         return items.size();
     }
 
-    public class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView listImage;
-        public TextView listTitle;
-        public TextView listArtist;
-        private List<ItemSpec> items;
-        private OnItemSpecClickListener listener;
+    public class ListSongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected ImageView listImage;
+        protected TextView listTitle;
+        protected TextView listArtist;
+        protected List<ItemSpec> items;
+        protected OnItemSpecClickListener listener;
 
-        public ListItemViewHolder(View view, ListSongAdapter listSongAdapter) {
+        public ListSongViewHolder(View view, ListSongAdapter listSongAdapter) {
             super(view);
             listImage = view.findViewById(R.id.item_image);
             listTitle = view.findViewById(R.id.item_title);

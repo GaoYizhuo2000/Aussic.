@@ -24,9 +24,7 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.OnDeleteBtnClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.entityPages.SongActivity;
-import au.edu.anu.Aussic.controller.loginPages.LoginActivity;
-import au.edu.anu.Aussic.controller.loginPages.SignUpActivity;
-import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
@@ -128,7 +126,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
                 List<Map<String, Object>> maps = new ArrayList<>();
                 maps.addAll(results);
                 for(Map<String, Object> map : maps) {
-                    Song newSong = GsonSongLoader.loadSong(map);
+                    Song newSong = GsonLoader.loadSong(map);
 
                     RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
 

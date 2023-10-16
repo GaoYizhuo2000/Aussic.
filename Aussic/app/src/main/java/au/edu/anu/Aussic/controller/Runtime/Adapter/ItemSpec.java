@@ -8,16 +8,19 @@ public class ItemSpec {
     private Song song;
     private Artist artist;
     private Genre genre;
+    private String type;
 
     public ItemSpec(Song song) {
         this.song = song;
+        this.type = "songs";
     }
     public ItemSpec(Artist artist){
         this.artist = artist;
+        this.type = "artists";
     }
     public ItemSpec(Genre genre){
         this.genre = genre;
-
+        this.type = "genres";
     }
     public String getSongName() {
         return Functions.adjustLength(song.getSongName());
@@ -25,6 +28,10 @@ public class ItemSpec {
 
     public String getSongImageUrl() {
         return Functions.makeImageUrl(200, 200, song.getUrlToImage());
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getSongArtistName() {return song.getArtistName(); }

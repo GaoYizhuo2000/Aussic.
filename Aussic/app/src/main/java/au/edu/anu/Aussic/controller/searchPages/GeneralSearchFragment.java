@@ -120,37 +120,30 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             if(RuntimeObserver.currentSearchResultSongs == null) for (Song song : RuntimeObserver.getCurrentSongList())  songList.add(new ItemSpec(song));
             else for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new ItemSpec(song));
 
+            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new ItemSpec(genre));
+
             for (Artist artist : RuntimeObserver.currentSearchResultArtists)  artistList.add(new ItemSpec(artist));
 
-            for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new ItemSpec(genre));
+
 
 
             if(songList.isEmpty()) songs.setText("Songs : no results...");
+            else songs.setText("Songs:...");
             this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchSongRecyclerView.setAdapter(new ListSongAdapter(songList, this));
 
+            if(genreList.isEmpty()) genres.setText("Genres : no results...");
+            else genres.setText("Genres:...");
+            this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            this.searchGenreRecyclerView.setAdapter(new ListGenreAdapter(genreList, this));
+
             if(artistList.isEmpty()) artists.setText("Artists : no results...");
+            else artists.setText("Artists:...");
             this.searchArtistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchArtistRecyclerView.setAdapter(new ListArtistAdapter(artistList, this));
 
-            if(genreList.isEmpty()) genres.setText("Genres :  no results...");
-            this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            this.searchGenreRecyclerView.setAdapter(new ListGenreAdapter(genreList, this));
+
         }
     }
 
-    @Override
-    public void onItemClicked(ItemSpec itemSpec) throws IOException {
-        RuntimeObserver.setCurrentSong(itemSpec.getSong());
-        RuntimeObserver.getCurrentMediaPlayer().pause();
-        RuntimeObserver.getCurrentMediaPlayer().release();
-        RuntimeObserver.setMediaPlayer(new MediaPlayer());
-        RuntimeObserver.getCurrentMediaPlayer().setDataSource(itemSpec.getSong().getUrlToListen());
-        RuntimeObserver.getCurrentMediaPlayer().prepare();
-        RuntimeObserver.getCurrentMediaPlayer().setLooping(true);
-        RuntimeObserver.getCurrentMediaPlayer().start();
-        Intent intent = new Intent(getContext(), SongActivity.class);
-        // add more extras if necessary
-        startActivity(intent);
-    }
 }

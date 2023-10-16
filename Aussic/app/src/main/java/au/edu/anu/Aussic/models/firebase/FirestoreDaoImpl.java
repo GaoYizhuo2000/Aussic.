@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
-import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
@@ -54,7 +54,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 if (snapshot != null && snapshot.exists()) {
-                    song.setSong(GsonSongLoader.loadSong(snapshot.getData()));
+                    song.setSong(GsonLoader.loadSong(snapshot.getData()));
                     // Notify subsequent change
                     RuntimeObserver.notifyOnDataChangeListeners();
                 }

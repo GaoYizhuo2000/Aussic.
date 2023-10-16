@@ -16,7 +16,7 @@ import java.util.Map;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
-import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
+import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -67,7 +67,7 @@ public class LoadingActivity extends AppCompatActivity {
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
-                Song newSong = GsonSongLoader.loadSong(map);
+                Song newSong = GsonLoader.loadSong(map);
 
                 RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
 
@@ -81,7 +81,7 @@ public class LoadingActivity extends AppCompatActivity {
     private void loadPlayingSong(){
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getRandomSongs(1).thenAccept(results ->{
-            Song newSong = GsonSongLoader.loadSong(results.get(0));
+            Song newSong = GsonLoader.loadSong(results.get(0));
             RuntimeObserver.setCurrentSong(newSong);
 
             // Setup realtime listener for the song
@@ -109,7 +109,7 @@ public class LoadingActivity extends AppCompatActivity {
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
-                Song newSong = GsonSongLoader.loadSong(map);
+                Song newSong = GsonLoader.loadSong(map);
 
                 // Setup realtime listener for the song
                 firestoreDao.setSongRealTimeListener(newSong);
