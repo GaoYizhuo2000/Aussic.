@@ -8,6 +8,12 @@ public class Genre {
     List<String> songs;
     String url;
 
+    public Genre(String genreName, String url){
+        this.type = "genres";
+        this.genreName = genreName;
+        this.url= url;
+    }
+
     public String getType() {
         return type;
     }

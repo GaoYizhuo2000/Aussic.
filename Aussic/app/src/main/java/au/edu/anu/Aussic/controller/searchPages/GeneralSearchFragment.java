@@ -80,6 +80,7 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        RuntimeObserver.addOnDataArrivedListener(this);
     }
 
     @Override

@@ -66,12 +66,11 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.genreSearch = new GenreSearchFragment();
 
         this.tabs = findViewById(R.id.tabs);
-        String[] tabTitles = {"Likes", "Comments", "General", "Song", "Artist", "Genre"};
+        String[] tabTitles = {"Likes", "Likes", "General", "Song", "Artist", "Genre"};
 
         for (String title : tabTitles) {
             tabs.addTab(tabs.newTab().setText(title));
         }
-
 
 
         for(int i = 0; i < 2; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg_alt);
@@ -244,8 +243,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 switch ((String) map.get("type")){
                     case "songs":
                         Song newSong = GsonLoader.loadSong(map);
-                        // Set up real time listener for song search results
-                        firestoreDao.setSongRealTimeListener(newSong);
+
                         RuntimeObserver.currentSearchResultSongs.add(newSong);
                         break;
                     case "artists":

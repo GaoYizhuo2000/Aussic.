@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.Comment;
@@ -74,6 +76,15 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        this.artistText.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                RuntimeObserver.currentDisplayingArtist = new Artist(RuntimeObserver.getCurrentSong().getArtistName(), RuntimeObserver.getCurrentSong().getUrlToImage());
+                Intent intent = new Intent(SongActivity.this, ArtistActivity.class);
+                startActivity(intent);
             }
         });
 

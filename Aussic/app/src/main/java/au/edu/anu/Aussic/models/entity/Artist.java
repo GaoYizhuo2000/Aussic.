@@ -7,6 +7,11 @@ public class Artist {
     String artistName;
     List<String> songs;
     String url; //image url
+    public Artist(String artistName, String url){
+        this.type = "artists";
+        this.artistName = artistName;
+        this.url= url;
+    }
 
     public String getType() {
         return type;

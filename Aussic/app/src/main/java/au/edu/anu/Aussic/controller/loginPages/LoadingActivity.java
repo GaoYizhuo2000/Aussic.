@@ -72,7 +72,6 @@ public class LoadingActivity extends AppCompatActivity {
 
                 RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
 
-                firestoreDao.setSongRealTimeListener(newSong);
             }
             RuntimeObserver.musicSearchEngine = new MusicSearchEngine(RuntimeObserver.currentUsrFavoriteSongs);
             loadPlayingSong();
@@ -111,9 +110,6 @@ public class LoadingActivity extends AppCompatActivity {
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
                 Song newSong = GsonLoader.loadSong(map);
-
-                // Setup realtime listener for the song
-                firestoreDao.setSongRealTimeListener(newSong);
 
                 RuntimeObserver.getCurrentSongList().add(newSong);
             }

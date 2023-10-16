@@ -18,6 +18,10 @@ public class RuntimeObserver {
     public static MusicSearchEngine musicSearchEngine;
     private static MediaPlayer currentMediaPlayer;
     private static Song currentSong;
+    public static Artist currentDisplayingArtist;
+    public static List<Song> songsUnderCurrentDisplayingArtist = new ArrayList<>();
+    public static Genre currentDisplayingGenre;
+    public static List<Song> songsUnderCurrentDisplayingGenre = new ArrayList<>();
     public static User currentUser;
     private static List<Song> currentSongList = new ArrayList<>();
     public static List<Genre> currentGenreList = new ArrayList<>();
@@ -26,7 +30,6 @@ public class RuntimeObserver {
     public static List<Song> currentSearchResultSongs = new ArrayList<>();
     public static List<Artist> currentSearchResultArtists = new ArrayList<>();
     public static List<Genre> currentSearchResultGenres = new ArrayList<>();
-
     private static List<OnDataArrivedListener> onDataArrivedListeners = new ArrayList<>();
     private static List<OnDataChangeListener> onDataChangeListeners = new ArrayList<>();
     private static List<OnMediaChangeListener> onMediaChangeListeners = new ArrayList<>();

@@ -4,8 +4,8 @@ import java.util.*;
 
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
-// <Exp> = <term>| <term><Exp>
-// <Term> = \a<Factor>; | \n<Factor>; | \g<Factor>; | \r<Factor>;
+// <Exp> = <term>| <term>;<Exp>
+// <Term> = \a<Factor> | \n<Factor> | \g<Factor> | \r<Factor>
 // <Factor> = String
 // eg: \a Troye; \nStrawberries and cigarettes
 

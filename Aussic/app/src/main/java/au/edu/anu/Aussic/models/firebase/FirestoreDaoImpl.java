@@ -241,6 +241,8 @@ public class FirestoreDaoImpl implements FirestoreDao {
             if(terms.containsKey("id")&& terms.get("id") != null){
                 query = query.whereEqualTo(FieldPath.of("id"), terms.get("id"));
             }
+            if(terms.containsKey("genre")&& terms.get("genre") != null)
+                query = query.whereArrayContains(FieldPath.of("attributes","genreNames"), terms.get("genre"));
 
             query.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -462,5 +464,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
         return future;
     }
+
 
 }

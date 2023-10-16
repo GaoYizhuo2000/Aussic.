@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Add spacing between tabs -->
+    <item android:right="6dp" android:left="6dp" android:top="8dp" android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <!-- The background color of the tab -->
+            <solid android:color="@color/orange_comments"/>
+            <!-- Rounded corners -->
+            <corners android:radius="25dp"/>
+            <padding android:left="16dp" android:right="16dp" /> <!-- Increase width by adding padding -->
+        </shape>
+    </item>
+</layer-list>

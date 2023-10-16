@@ -132,7 +132,6 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
                         RuntimeObserver.currentUsrFavoriteSongs.add(newSong);
 
-                        firestoreDao.setSongRealTimeListener(newSong);
                     }
                     List<Song> favorites = RuntimeObserver.currentUsrFavoriteSongs;
                     setFavoritesList(favorites);
