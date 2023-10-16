@@ -23,6 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
@@ -65,6 +66,13 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.genreSearch = new GenreSearchFragment();
 
         this.tabs = findViewById(R.id.tabs);
+        String[] tabTitles = {"Likes", "Comments", "General", "Song", "Artist", "Genre"};
+
+        for (String title : tabTitles) {
+            tabs.addTab(tabs.newTab().setText(title));
+        }
+
+
 
         for(int i = 0; i < 2; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg_alt);
         for(int i = 2; i < 6; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg);
@@ -76,6 +84,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.fragmentID = 2;
         this.sortID = 0;
         replaceFragment(generalSearch);
+
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -120,6 +129,22 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                         // Actions for "Genre" tab
                         break;
                     // Add more cases if there are more tabs
+                }
+                if(selectedTabIndex > 3){
+                    View likes = ((ViewGroup) tabs.getChildAt(0)).getChildAt(0);
+                    View comments = ((ViewGroup) tabs.getChildAt(0)).getChildAt(1);
+                    likes.setEnabled(false);
+                    likes.setVisibility(View.GONE);
+                    comments.setEnabled(false);
+                    comments.setVisibility(View.GONE);
+                    sortID = -1;
+                } else {
+                    View likes = ((ViewGroup) tabs.getChildAt(0)).getChildAt(0);
+                    View comments = ((ViewGroup) tabs.getChildAt(0)).getChildAt(1);
+                    likes.setEnabled(true);
+                    likes.setVisibility(View.VISIBLE);
+                    comments.setEnabled(true);
+                    comments.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -279,5 +304,16 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.mediaPlayer = RuntimeObserver.getCurrentMediaPlayer();
         if (mediaPlayer.isPlaying()) this.fab.setImageResource(R.drawable.ic_bottom_stop);
         else this.fab.setImageResource(R.drawable.ic_bottom_play);
+    }
+
+    private void hideTabWithTitle(String title) {
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+            TabLayout.Tab tab = tabs.getTabAt(i);
+            if (tab != null && title.equals(tab.getText())) {
+                // Using View.GONE makes the tab disappear, reordering the visible tabs
+                Objects.requireNonNull(tab.getCustomView()).setVisibility(View.GONE);
+                break;
+            }
+        }
     }
 }
