@@ -29,8 +29,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_song_recyclerView"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/trans"/>
 
             <TextView
                 android:id="@+id/search_general_genres"
@@ -62,10 +66,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_artist_recyclerView"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/trans"/>
 
 
         </LinearLayout>

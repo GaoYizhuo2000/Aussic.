@@ -32,9 +32,9 @@ public class ListArtistAdapter extends ListSongAdapter{
 
         // Load image from the web using Glide
         Glide.with(holder.listImage.getContext())
-                .load(itemSpec.getSongImageUrl())
-                .circleCrop()
+                .load(itemSpec.getArtistImageUrl())
                 .apply(new RequestOptions().override((int)(360 * 0.8), (int)(360 * 0.8)))
+                .circleCrop()
                 .into(holder.listImage);
     }
 }
