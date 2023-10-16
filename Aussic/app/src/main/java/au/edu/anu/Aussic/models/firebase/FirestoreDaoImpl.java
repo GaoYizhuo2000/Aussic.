@@ -107,6 +107,25 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public void updateBlockList(String id){ usersRef.document(currentUser.getEmail()).update("blockList", FieldValue.arrayUnion(id)); }
+
+    @Override
+    public void removeBlockList(String id){
+        DocumentReference docRef = usersRef.document(currentUser.getEmail());
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> userdata = task.getResult().getData();
+                List<String> blockList = new ArrayList<>();
+                if(userdata.get("blockList") != null){
+                    blockList = (List<String>)userdata.get("blockList");
+                }
+                blockList.remove(id);
+                docRef.update("blockList", blockList);
+            }
+        });
+    }
+
+    @Override
     public void updateSongs() {
 
 
@@ -508,7 +527,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
     @Override
     public void updateHistory(String sessionId, String message) {
         Map<String, Object> newMessage = new HashMap<>();
-        newMessage.put(currentUser.getEmail(),message);
+        newMessage.put("message", message);
+        newMessage.put("userName", currentUser.getEmail());
+//        newMessage.put(currentUser.getEmail(),message);
         sessionsRef.document(sessionId).update("history", FieldValue.arrayUnion(newMessage));
     }
 

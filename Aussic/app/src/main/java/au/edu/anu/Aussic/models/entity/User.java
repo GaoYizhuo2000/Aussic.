@@ -34,6 +34,10 @@ public class User {
         return likes;
     }
 
+    public List<String> getBlockList() {
+        return blockList;
+    }
+
     public void setUsr(User usr){
         this.username = usr.username;
         this.favorites = usr.getFavorites();
@@ -41,5 +45,6 @@ public class User {
         this.location = usr.location;
         this.iconUrl = usr.iconUrl;
         this.type = usr.type;
+        this.blockList = usr.getBlockList();
     }
 }

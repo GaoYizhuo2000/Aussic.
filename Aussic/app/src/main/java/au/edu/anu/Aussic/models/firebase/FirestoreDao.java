@@ -12,6 +12,8 @@ import au.edu.anu.Aussic.models.entity.User;
 
 public interface FirestoreDao {
     void updateSongs();
+    void updateBlockList(String id);
+    void removeBlockList(String id);
 
     CompletableFuture<Map<String, Object>> getRandomSong();
     CompletableFuture<List<Map<String, Object>>> getRandomSongs(int number);
