@@ -29,6 +29,8 @@ import au.edu.anu.Aussic.models.SongLoader.GsonSongLoader;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
+import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
+import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 
 
 public class FavouriteSongActivity extends AppCompatActivity implements OnDeleteBtnClickListener, OnDataChangeListener {
@@ -159,7 +161,18 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
     }
 
-    private void doSearch(String query){
+    private void doSearch(String input){
+        if(input == null|| input.equals("")){
+            return;
+        }
+        // hide the keyboard when button is clicked
+        searchView.setQuery("", false); // Set the query text to an empty string
+        searchView.setIconified(true);
+        searchView.setIconified(true);
+        Parser parser = new Parser(new Tokenizer(input));
+        Map<String, String> searchingTerms = parser.Parse();
+
+        RuntimeObserver.musicSearchEngine.search(searchingTerms);
 
     }
 }

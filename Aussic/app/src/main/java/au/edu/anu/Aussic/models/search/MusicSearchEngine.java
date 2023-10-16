@@ -28,13 +28,14 @@ public class MusicSearchEngine {
         Song song0 = songList.remove(0);
         List<Song> l = new ArrayList<>();
         l.add(song0);
-        idTree = new AVLTree<>(song0.getId(), l);
-        songNameTree = new AVLTree<>(song0.getSongName(), l);
-        artistTree = new AVLTree<>(song0.getArtistName(), l);
-        releaseDateTree = new AVLTree<>(song0.getReleaseDate(), l);
+
+        idTree = new AVLTree<>(song0.getId(), new ArrayList<>(l));
+        songNameTree = new AVLTree<>(song0.getSongName(), new ArrayList<>(l));
+        artistTree = new AVLTree<>(song0.getArtistName(), new ArrayList<>(l));
+        releaseDateTree = new AVLTree<>(song0.getReleaseDate(), new ArrayList<>(l));
 
         // Initialise genreTree
-        genreTree = new AVLTree<>(song0.getGenre().get(0), l);
+        genreTree = new AVLTree<>(song0.getGenre().get(0), new ArrayList<>(l));
         for(int i = 1; i < song0.getGenre().size() ;i ++){
             genreTree = genreTree.insertByGenre(song0.getGenre().get(i), song0);
         }
@@ -70,6 +71,17 @@ public class MusicSearchEngine {
         Set<Song> releaseDateTreeRes= new HashSet<>();
         List<Set<Song>> resultSetList = new ArrayList<>();
 
+        if(terms.containsKey("undefinedTerm")){
+            Tree<List<Song>> result0 = songNameTree.find(terms.get("undefinedTerm"));
+            Tree<List<Song>> result1 = artistTree.find(terms.get("undefinedTerm"));
+            Tree<List<Song>> result2 = genreTree.find(terms.get("undefinedTerm"));
+            List<Song> res = new ArrayList<>();
+            if(result0!= null){res.addAll(result0.value);}
+            if(result1 != null){res.addAll(result1.value);}
+            if(result2 != null){res.addAll(result2.value);}
+
+            return new HashSet<>(res);
+        }
         if(terms.containsKey("id")){
             Tree<List<Song>> result = idTree.find(terms.get("id"));
             if(result != null){
