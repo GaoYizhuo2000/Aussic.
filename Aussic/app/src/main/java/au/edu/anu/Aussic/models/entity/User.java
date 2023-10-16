@@ -11,7 +11,9 @@ public class User {
     public String username;
     private List<String> favorites = new ArrayList<>(); //放歌曲id
     private List<String> likes = new ArrayList<>();
+    private List<String> blockList = new ArrayList<>();
     public String location = "";
+
     public String iconUrl;
 
     public User(String username, String iconUrl) {
