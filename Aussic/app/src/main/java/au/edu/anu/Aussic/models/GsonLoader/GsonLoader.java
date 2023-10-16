@@ -13,6 +13,7 @@ package au.edu.anu.Aussic.models.GsonLoader;
 
         import au.edu.anu.Aussic.models.entity.Artist;
         import au.edu.anu.Aussic.models.entity.Genre;
+        import au.edu.anu.Aussic.models.entity.Session;
         import au.edu.anu.Aussic.models.entity.Song;
         import au.edu.anu.Aussic.models.entity.User;
 
@@ -51,4 +52,11 @@ public class GsonLoader {
         String jsonData = gson.toJson(fromFireStore);
         return gson.fromJson(jsonData, User.class);
     }
+
+    public static Session loadSession(Map<String, Object> fromFireStore){
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(fromFireStore);
+        return gson.fromJson(jsonData, Session.class);
+    }
+
 }

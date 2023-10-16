@@ -35,7 +35,7 @@
             android:fontFamily="casual"
             android:textSize="18dp"
             android:hint="Type your comment here..."
-            android:background="@drawable/dashed_border"
+            android:background="@drawable/comments_dashed_border"
             android:padding="18dp"
             android:paddingEnd="60dp"
             android:paddingRight="60dp"/>

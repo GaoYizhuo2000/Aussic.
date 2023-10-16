@@ -50,6 +50,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
     private SongSearchFragment songSearch;
     private ArtistSearchFragment artistSearch;
     private GenreSearchFragment genreSearch;
+    private UserSearchFragment userSearch;
     private FloatingActionButton fab;
 
 
@@ -66,9 +67,10 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.songSearch = new SongSearchFragment();
         this.artistSearch = new ArtistSearchFragment();
         this.genreSearch = new GenreSearchFragment();
+        this.userSearch = new UserSearchFragment();
 
         this.tabs = findViewById(R.id.tabs);
-        String[] tabTitles = {"Likes", "Favorites", "General", "Song", "Artist", "Genre"};
+        String[] tabTitles = {"Likes", "Favorites", "General", "Song", "Artist", "Genre", "User"};
 
         for (String title : tabTitles) {
             tabs.addTab(tabs.newTab().setText(title));
@@ -76,7 +78,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
 
 
         for(int i = 0; i < 2; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg_alt);
-        for(int i = 2; i < 6; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg);
+        for(int i = 2; i < 7; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg);
 
         // Select general for the first init
         // Sort by Likes for the first init
@@ -129,6 +131,9 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                         replaceFragment(genreSearch);
                         // Actions for "Genre" tab
                         break;
+                    case 6:
+                        setTabColor(6, R.drawable.ic_tabs_bg);
+                        replaceFragment(userSearch);
                     // Add more cases if there are more tabs
                 }
                 if(selectedTabIndex > 3){
@@ -260,6 +265,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                         RuntimeObserver.currentSearchResultGenres.add(newGenre);
                         break;
                     case "users":
+                        if (map.get("username").equals(RuntimeObserver.currentUser.username)) continue;
                         User newUsr = GsonLoader.loadUser(map);
                         RuntimeObserver.currentSearchResultUsers.add(newUsr);
                         break;

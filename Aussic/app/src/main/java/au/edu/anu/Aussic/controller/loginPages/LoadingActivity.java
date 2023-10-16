@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Genre;
+import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -30,9 +32,48 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        loadUsrSessions();
 
-        loadUsrData(user);
+    }
+
+    private void loadUsrSessions() {
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getSessions()
+                .thenAccept(results -> {
+                    List<Map<String, Object>> maps = new ArrayList<>();
+                    maps.addAll(results);
+                    for(Map<String, Object> map : maps) {
+                        Session newSession = GsonLoader.loadSession(map);
+                        firestoreDao.setSessionRealTimeListener(newSession);
+                        RuntimeObserver.currentUserSessions.add(newSession);
+                    }
+
+                    loadSessionUsersData();
+                });
+    }
+
+    private void loadSessionUsersData(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        List<String> sessionUsersIDs = new ArrayList<>();
+        for(Session session : RuntimeObserver.currentUserSessions){
+            String id = session.getUsers().get(0).equals(user.getEmail()) ? session.getUsers().get(1) : session.getUsers().get(0);
+            sessionUsersIDs.add(id);
+        }
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.getUsersData(sessionUsersIDs)
+                .thenAccept(results -> {
+                    List<Map<String, Object>> maps = new ArrayList<>();
+                    maps.addAll(results);
+                    for(Map<String, Object> map : maps) {
+                        User newUser = GsonLoader.loadUser(map);
+                        firestoreDao.setUsrRealTimeListener(newUser);
+                        RuntimeObserver.currentSessionsAvailableUsers.add(newUser);
+                    }
+
+
+                    loadUsrData(user);
+
+                });
     }
 
 
@@ -56,6 +97,7 @@ public class LoadingActivity extends AppCompatActivity {
                 });
 
     }
+
 
     private void loadUsrFavSongs(){
         FirestoreDao firestoreDao = new FirestoreDaoImpl();

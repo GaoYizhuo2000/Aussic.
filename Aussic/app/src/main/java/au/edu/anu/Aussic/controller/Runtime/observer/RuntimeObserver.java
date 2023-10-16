@@ -7,6 +7,7 @@ import java.util.List;
 
 import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
+import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
@@ -24,6 +25,9 @@ public class RuntimeObserver {
     public static List<Song> songsUnderCurrentDisplayingGenre = new ArrayList<>();
     public static User currentUser;
     public static User currentPeerUser;
+    public static List<Session> currentUserSessions = new ArrayList<>();
+    public static List<User> currentSessionsAvailableUsers = new ArrayList<>();
+    public static Session currentMessagingSession;
     private static List<Song> currentSongList = new ArrayList<>();
     public static List<Genre> currentGenreList = new ArrayList<>();
     public static List<Song> currentUsrFavoriteSongs = new ArrayList<>();

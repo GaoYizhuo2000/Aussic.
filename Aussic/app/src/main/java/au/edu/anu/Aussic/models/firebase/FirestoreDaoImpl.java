@@ -31,10 +31,12 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
+import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
@@ -71,13 +73,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 if (snapshot != null && snapshot.exists()) {
                     Map<String, Object> usrData = snapshot.getData();
-                    String iconUrl = (String) usrData.get("iconUrl");
-                    String usrName = (String) usrData.get("username");
 
-                    User newUsr = new User(usrName, iconUrl);
+                    User newUsr = GsonLoader.loadUser(usrData);
 
-                    for(String songID : (List<String>)usrData.get("favorites")) newUsr.addFavorites(songID);
-                    for(String songID : (List<String>)usrData.get("likes")) newUsr.addLikes(songID);
 
                     usr.setUsr(newUsr);
                     // Notify subsequent change
@@ -85,6 +83,27 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 }
             }
         });
+    }
+
+    @Override
+    public void setSessionRealTimeListener(Session session){
+        DocumentReference sessionRef = sessionsRef.document(session.getName());
+        sessionRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (snapshot != null && snapshot.exists()) {
+                    Map<String, Object> sessionData = snapshot.getData();
+
+                    Session newSession = GsonLoader.loadSession(sessionData);
+
+                    session.setSession(newSession);
+
+                    // Notify subsequent change
+                    RuntimeObserver.notifyOnDataChangeListeners();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -196,6 +215,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
     @Override
     public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, String> terms) {
         List<Task> allTask = new ArrayList<>();
+        int elementCount = 0;
         Query query = songsRef;
         Task<DocumentSnapshot> taskUsrSearch;
         Task<DocumentSnapshot> taskArtistSearch;
@@ -239,11 +259,13 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 query = query.whereEqualTo(FieldPath.of("attributes","artistName"), terms.get("artistName"));
                 taskArtistSearch = artistsRef.document(terms.get("artistName")).get();
                 allTask.add(taskArtistSearch);
+                elementCount++;
             }
             if(terms.containsKey("genre")&& terms.get("genre") != null){
                 query = query.whereArrayContains(FieldPath.of("attributes","genreNames"), terms.get("genre"));
                 taskGenreSearch = genresRef.document(terms.get("genre")).get();
                 allTask.add(taskGenreSearch);
+                elementCount++;
             }
             if(terms.containsKey("user")&& terms.get("user") != null) {
                 taskUsrSearch = usersRef.document(terms.get("user")).get();
@@ -251,33 +273,43 @@ public class FirestoreDaoImpl implements FirestoreDao {
             }
             if(terms.containsKey("name")&& terms.get("name") != null){
                 query = query.whereEqualTo(FieldPath.of("attributes","name"), terms.get("name"));
+                elementCount++;
             }
             if(terms.containsKey("releaseDate")&& terms.get("releaseDate") != null){
                 query = query.whereEqualTo(FieldPath.of("attributes","releaseDate"), terms.get("releaseDate"));
+                elementCount++;
             }
             if(terms.containsKey("id")&& terms.get("id") != null){
                 query = query.whereEqualTo(FieldPath.of("id"), terms.get("id"));
+                elementCount++;
             }
 
+            if (elementCount > 0) {
+                taskSongSearch = query.get();
+                allTask.add(taskSongSearch);
+            }
 
-
-            taskSongSearch = query.get();
-            allTask.add(taskSongSearch);
-
-
+            int finalElementCount = elementCount;
+            if (allTask.isEmpty()) return future;
             Tasks.whenAllSuccess(allTask).addOnCompleteListener(task -> {
-                if (allTask.get(allTask.size() - 1).isSuccessful()) {
-                    QuerySnapshot documents = (QuerySnapshot) allTask.get(allTask.size() - 1).getResult();
-                    for(QueryDocumentSnapshot document: documents){
-                        results.add(document.getData());
+                if(finalElementCount == 0){
+                    if (allTask.get(0).isSuccessful()) {
+                        results.add(((DocumentSnapshot)(allTask.get(0).getResult())).getData());
                     }
                 }
-                for(int i = 0; i < allTask.size() - 1; i++){
-                    if (allTask.get(i).isSuccessful()) {
-                        results.add(((DocumentSnapshot)(allTask.get(i).getResult())).getData());
+                else {
+                    if (allTask.get(allTask.size() - 1).isSuccessful()) {
+                        QuerySnapshot documents = (QuerySnapshot) allTask.get(allTask.size() - 1).getResult();
+                        for(QueryDocumentSnapshot document: documents){
+                            results.add(document.getData());
+                        }
+                    }
+                    for(int i = 0; i < allTask.size() - 1; i++){
+                        if (allTask.get(i).isSuccessful()) {
+                            results.add(((DocumentSnapshot)(allTask.get(i).getResult())).getData());
+                        }
                     }
                 }
-
                 future.complete(results);
             });
         }
@@ -301,6 +333,28 @@ public class FirestoreDaoImpl implements FirestoreDao {
         userdataRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 future.complete(task.getResult().getData());
+            }
+        });
+        return future;
+    }
+
+    @Override
+    public CompletableFuture <List<Map<String, Object>>> getUsersData(List<String> IDs){
+        List<Map<String, Object>> results = new ArrayList<>();
+        CompletableFuture<List<Map<String, Object>>> future= new CompletableFuture<>();
+        List<Task> allTask = new ArrayList<>();
+        for (String id : IDs){
+            DocumentReference userdataRef = firestore.collection("users").document(id);
+            Task<DocumentSnapshot> oneTask = userdataRef.get();
+            allTask.add(oneTask);
+        }
+
+        Tasks.whenAllSuccess(allTask).addOnCompleteListener(task -> {
+            for(int i = 0; i < allTask.size(); i++){
+                if (allTask.get(i).isSuccessful()) {
+                    results.add(((DocumentSnapshot)(allTask.get(i).getResult())).getData());
+                }
+                future.complete(results);
             }
         });
         return future;
@@ -426,6 +480,19 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public CompletableFuture<Map<String, Object>> getSession(String sessionName){
+        DocumentReference sessionDataRef = sessionsRef.document(sessionName);
+        CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
+
+        sessionDataRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.complete(task.getResult().getData());
+            }
+        });
+        return future;
+    }
+
+    @Override
     public void createSession(String targetUserName) {
         Map<String, Object> sessionData = new HashMap<>();
         List<String> users = new ArrayList<>();
@@ -434,6 +501,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
         List<Map<String, Object>> history = new ArrayList<>();
         sessionData.put("users", users);
         sessionData.put("history", history);
+        sessionData.put("name", currentUser.getEmail() + "&" + targetUserName);
         sessionsRef.document(currentUser.getEmail() + "&" + targetUserName).set(sessionData);
     }
 
@@ -492,6 +560,8 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
         return future;
     }
+
+
 
 
 }
