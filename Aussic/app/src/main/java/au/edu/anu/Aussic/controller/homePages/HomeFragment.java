@@ -1,7 +1,6 @@
 package au.edu.anu.Aussic.controller.homePages;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,17 +19,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.CardAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnMediaChangeListener;
 import au.edu.anu.Aussic.controller.entityPages.SongActivity;
+import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
@@ -127,15 +126,17 @@ public class HomeFragment extends Fragment implements OnItemSpecClickListener, O
 
     public void setViewList(){
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        List<ItemSpec> itemList = new ArrayList<>();
-        for(Song song : RuntimeObserver.getCurrentSongList()) itemList.add(new ItemSpec(song));
+        List<ItemSpec> songList = new ArrayList<>();
+        List<ItemSpec> genreList = new ArrayList<>();
+        for(Song song : RuntimeObserver.getCurrentSongList()) songList.add(new ItemSpec(song));
+        for (Genre genre : RuntimeObserver.currentGenreList) genreList.add(new ItemSpec(genre));
 
         // Set up the RecyclerView with the fetched data
-        cardRecyclerView.setAdapter(new CardAdapter(itemList, this));
         if(RuntimeObserver.getCurrentSong() != null) setRoundImage(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName());
+        cardRecyclerView.setAdapter(new CardGenreAdapter(genreList, this));
 
         listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        listRecyclerView.setAdapter(new ListSongAdapter(itemList, this));
+        listRecyclerView.setAdapter(new ListSongAdapter(songList, this));
     }
 
     private void setRoundImage(String imageUrl,String songName){

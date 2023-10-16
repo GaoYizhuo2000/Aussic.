@@ -1,7 +1,10 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -409,6 +412,55 @@ public class FirestoreDaoImpl implements FirestoreDao {
         Map<String, Object> newMessage = new HashMap<>();
         newMessage.put(currentUser.getEmail(),message);
         sessionsRef.document(sessionId).update("history", FieldValue.arrayUnion(newMessage));
+    }
+
+    @Override
+    public CompletableFuture<List<Map<String, Object>>> loadRandomGenres(int num){
+        CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
+
+        DocumentReference docRef = firestore.collection("genreList").document("genreList");
+        docRef.get().addOnCompleteListener(task -> {
+            Map<String, Object> data = task.getResult().getData();
+            List<String> genreList = (List<String>) data.get("genreList");
+            loadGenresHelper(future, genreList, num);
+        });
+
+        return future;
+    }
+
+    private CompletableFuture<List<Map<String, Object>>> loadGenresHelper(CompletableFuture<List<Map<String, Object>>> future, List<String> data, int num){
+        Set<String> randStrings= new HashSet<>();
+        Random random = new Random();
+
+        while(randStrings.size() < num) {
+            randStrings.add(data.get(random.nextInt(data.size())));
+        }
+        List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+
+        for (String randString : randStrings) {
+            Task<QuerySnapshot> newTask = genresRef
+                    .orderBy("genreName")
+                    .startAt(randString)
+                    .limit(1)
+                    .get();
+            tasks.add(newTask);
+        }
+
+        Tasks.whenAllComplete(tasks)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Map<String, Object>> results = new ArrayList<>();
+                        for (Task<QuerySnapshot> individualTask : tasks) {
+                            DocumentSnapshot snapshot = individualTask.getResult().getDocuments().get(0);
+
+                            Map<String, Object> genreData = snapshot.getData();
+                            results.add(genreData);
+                        }
+                        future.complete(results);
+                    }
+                });
+
+        return future;
     }
 
 }

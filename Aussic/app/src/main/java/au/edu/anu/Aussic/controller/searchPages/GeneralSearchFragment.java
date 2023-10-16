@@ -1,7 +1,5 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,16 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
-import au.edu.anu.Aussic.controller.Runtime.Adapter.ListGenreAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
-import au.edu.anu.Aussic.controller.entityPages.SongActivity;
 import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
@@ -127,17 +123,17 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
 
 
 
-            if(songList.isEmpty()) songs.setText("Songs : no results...");
+            if(songList.isEmpty()) songs.setText("Songs:...\nno results...");
             else songs.setText("Songs:...");
             this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchSongRecyclerView.setAdapter(new ListSongAdapter(songList, this));
 
-            if(genreList.isEmpty()) genres.setText("Genres : no results...");
+            if(genreList.isEmpty()) genres.setText("Genres:...\nno results...");
             else genres.setText("Genres:...");
             this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            this.searchGenreRecyclerView.setAdapter(new ListGenreAdapter(genreList, this));
+            this.searchGenreRecyclerView.setAdapter(new CardGenreAdapter(genreList, this));
 
-            if(artistList.isEmpty()) artists.setText("Artists : no results...");
+            if(artistList.isEmpty()) artists.setText("Artists:...\nno results...");
             else artists.setText("Artists:...");
             this.searchArtistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchArtistRecyclerView.setAdapter(new ListArtistAdapter(artistList, this));

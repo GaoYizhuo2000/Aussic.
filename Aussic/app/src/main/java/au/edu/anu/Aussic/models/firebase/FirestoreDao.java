@@ -38,5 +38,6 @@ public interface FirestoreDao {
     void setSongRealTimeListener(Song song);
     void setUsrRealTimeListener(User usr);
     //
+    CompletableFuture<List<Map<String, Object>>> loadRandomGenres(int num);
 
 }

@@ -17,6 +17,7 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.homePages.HomeActivity;
 import au.edu.anu.Aussic.models.SongLoader.GsonLoader;
+import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
@@ -99,13 +100,13 @@ public class LoadingActivity extends AppCompatActivity {
             }
             //RuntimeObserver.getCurrentMediaPlayer().start();
             //RuntimeObserver.notifyListeners();
-            loadDisplayingSongs();
+            loadDisplayingSongs(10);
         });
     }
 
-    private void loadDisplayingSongs(){
+    private void loadDisplayingSongs(int num){
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getRandomSongs(10).thenAccept(results->{
+        firestoreDao.getRandomSongs(num).thenAccept(results->{
             List<Map<String, Object>> maps = new ArrayList<>();
             maps.addAll(results);
             for(Map<String, Object> map : maps) {
@@ -116,9 +117,24 @@ public class LoadingActivity extends AppCompatActivity {
 
                 RuntimeObserver.getCurrentSongList().add(newSong);
             }
+            loadDisplayingGenres(5);
+        });
+    }
+
+    private void loadDisplayingGenres(int num){
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+        firestoreDao.loadRandomGenres(num).thenAccept(results->{
+            List<Map<String, Object>> maps = new ArrayList<>();
+            maps.addAll(results);
+            for(Map<String, Object> map : maps) {
+                Genre newGenre = GsonLoader.loadGenre(map);
+
+                RuntimeObserver.currentGenreList.add(newGenre);
+            }
 
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         });
+
     }
 }

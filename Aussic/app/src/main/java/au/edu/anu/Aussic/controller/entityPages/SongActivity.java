@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -154,7 +155,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                 showBottomComments();
             }
         });
-
+        onDataChangeResponse();
 
 
     }
@@ -229,22 +230,27 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         dialog.setCanceledOnTouchOutside(true);
     }
 
+
     @Override
     public void onDataChangeResponse(){
         if(RuntimeObserver.getCurrentSong() != null){
 
+            TextView likeText = findViewById(R.id.like_count);
+            int likeCount = RuntimeObserver.getCurrentSong().getLikes();
+            likeText.setText(likeCount > 99 ? "99+" : "" + likeCount);
+            likeText.setTextColor(getResources().getColor(com.firebase.ui.storage.R.color.common_google_signin_btn_text_light));
             if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId())){
                 this.like.setImageResource(R.drawable.ic_song_like);
-                TextView likeText = findViewById(R.id.like_count);
-                int likeCount = RuntimeObserver.getCurrentSong().getLikes();
-                likeText.setText(likeCount > 99 ? "99+" : "" + likeCount);
+                likeText.setTextColor(getResources().getColor(R.color.white));
             }
 
+            TextView favText = findViewById(R.id.fav_count);
+            int favCount = RuntimeObserver.getCurrentSong().getFavorites();
+            favText.setTextColor(getResources().getColor(com.firebase.ui.storage.R.color.common_google_signin_btn_text_light));
+            favText.setText(favCount > 99 ? "99+" : "" + favCount);
             if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId())){
                 this.fav.setImageResource(R.drawable.ic_song_fav);
-                TextView favText = findViewById(R.id.fav_count);
-                int favCount = RuntimeObserver.getCurrentSong().getFavorites();
-                favText.setText(favCount > 99 ? "99+" : "" + favCount);
+                favText.setTextColor(getResources().getColor(R.color.white));
             }
 
 

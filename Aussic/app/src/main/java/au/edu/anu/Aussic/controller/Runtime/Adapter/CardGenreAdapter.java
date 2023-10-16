@@ -6,9 +6,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class ListGenreAdapter extends CardAdapter{
+public class CardGenreAdapter extends CardSongAdapter {
 
-    public ListGenreAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
+    public CardGenreAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
         super(cardDataList, listener);
     }
 

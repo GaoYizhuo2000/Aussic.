@@ -16,13 +16,13 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardViewHolder> {
 
     protected List<ItemSpec> itemSpecList;
     protected OnItemSpecClickListener listener;
 
 
-    public CardAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
+    public CardSongAdapter(List<ItemSpec> cardDataList, OnItemSpecClickListener listener) {
 
         this.itemSpecList = cardDataList;
         this.listener = listener;
@@ -61,12 +61,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         List<ItemSpec> itemSpecList;
 
 
-        public CardViewHolder(@NonNull View itemView, CardAdapter cardAdapter) {
+        public CardViewHolder(@NonNull View itemView, CardSongAdapter cardSongAdapter) {
             super(itemView);
             image = itemView.findViewById(R.id.home_hor_cardview_image);
             description = itemView.findViewById(R.id.home_hor_cardview_description);
-            listener = cardAdapter.listener;
-            itemSpecList = cardAdapter.itemSpecList;
+            listener = cardSongAdapter.listener;
+            itemSpecList = cardSongAdapter.itemSpecList;
             itemView.setOnClickListener(this);
         }
         @Override
