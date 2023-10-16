@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
@@ -169,8 +170,8 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
         searchView.setIconified(true);
         Parser parser = new Parser(new Tokenizer(input));
         Map<String, String> searchingTerms = parser.Parse();
+        Set<Song> result = RuntimeObserver.musicSearchEngine.search(searchingTerms);
 
-        RuntimeObserver.musicSearchEngine.search(searchingTerms);
 
     }
 }
