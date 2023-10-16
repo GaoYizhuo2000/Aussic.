@@ -79,6 +79,8 @@ public interface OnGeneralItemClickListener {
                         List<Map> maps = new ArrayList<>();
                         maps.add(result);
                         RuntimeObserver.currentMessagingSession = GsonLoader.loadSession(maps.get(0));
+                        RuntimeObserver.currentUserSessions.add(GsonLoader.loadSession(maps.get(0)));
+                        RuntimeObserver.notifyOnDataChangeListeners();
                         if(finalIntent != null && this instanceof Fragment) ((Fragment)this).startActivity(finalIntent);
                         else if(finalIntent != null && this instanceof Activity) ((Activity)this).startActivity(finalIntent);
                     });

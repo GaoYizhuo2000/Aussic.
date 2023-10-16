@@ -6,12 +6,36 @@
     tools:context=".controller.homePages.P2P.MessagesFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Messages"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/sky_blue"/>
+        android:paddingBottom="50dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/message_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:textSize="40dp"
+                android:text="Messages..."
+                android:fontFamily="casual"/>
+            <!-- Placeholder for Artist List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/messages_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/trans"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
