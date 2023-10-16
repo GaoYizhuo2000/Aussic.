@@ -21,6 +21,7 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
@@ -33,7 +34,7 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
  * Use the {@link GeneralSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GeneralSearchFragment extends Fragment implements OnDataArrivedListener, OnItemSpecClickListener {
+public class GeneralSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnItemSpecClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +53,6 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
 
     public GeneralSearchFragment() {
         // Required empty public constructor
-        RuntimeObserver.addOnDataArrivedListener(this);
     }
 
     /**
@@ -81,6 +81,7 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         RuntimeObserver.addOnDataArrivedListener(this);
+        RuntimeObserver.addOnDataChangeListener(this);
     }
 
     @Override
@@ -143,4 +144,8 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
         }
     }
 
+    @Override
+    public void onDataChangeResponse() {
+        onDataArrivedResponse();
+    }
 }

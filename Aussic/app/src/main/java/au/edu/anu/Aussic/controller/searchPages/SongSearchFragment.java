@@ -2,22 +2,39 @@ package au.edu.anu.Aussic.controller.searchPages;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ItemSpec;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListArtistAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.ListSongAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnItemSpecClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
+import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+import au.edu.anu.Aussic.models.entity.Artist;
+import au.edu.anu.Aussic.models.entity.Genre;
+import au.edu.anu.Aussic.models.entity.Song;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SongSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SongSearchFragment extends Fragment implements OnDataArrivedListener, OnItemSpecClickListener {
+public class SongSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnItemSpecClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +44,8 @@ public class SongSearchFragment extends Fragment implements OnDataArrivedListene
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView songs;
+    private RecyclerView searchSongRecyclerView;
 
     public SongSearchFragment() {
         // Required empty public constructor
@@ -57,6 +76,8 @@ public class SongSearchFragment extends Fragment implements OnDataArrivedListene
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        RuntimeObserver.addOnDataArrivedListener(this);
+        RuntimeObserver.addOnDataChangeListener(this);
     }
 
     @Override
@@ -67,7 +88,33 @@ public class SongSearchFragment extends Fragment implements OnDataArrivedListene
     }
 
     @Override
-    public void onDataArrivedResponse() {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        this.songs = view.findViewById(R.id.search_songs_songs);
+        this.searchSongRecyclerView = view.findViewById(R.id.search_list_song_song_recyclerView);
+
+        onDataArrivedResponse();
+    }
+
+    @Override
+    public void onDataArrivedResponse() {
+        if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
+            List<ItemSpec> songList = new ArrayList<>();
+
+            for (Song song : RuntimeObserver.currentSearchResultSongs)  songList.add(new ItemSpec(song));
+
+
+            if(songList.isEmpty()) songs.setText("Songs:...\nno results...");
+            else songs.setText("Songs:...");
+            this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            this.searchSongRecyclerView.setAdapter(new ListSongAdapter(songList, this));
+
+        }
+    }
+
+    @Override
+    public void onDataChangeResponse() {
+        onDataArrivedResponse();
     }
 }

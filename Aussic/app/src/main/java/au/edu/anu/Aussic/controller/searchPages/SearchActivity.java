@@ -70,7 +70,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.genreSearch = new GenreSearchFragment();
 
         this.tabs = findViewById(R.id.tabs);
-        String[] tabTitles = {"Likes", "Likes", "General", "Song", "Artist", "Genre"};
+        String[] tabTitles = {"Likes", "Favorites", "General", "Song", "Artist", "Genre"};
 
         for (String title : tabTitles) {
             tabs.addTab(tabs.newTab().setText(title));
@@ -318,17 +318,19 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         Collections.sort(songList, new Comparator<Song>(){
             @Override
             public int compare(Song s1, Song s2) {
-                return s1.getLikes() - s2.getLikes();
+                return s2.getLikes() - s1.getLikes();
             }
         });
+        RuntimeObserver.notifyOnDataChangeListeners();
     }
 
     private void sortByFavorites(List<Song> songList){
         Collections.sort(songList, new Comparator<Song>(){
             @Override
             public int compare(Song s1, Song s2) {
-                return s1.getFavorites() - s2.getFavorites();
+                return s2.getFavorites() - s1.getFavorites();
             }
         });
+        RuntimeObserver.notifyOnDataChangeListeners();
     }
 }
