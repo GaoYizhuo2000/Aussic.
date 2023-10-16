@@ -47,7 +47,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnDelete
 
         this.searchView = findViewById(R.id.fav_searchview);
         this.searchButton = findViewById(R.id.fav_searchButton);
-        goBackUserPage = findViewById(R.id.favorites_return_button);
+        this.goBackUserPage = findViewById(R.id.favorites_return_button);
 
         goBackUserPage.setOnClickListener(new View.OnClickListener() {
             @Override

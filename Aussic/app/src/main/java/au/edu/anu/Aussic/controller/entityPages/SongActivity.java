@@ -47,6 +47,8 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
     private ImageView comment;
     private Dialog dialog;
     private CommentAdapter commentAdapter;
+
+    private Button goBacktoHome;
     RecyclerView commentsRecyclerView;
     FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
@@ -65,6 +67,14 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         this.like = findViewById(R.id.song_like);
         this.fav = findViewById(R.id.song_fav);
         this.comment = findViewById(R.id.song_comment);
+        this.goBacktoHome = findViewById(R.id.goBacktoHome);
+
+        goBacktoHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         if (RuntimeObserver.getCurrentSong() != null) setTheSong(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
