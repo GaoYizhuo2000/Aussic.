@@ -42,8 +42,8 @@ import au.edu.anu.Aussic.models.entity.User;
 
 public class FirestoreDaoImpl implements FirestoreDao {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    FirebaseFirestore firestore = SingletonFirestoreDbConnection.getInstance();
-    CollectionReference songsRef = firestore.collection("Songs");
+    public FirebaseFirestore firestore = SingletonFirestoreDbConnection.getInstance();
+    public CollectionReference songsRef = firestore.collection("Songs");
     CollectionReference usersRef = firestore.collection("users");
     CollectionReference artistsRef = firestore.collection("artists");
     CollectionReference genresRef = firestore.collection("genres");

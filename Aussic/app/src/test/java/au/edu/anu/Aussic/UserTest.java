@@ -159,8 +159,4 @@ public class UserTest {
         assertTrue(userAction instanceof Comment);
     }
 
-
-
-
-
 }

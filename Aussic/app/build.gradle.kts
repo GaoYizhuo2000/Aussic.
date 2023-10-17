@@ -62,5 +62,10 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1") //用Google Play获取位置
 
 
+    testImplementation("org.mockito:mockito-core:3.3.3")
+    androidTestImplementation("org.mockito:mockito-android:3.3.3")
+
+    testImplementation("org.robolectric:robolectric:4.10.2")
+
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 }
