@@ -40,7 +40,7 @@ public class UserTest {
     public void testMultipleAddFavorites() {
         user.addFavorites("song1");
         user.addFavorites("song1");
-        assertEquals(2, user.getFavorites().size()); // considering there's no validation to prevent duplicates
+        assertEquals(2, user.getFavorites().size());
     }
 
     @Test

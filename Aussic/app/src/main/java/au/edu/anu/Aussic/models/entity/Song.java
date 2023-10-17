@@ -7,7 +7,7 @@ import java.util.Map;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 
-public class Song implements Comparable<Song> {
+public class Song implements Cloneable, Comparable<Song> {
     private String id;
     private String type;
     private String href;
@@ -18,6 +18,7 @@ public class Song implements Comparable<Song> {
     private Comments comments;
     private int favorites;
     private int likes;
+
 
     //private String
 
@@ -31,11 +32,15 @@ public class Song implements Comparable<Song> {
     public Song(String id) {
         this.id = id;
     }
+
     @Override
     public Song clone() {
         Song cloned = null;
         try {
             cloned = (Song) super.clone();
+            if (this.attributes != null) {
+                cloned.attributes = this.attributes.clone();
+            }
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
