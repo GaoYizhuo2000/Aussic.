@@ -586,27 +586,27 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
             @Override
             public Tree<T> deleteById(Song song) {
-                return null;
+                return this;
             }
 
             @Override
             public Tree<T> deleteByName(Song song){
-                return null;
+                return this;
             }
 
             @Override
             public Tree<T> deleteByArtistName(Song song) {
-                return null;
+                return this;
             }
 
             @Override
             public Tree<T> deleteByReleaseDate(Song song) {
-                return null;
+                return this;
             }
 
             @Override
             public Tree<T> deleteByGenre(String genre, Song song) {
-                return null;
+                return this;
             }
 
         }
