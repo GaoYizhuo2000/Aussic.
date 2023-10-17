@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Evan Cheung -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -61,8 +63,6 @@
                     android:background="@drawable/name_bg"
                     android:textSize="30sp"/>
 
-
-
             </RelativeLayout>
 
             <LinearLayout
@@ -81,6 +81,7 @@
                     android:textSize="40dp"
                     android:text="Their songs..."
                     android:fontFamily="casual"/>
+
                 <!-- Placeholder for Song List (RecyclerView) -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/artist_recyclerview"
@@ -98,18 +99,13 @@
                     android:background="@color/trans"/>
             </LinearLayout>
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@color/trans"/>
 
-
-
         </LinearLayout>
 
-
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
