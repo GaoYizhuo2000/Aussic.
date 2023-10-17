@@ -135,22 +135,22 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
 
 
 
-            if(songList.isEmpty()) songs.setText("Songs:...\nno results...");
+            if(songList.isEmpty()) songs.setText("Songs:...eg.: \\s<songName>\nno results...");
             else songs.setText("Songs:...");
             this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchSongRecyclerView.setAdapter(new ListSongAdapter(songList, this));
 
-            if(genreList.isEmpty()) genres.setText("Genres:...\nno results...");
+            if(genreList.isEmpty()) genres.setText("Genres:...eg.: \\g<genreName>\nno results...");
             else genres.setText("Genres:...");
             this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             this.searchGenreRecyclerView.setAdapter(new CardGenreAdapter(genreList, this));
 
-            if(artistList.isEmpty()) artists.setText("Artists:...\nno results...");
+            if(artistList.isEmpty()) artists.setText("Artists:...eg.: \\a<artistName>\nno results...");
             else artists.setText("Artists:...");
             this.searchArtistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchArtistRecyclerView.setAdapter(new ListArtistAdapter(artistList, this));
 
-            if(userList.isEmpty()) users.setText("Users:...\nno results...");
+            if(userList.isEmpty()) users.setText("Users:...eg.: \\u<songName>\nno results...");
             else users.setText("Users:...");
             this.searchUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchUserRecyclerView.setAdapter(new ListUsrAdapter(userList, this));

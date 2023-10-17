@@ -173,7 +173,7 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             loadShowData();
 
             // Schedule the next execution
-            timerHandler.postDelayed(this, 5000);
+            timerHandler.postDelayed(this, 1000);
         }
     };
     public void loadJsonObjectFromRawResource(int resourceId) {
