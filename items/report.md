@@ -204,7 +204,11 @@ Production Rules:
 1. [LogIn]. Description of the feature ... (easy)
    * Code: [Class LoginActivity](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/LoginActivity.java) and [Class SignUpActivity](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/SignUpActivity.java)
    * Description of feature:  Users are able to log in to the Aussic using their email and correct password. Also, new user could sign up from our sign up page using email address and password.
-   * Description of your implementation: We use Firebase in this feature to store user's email and related password. Also, we have add some analyzing conditions for login (eg.correct password or not, length for the password, is the email in the correct format, etc.)<br>
+   * Description of your implementation: 
+   (1) Existing Users could login with their email and password in Login Page. 
+   (2) New users could sign up to this App by clicking this button.
+   (3) Then new user need to enter their sign up email and password. Also, password need to be comfirmed. 
+   - <br>
 
 2. [DataFiles]. We grabbed the songs data using the api from apple music, and generate the user behaviors by ourself including like, favorites and comments.(...)
    * Code to the Data File [songs.json](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/pythonScrips/backup/songs.json)
@@ -213,6 +217,8 @@ Production Rules:
 3. [LoadShowDate]. We now have a timer in [HomeActivity.java](https://gitlab.cecs.anu.edu.au/u7603590/ga-23s2/-/blob/main/Aussic/app/src/main/java/au/edu/anu/Aussic/controller/homePages/HomeActivity.java) to load the data from firestore, and also writes some user actions back, once the real-time listener is set up, we will be able to show users' comments in the songs' comments page.
    <br>
 
+4. [Search]. 
+   <br>
 ### Custom Features
 Feature Category: Privacy <br>
 1. [Privacy-Request]. Description of the feature  (easy)
