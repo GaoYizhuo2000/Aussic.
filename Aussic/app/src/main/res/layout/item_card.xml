@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Evan Cheung -->
+
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -25,6 +27,7 @@
             android:textSize="16sp"
             android:fontFamily="casual"
             android:textColor="@color/white"/>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,93 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Evan Cheung -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:padding="16dp">
-
-<!-- Title "Comments..." -->
-<TextView
-    android:id="@+id/messages_title"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentStart="true"
-    android:text="Messages..."
-    android:background="@drawable/ic_messages_bg"
-    android:fontFamily="casual"
-    android:textColor="@color/white"
-    android:padding="18dp"
-    android:textStyle="bold"
-    android:textSize="30sp" />
-    <TextView
-        android:id="@+id/block_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:padding="18dp"
-        android:textStyle="bold"
-        android:text=""
-        android:fontFamily="casual"
-        android:textSize="30sp"
-        android:layout_below="@id/messages_title"
-
-        />
-
-<RelativeLayout
-    android:id="@+id/message_input_wrapper"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_marginTop="16dp">
-
-    <!-- EditText for typing in comments -->
-    <EditText
-        android:id="@+id/message_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="casual"
-        android:textSize="18dp"
-        android:hint="Type your message here..."
-        android:background="@drawable/messages_dashed_border"
-        android:padding="18dp"
-        android:paddingEnd="60dp"
-        android:paddingRight="60dp"/>
-
-    <!-- Send Button -->
-    <Button
-        android:id="@+id/the_message_btn_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/message_input"
-        android:layout_alignRight="@+id/message_input"
-        android:layout_centerVertical="true"
-        android:text="Send"
-        android:textColor="@color/light_sea_green"
-        android:background="@android:color/transparent"
-        android:fontFamily="casual"
-        android:stateListAnimator="@animator/image_click_animator"
-        android:textSize="18dp"
-        android:paddingTop="18dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
-
-</RelativeLayout>
-
-<!-- NestedScrollView wrapping the RecyclerView -->
-<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/messages_title"
-    android:layout_above="@+id/message_input_wrapper"
-    android:fillViewport="true">
+    android:padding="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messages_list"
+    <!-- Title "Comments..." -->
+    <TextView
+        android:id="@+id/messages_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:text="Messages..."
+        android:background="@drawable/ic_messages_bg"
+        android:fontFamily="casual"
+        android:textColor="@color/white"
+        android:padding="18dp"
+        android:textStyle="bold"
+        android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/block_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:padding="18dp"
+            android:textStyle="bold"
+            android:text=""
+            android:fontFamily="casual"
+            android:textSize="30sp"
+            android:layout_below="@id/messages_title" />
+
+    <RelativeLayout
+        android:id="@+id/message_input_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="18dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp">
 
-</androidx.core.widget.NestedScrollView>
+        <!-- EditText for typing in comments -->
+        <EditText
+            android:id="@+id/message_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="casual"
+            android:textSize="18dp"
+            android:hint="Type your message here..."
+            android:background="@drawable/messages_dashed_border"
+            android:padding="18dp"
+            android:paddingEnd="60dp"
+            android:paddingRight="60dp"/>
+
+        <!-- Send Button -->
+        <Button
+            android:id="@+id/the_message_btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/message_input"
+            android:layout_alignRight="@+id/message_input"
+            android:layout_centerVertical="true"
+            android:text="Send"
+            android:textColor="@color/light_sea_green"
+            android:background="@android:color/transparent"
+            android:fontFamily="casual"
+            android:stateListAnimator="@animator/image_click_animator"
+            android:textSize="18dp"
+            android:paddingTop="18dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+
+    </RelativeLayout>
+
+    <!-- NestedScrollView wrapping the RecyclerView -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/messages_title"
+        android:layout_above="@+id/message_input_wrapper"
+        android:fillViewport="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messages_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="18dp" />
+
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
