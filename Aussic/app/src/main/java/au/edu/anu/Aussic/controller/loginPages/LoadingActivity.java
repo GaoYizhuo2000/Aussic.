@@ -59,6 +59,10 @@ public class LoadingActivity extends AppCompatActivity {
             String id = session.getUsers().get(0).equals(user.getEmail()) ? session.getUsers().get(1) : session.getUsers().get(0);
             sessionUsersIDs.add(id);
         }
+
+        // Directly load user data if sessions are empty
+        if(sessionUsersIDs.isEmpty()) loadUsrData(user);
+
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getUsersData(sessionUsersIDs)
                 .thenAccept(results -> {
