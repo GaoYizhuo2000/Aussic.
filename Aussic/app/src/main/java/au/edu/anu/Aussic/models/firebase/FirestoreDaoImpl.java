@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -83,6 +84,41 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 }
             }
         });
+    }
+
+    @Override
+    public void setSessionCollectionRealtimeListener(){
+        sessionsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+                            Session session = GsonLoader.loadSession(dc.getDocument().getData());
+                            if(session.getUsers().get(0).equals(currentUser.getEmail()) || session.getUsers().get(1).equals(currentUser.getEmail())){
+                                FirestoreDao firestoreDao = new FirestoreDaoImpl();
+                                firestoreDao.setSessionRealTimeListener(session);
+                                if(!RuntimeObserver.currentUserSessions.contains(session)) RuntimeObserver.currentUserSessions.add(session);
+                                List<String> list = new ArrayList<>();
+                                list.add(session.getUsers().get(0).equals(currentUser.getEmail()) ? session.getUsers().get(1) : session.getUsers().get(0));
+                                firestoreDao.getUsersData(list).thenAccept(results->{
+                                    List<Map<String, Object>> maps = new ArrayList<>();
+                                    maps.addAll(results);
+                                    for(Map<String, Object> map : maps) {
+                                        User newUser = GsonLoader.loadUser(map);
+                                        firestoreDao.setUsrRealTimeListener(newUser);
+                                        if(!RuntimeObserver.currentSessionsAvailableUsers.contains(newUser)) RuntimeObserver.currentSessionsAvailableUsers.add(newUser);
+                                    }
+                                });
+
+                                RuntimeObserver.notifyOnDataChangeListeners();
+                            }
+                            break;
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -373,8 +409,8 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 if (allTask.get(i).isSuccessful()) {
                     results.add(((DocumentSnapshot)(allTask.get(i).getResult())).getData());
                 }
-                future.complete(results);
             }
+            future.complete(results);
         });
         return future;
     }

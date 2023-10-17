@@ -32,7 +32,9 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        loadUsrSessions();
+//        loadUsrSessions();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        loadUsrData(user);
 
     }
 
@@ -168,7 +170,8 @@ public class LoadingActivity extends AppCompatActivity {
 
                 RuntimeObserver.currentGenreList.add(newGenre);
             }
-
+            // Set the real time listener for session collection
+            firestoreDao.setSessionCollectionRealtimeListener();
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
         });

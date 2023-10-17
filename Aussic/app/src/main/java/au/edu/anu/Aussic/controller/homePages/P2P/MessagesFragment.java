@@ -71,6 +71,7 @@ public class MessagesFragment extends Fragment implements OnGeneralItemClickList
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        RuntimeObserver.addOnDataChangeListener(this);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class MessagesFragment extends Fragment implements OnGeneralItemClickList
 
             for (User user : RuntimeObserver.currentSessionsAvailableUsers)  sessionList.add(new GeneralItem(user));
 
-            this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             this.recyclerView.setAdapter(new ListUsrAdapter(sessionList, this));
 
         }

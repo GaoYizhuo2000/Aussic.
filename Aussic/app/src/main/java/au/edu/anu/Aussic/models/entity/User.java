@@ -47,4 +47,13 @@ public class User {
         this.type = usr.type;
         this.blockList = usr.getBlockList();
     }
+
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof User){
+            if (((User) object).username.equals(this.username)) return true;
+            return false;
+        }
+        return false;
+    }
 }

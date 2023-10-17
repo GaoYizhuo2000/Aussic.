@@ -43,6 +43,7 @@ public interface FirestoreDao {
     void updateHistory(String sessionId, String message);
     void setSongRealTimeListener(Song song);
     void setUsrRealTimeListener(User usr);
+    void setSessionCollectionRealtimeListener();
     void setSessionRealTimeListener(Session session);
     CompletableFuture<List<Map<String, Object>>> loadRandomGenres(int num);
 
