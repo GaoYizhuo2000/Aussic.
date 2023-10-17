@@ -1,8 +1,9 @@
 package au.edu.anu.Aussic.models.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SongAttributes {
+public class SongAttributes implements Cloneable{
     private String albumName;
     private List<String> genreNames;
     private int trackNumber;
@@ -187,7 +188,28 @@ public class SongAttributes {
         this.artistName = artistName;
     }
 
+    @Override
+    public SongAttributes clone() {
+        try {
+            SongAttributes cloned = (SongAttributes) super.clone();
 
+            if (this.genreNames != null) {
+                cloned.genreNames = new ArrayList<>(this.genreNames);
+            }
+            if (this.artwork != null) {
+                cloned.artwork = this.artwork.clone();
+            }
+            if (this.previews != null) {
+                cloned.previews = new ArrayList<>();
+                for (Preview preview : this.previews) {
+                    cloned.previews.add(preview.clone());
+                }
+            }
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public String toString() {

@@ -71,14 +71,3 @@ public class ParserAndTokenizerTest {
 
 
 
-//            "genreNames": [
-//            "Hip-Hop/Rap",
-//            "Music",
-//            "Alternative Rap",
-//            "Rap",
-//            "Underground Rap"
-//            ],
-//            "releaseDate": "2014-01-01",
-//            "name": "Walk the Line",
-//            "artistName": "Iggy Azalea"
-
