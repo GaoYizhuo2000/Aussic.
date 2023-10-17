@@ -154,15 +154,16 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
 
     @Override
     public void onDeleteBtnClicked(int position) {
-
         // Add delete event here
-        //delete this song from firestore
+        //delete this song from firestore and runtimeObserver
+        Song songDeleted = RuntimeObserver.currentUsrFavoriteSongs.remove(position);
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
-      //  firestoreDao.deleteUserFavorites();
+        firestoreDao.deleteUserFavorites(songDeleted.getId());
         //delete this song from search engine
-        //RuntimeObserver.musicSearchEngine.
-
+        //RuntimeObserver.musicSearchEngine.deleteSong(songDeleted);
         //delete this song from view
+        setFavoritesList(RuntimeObserver.currentUsrFavoriteSongs);
+
 
     }
 

@@ -1,10 +1,8 @@
 package au.edu.anu.Aussic.models.search;
 
 import au.edu.anu.Aussic.models.avl.AVLTree;
-import au.edu.anu.Aussic.models.avl.EmptyTree;
 import au.edu.anu.Aussic.models.avl.Tree;
 import au.edu.anu.Aussic.models.entity.Song;
-import au.edu.anu.Aussic.models.entity.SongAttributes;
 
 
 import java.util.*;
@@ -52,6 +50,15 @@ public class MusicSearchEngine {
 
 
     }
+    public void deleteSong(Song song){
+        idTree = idTree.deleteById(song);
+        songNameTree.deleteByName(song);
+        artistTree.deleteByArtistName(song);
+        releaseDateTree.deleteByReleaseDate(song);
+        for(String genre: song.getGenre()){
+            genreTree.deleteByGenre(genre, song);
+        }
+    }
 
     public void addSong(Song song){
         idTree = idTree.insertById(song);
@@ -61,7 +68,7 @@ public class MusicSearchEngine {
         for(String genre: song.getGenre()){
             genreTree.insertByGenre(genre, song);
         }
-    };
+    }
 
     public Set<Song> search(Map<String, String> terms){
         Set<Song> idTreeRes =  new HashSet<>();
