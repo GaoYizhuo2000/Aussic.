@@ -43,7 +43,7 @@ public class Tokenizer {
         else if (firstChar == ';')
             currentToken = new Token(";", Token.Type.SEMICOLON);
         else if (firstChar == '\\' && secondChar== 'u')
-            currentToken = new Token("\\r", Token.Type.USER);
+            currentToken = new Token("\\u", Token.Type.USER);
         else {
             int pos = 0;
             String value = "";
