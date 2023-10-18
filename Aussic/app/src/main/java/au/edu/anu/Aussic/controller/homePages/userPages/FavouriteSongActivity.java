@@ -165,7 +165,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.deleteUserFavorites(songDeleted.getId());
         //delete this song from search engine
-        //RuntimeObserver.musicSearchEngine.deleteSong(songDeleted);
+        RuntimeObserver.musicSearchEngine.deleteSong(songDeleted);
         //delete this song from view
         setFavoritesList(RuntimeObserver.currentUsrFavoriteSongs);
     }
