@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;

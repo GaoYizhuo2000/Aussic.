@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -78,11 +82,8 @@ public class ArtistSearchFragment extends Fragment implements OnDataArrivedListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         this.artists = view.findViewById(R.id.search_artists_artists);
         this.searchArtistRecyclerView = view.findViewById(R.id.search_list_artist_artist_recyclerView);
-
-
 
         onDataArrivedResponse();
     }
@@ -108,5 +109,4 @@ public class ArtistSearchFragment extends Fragment implements OnDataArrivedListe
 
         }
     }
-
 }

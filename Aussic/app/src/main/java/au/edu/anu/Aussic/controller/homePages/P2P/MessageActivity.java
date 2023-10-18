@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.homePages.P2P;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

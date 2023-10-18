@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.entityPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

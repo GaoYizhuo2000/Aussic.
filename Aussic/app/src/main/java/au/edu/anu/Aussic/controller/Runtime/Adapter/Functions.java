@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 public class Functions {
     public static String makeImageUrl(int width, int height, String rawUrl){
         StringBuilder out = new StringBuilder();

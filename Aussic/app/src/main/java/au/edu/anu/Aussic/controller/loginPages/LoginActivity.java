@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.loginPages;
 
+/**
+ * @author: u7603590, Jiawei Niu
+ */
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 

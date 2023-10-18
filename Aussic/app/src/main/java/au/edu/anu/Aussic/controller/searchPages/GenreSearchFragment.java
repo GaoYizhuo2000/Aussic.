@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,7 +46,6 @@ public class GenreSearchFragment extends Fragment implements OnDataArrivedListen
     private TextView genres;
     private RecyclerView searchGenreRecyclerView;
 
-
     public GenreSearchFragment() {
         // Required empty public constructor
     }
@@ -73,9 +76,7 @@ public class GenreSearchFragment extends Fragment implements OnDataArrivedListen
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         RuntimeObserver.addOnDataArrivedListener(this);
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,19 +99,12 @@ public class GenreSearchFragment extends Fragment implements OnDataArrivedListen
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
             List<GeneralItem> genreList = new ArrayList<>();
 
-
             for (Genre genre : RuntimeObserver.currentSearchResultGenres)  genreList.add(new GeneralItem(genre));
-
-
 
             if(genreList.isEmpty()) genres.setText("Genres:...\nno results...");
             else genres.setText("Genres:...");
             this.searchGenreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             this.searchGenreRecyclerView.setAdapter(new CardGenreAdapter(genreList, this));
-
-
         }
     }
-
-
 }

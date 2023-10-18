@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -104,7 +108,6 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
         this.users = view.findViewById(R.id.search_general_users);
         this.searchUserRecyclerView = view.findViewById(R.id.search_list_user_recyclerView);
 
-
         onDataArrivedResponse();
     }
 
@@ -132,9 +135,6 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
 
             for (User user : RuntimeObserver.currentSearchResultUsers) userList.add(new GeneralItem(user));
 
-
-
-
             if(songList.isEmpty()) songs.setText("Songs:...\nno results...");
             else songs.setText("Songs:...");
             this.searchSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -154,8 +154,6 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
             else users.setText("Users:...");
             this.searchUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             this.searchUserRecyclerView.setAdapter(new ListUsrAdapter(userList, this));
-
-
         }
     }
 

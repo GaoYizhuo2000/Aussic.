@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -48,7 +52,6 @@ public class UserSearchFragment extends Fragment implements OnDataArrivedListene
     private TextView users;
     private RecyclerView searchUserRecyclerView;
 
-
     public UserSearchFragment() {
         // Required empty public constructor
     }
@@ -92,11 +95,8 @@ public class UserSearchFragment extends Fragment implements OnDataArrivedListene
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         this.users = view.findViewById(R.id.search_users_users);
         this.searchUserRecyclerView = view.findViewById(R.id.search_list_user_user_recyclerView);
-
-
 
         onDataArrivedResponse();
     }
@@ -106,16 +106,11 @@ public class UserSearchFragment extends Fragment implements OnDataArrivedListene
 
         List<GeneralItem> userList = new ArrayList<>();
 
-
-
         for (User user : RuntimeObserver.currentSearchResultUsers) userList.add(new GeneralItem(user));
-
-
 
         if(userList.isEmpty()) users.setText("Users:...\nno results...");
         else users.setText("Users:...");
         this.searchUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         this.searchUserRecyclerView.setAdapter(new ListUsrAdapter(userList, this));
-
     }
 }

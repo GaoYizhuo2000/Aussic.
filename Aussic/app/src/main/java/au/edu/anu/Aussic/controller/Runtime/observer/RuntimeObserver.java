@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.Runtime.observer;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.media.MediaPlayer;
 
 import java.util.ArrayList;
@@ -74,5 +78,4 @@ public class RuntimeObserver {
     public static void notifyOnMediaChangeListeners(){
         for(OnMediaChangeListener listener : onMediaChangeListeners) listener.onMediaChangeResponse();
     }
-
 }

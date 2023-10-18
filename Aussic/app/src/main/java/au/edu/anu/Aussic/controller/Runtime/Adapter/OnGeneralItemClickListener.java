@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -86,8 +90,6 @@ public interface OnGeneralItemClickListener {
                     });
                     intent = null;
                 }
-
-
                 break;
         }
         if(intent != null && this instanceof Fragment) ((Fragment)this).startActivity(intent);

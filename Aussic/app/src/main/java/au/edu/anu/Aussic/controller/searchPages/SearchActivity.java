@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -53,7 +57,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
     private UserSearchFragment userSearch;
     private FloatingActionButton fab;
 
-
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
             tabs.addTab(tabs.newTab().setText(title));
         }
 
-
         for(int i = 0; i < 2; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg_alt);
         for(int i = 2; i < 7; i++)  setTabColor(i, R.drawable.ic_tabs_trans_bg);
 
@@ -87,7 +89,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.fragmentID = 2;
         this.sortID = 0;
         replaceFragment(generalSearch);
-
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -164,7 +165,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
             public void onTabReselected(TabLayout.Tab tab){}
         });
 
-
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,8 +220,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 doSearch(query);
             }
         });
-
-
     }
 
     private void doSearch(String input){
@@ -239,15 +237,17 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         Map<String, String> searchingTerms = parser.Parse();
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
-
         firestoreDao.searchSongs(searchingTerms).thenAccept(results -> {
-            //拿到查询结果后处理，放入listview展示 results是歌曲列表
+            //After getting the query results, process them and put them into listview for display.
+            // The results are a list of songs.
             RuntimeObserver.currentSearchResultSongs = new ArrayList<>();
             RuntimeObserver.currentSearchResultArtists = new ArrayList<>();
             RuntimeObserver.currentSearchResultGenres = new ArrayList<>();
 
             List<Map<String, Object>> maps = new ArrayList<>();
-            maps.addAll(results); //结果里会有歌和genre和artist的对象json（用general 搜索的话），先检查type参数再分别处理
+            //There will be songs, genre and artist object json in the results (if you use general
+            // search), check the type parameter first and then process it separately.
+            maps.addAll(results);
             for(Map<String, Object> map : maps) {
                 if (map == null) continue;
                 switch ((String) map.get("type")){
@@ -272,22 +272,12 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 }
                 if(sortID == 0) sortByLikes(RuntimeObserver.currentSearchResultSongs);
                 else if(sortID == 1) sortByFavorites(RuntimeObserver.currentSearchResultSongs);
-
-
             }
             RuntimeObserver.notifyOnDataArrivedListeners();
-
 //            results.toString();
 //            System.out.println(results);
 //            Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
-
         });
-
-
-
-
-        
-
     }
 
     private void setTabColor(int index, int drawable) {

@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.entity;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 public class Detail {
     private String content;
     private String uid;

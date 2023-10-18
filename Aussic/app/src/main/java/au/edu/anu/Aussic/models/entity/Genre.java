@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.entity;
 
+/**
+ * @author: u7552399, Yizhuo Gao
+ */
+
 import java.util.List;
 
 public class Genre {

@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.avl;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
+
 import au.edu.anu.Aussic.models.entity.Song;
 
 /**

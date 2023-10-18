@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.homePages.userPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -163,8 +167,6 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         //RuntimeObserver.musicSearchEngine.deleteSong(songDeleted);
         //delete this song from view
         setFavoritesList(RuntimeObserver.currentUsrFavoriteSongs);
-
-
     }
 
     private void doSearch(String input){
@@ -186,7 +188,5 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
             RuntimeObserver.currentUsrFavoriteSearchResults.addAll(result);
             RuntimeObserver.notifyOnDataChangeListeners();
         }
-
-
     }
 }

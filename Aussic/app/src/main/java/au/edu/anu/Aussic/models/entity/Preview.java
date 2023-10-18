@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.entity;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
+
 public class Preview implements Cloneable{
     private String url;
     public String getUrlToListen(){
