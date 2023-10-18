@@ -18,33 +18,40 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:id="@+id/search_toolbar"
             android:elevation="4dp"
             android:background="@color/sky_blue"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView_search"
-                android:layout_width="280dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/ic_bar_search_bg"
-                android:queryHint="Eg:\aTroye;\nYouth"
-                android:visibility="visible"
-                app:iconifiedByDefault="true"
-                app:searchIcon="@drawable/ic_bar_search" />
-
-            <Button
-                android:id="@+id/btn_search"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_gravity="end" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView_search"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_bar_search_bg"
+                    app:queryHint="Eg: \a Troye;\nYouth"
+                    app:iconifiedByDefault="false"
+                    app:searchIcon="@drawable/ic_bar_search" />
+
+                <Button
+                    android:id="@+id/btn_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
