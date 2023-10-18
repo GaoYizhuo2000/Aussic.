@@ -92,32 +92,33 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
 
     @Override
     public void onDataChangeResponse() {
+        if(this.userPeer == null) this.userPeer = RuntimeObserver.currentMessagingSession.getPeerUsr();
+        else{
+            if(userPeer.getBlockList().contains(RuntimeObserver.currentUser.username))
+                this.blockMessage.setText("This user has blocked you...");
 
-        if(userPeer.getBlockList().contains(RuntimeObserver.currentUser.username))
-            this.blockMessage.setText("This user has blocked you...");
-
-        if(RuntimeObserver.currentUser.getBlockList().contains(userPeer.username)) {
-            this.blockSign.setImageResource(R.drawable.ic_block_open);
-            this.blockMessage.setText("You have blocked this user...");
-        }
-        else this.blockSign.setImageResource(R.drawable.ic_block_block);
-
-        List<CommentItem> messages = new ArrayList<>();
-
-        if(!(RuntimeObserver.currentUser.getBlockList().contains(userPeer.username) || userPeer.getBlockList().contains(RuntimeObserver.currentUser.username))){
-            this.blockMessage.setText("");
-            for (MessageContent messageContent : RuntimeObserver.currentMessagingSession.getHistory()){
-                CommentItem message;
-
-                if(messageContent.getUserName().equals(RuntimeObserver.currentUser.username)) message = new CommentItem(RuntimeObserver.currentUser.iconUrl, RuntimeObserver.currentUser.username, messageContent.getMessage());
-                else message = new CommentItem(this.userPeer.iconUrl, this.userPeer.username, messageContent.getMessage());
-
-                messages.add(message);
+            if(RuntimeObserver.currentUser.getBlockList().contains(userPeer.username)) {
+                this.blockSign.setImageResource(R.drawable.ic_block_open);
+                this.blockMessage.setText("You have blocked this user...");
             }
+            else this.blockSign.setImageResource(R.drawable.ic_block_block);
+
+            List<CommentItem> messages = new ArrayList<>();
+
+            if(!(RuntimeObserver.currentUser.getBlockList().contains(userPeer.username) || userPeer.getBlockList().contains(RuntimeObserver.currentUser.username))){
+                this.blockMessage.setText("");
+                for (MessageContent messageContent : RuntimeObserver.currentMessagingSession.getHistory()){
+                    CommentItem message;
+
+                    if(messageContent.getUserName().equals(RuntimeObserver.currentUser.username)) message = new CommentItem(RuntimeObserver.currentUser.iconUrl, RuntimeObserver.currentUser.username, messageContent.getMessage());
+                    else message = new CommentItem(this.userPeer.iconUrl, this.userPeer.username, messageContent.getMessage());
+
+                    messages.add(message);
+                }
+            }
+
+            this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(new MessagesAdapter(messages));
         }
-
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MessagesAdapter(messages));
-
     }
 }

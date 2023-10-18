@@ -118,8 +118,10 @@ public class FirestoreDaoImpl implements FirestoreDao {
                             Session session = GsonLoader.loadSession(dc.getDocument().getData());
                             if(session.getUsers().get(0).equals(currentUser.getEmail()) || session.getUsers().get(1).equals(currentUser.getEmail())){
                                 FirestoreDao firestoreDao = new FirestoreDaoImpl();//todo
-                                firestoreDao.setSessionRealTimeListener(session);
-                                if(!RuntimeObserver.currentUserSessions.contains(session)) RuntimeObserver.currentUserSessions.add(session);
+                                if(!RuntimeObserver.currentUserSessions.contains(session)){
+                                    firestoreDao.setSessionRealTimeListener(session);
+                                    RuntimeObserver.currentUserSessions.add(session);
+                                }
                                 List<String> list = new ArrayList<>();
                                 list.add(session.getUsers().get(0).equals(currentUser.getEmail()) ? session.getUsers().get(1) : session.getUsers().get(0));
                                 firestoreDao.getUsersData(list).thenAccept(results->{

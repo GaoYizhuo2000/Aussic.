@@ -244,6 +244,8 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
             RuntimeObserver.currentSearchResultSongs = new ArrayList<>();
             RuntimeObserver.currentSearchResultArtists = new ArrayList<>();
             RuntimeObserver.currentSearchResultGenres = new ArrayList<>();
+            RuntimeObserver.currentSearchResultUsers = new ArrayList<>();
+
 
             List<Map<String, Object>> maps = new ArrayList<>();
             //There will be songs, genre and artist object json in the results (if you use general

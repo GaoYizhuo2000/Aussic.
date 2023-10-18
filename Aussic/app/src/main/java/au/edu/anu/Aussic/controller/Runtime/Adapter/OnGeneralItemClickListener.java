@@ -66,6 +66,7 @@ public interface OnGeneralItemClickListener {
                 if(this instanceof Fragment) intent = new Intent(((Fragment)this).getContext(), MessageActivity.class);
                 else if(this instanceof Activity) intent = new Intent(((Activity)this), MessageActivity.class);
 
+                // if and else if will check whether the session already exist in the runtime records
                 if(RuntimeObserver.currentUserSessions.contains(newSession)){
                     int index = RuntimeObserver.currentUserSessions.indexOf(newSession);
                     Session messageSession = RuntimeObserver.currentUserSessions.get(index);
@@ -74,16 +75,27 @@ public interface OnGeneralItemClickListener {
                     int index = RuntimeObserver.currentUserSessions.indexOf(newSessionAlt);
                     Session messageSession = RuntimeObserver.currentUserSessions.get(index);
                     RuntimeObserver.currentMessagingSession = messageSession;
-                } else {
+                } // Otherwise, the program will create and look for the message session on the firestore
+                else {
                     firestoreDao = new FirestoreDaoImpl();
                     firestoreDao.createSession(generalItem.getUserName());
                     Intent finalIntent = intent;
                     firestoreDao.getSession(sessionName).thenAccept(result->{
                         List<Map> maps = new ArrayList<>();
                         maps.add(result);
-                        RuntimeObserver.currentMessagingSession = GsonLoader.loadSession(maps.get(0));
-                        firestoreDao.setSessionRealTimeListener(RuntimeObserver.currentMessagingSession);
-                        RuntimeObserver.currentUserSessions.add(RuntimeObserver.currentMessagingSession);
+                        Session session = GsonLoader.loadSession(maps.get(0));
+                        // The if will check if the real time listener have already response, if not load the session into the memory and set up real time listener on it
+                        if(!RuntimeObserver.currentUserSessions.contains(session)){
+                            RuntimeObserver.currentMessagingSession = session;
+                            firestoreDao.setSessionRealTimeListener(RuntimeObserver.currentMessagingSession);
+                            RuntimeObserver.currentUserSessions.add(RuntimeObserver.currentMessagingSession);
+                        }
+                        // Otherwise, load the session from memory which have already been load into memory by the collection real time listener
+                        else {
+                            int index = RuntimeObserver.currentUserSessions.indexOf(session);
+                            Session existedSession = RuntimeObserver.currentUserSessions.get(index);
+                            RuntimeObserver.currentMessagingSession = existedSession;
+                        }
                         RuntimeObserver.notifyOnDataChangeListeners();
                         if(finalIntent != null && this instanceof Fragment) ((Fragment)this).startActivity(finalIntent);
                         else if(finalIntent != null && this instanceof Activity) ((Activity)this).startActivity(finalIntent);

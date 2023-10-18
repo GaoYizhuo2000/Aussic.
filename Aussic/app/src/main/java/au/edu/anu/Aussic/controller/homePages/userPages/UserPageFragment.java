@@ -64,6 +64,9 @@ public class UserPageFragment extends Fragment {
     private TextView email,location;
     private Button favorites, getLocation;
     private ImageView userPhoto;
+    private LocationCallback locationCallback;
+    private LocationRequest locationRequest;
+
 
     private String mParam1;
     private String mParam2;
@@ -113,11 +116,31 @@ public class UserPageFragment extends Fragment {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
+        // Set up location request for continuous updates
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(2000);  // 2 seconds
+        locationRequest.setFastestInterval(1000);  // 5 seconds
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        String cityName = getCityNameByCoordinates(location.getLatitude(), location.getLongitude());
+                        updateLocationInUI(cityName);
+                    }
+                }
+            }
+        };
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(checkLocationPermission()){
-                    getLastLocation();
+                    startLocationUpdates();
                 } else {
                     requestLocationPermission();
                 }
@@ -151,28 +174,37 @@ public class UserPageFragment extends Fragment {
         return rootView;
     }
 
-    private void getLastLocation() {
+    private void startLocationUpdates() {
         try {
-            fusedLocationProviderClient.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                String cityName = getCityNameByCoordinates(location.getLatitude(), location.getLongitude());
-                                updateLocationInUI(cityName);
-                            }
-                        }
-                    })
-                    .addOnFailureListener(getActivity(), new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(), "Failed to get location.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+
         } catch (SecurityException e) {
             Toast.makeText(getActivity(), "Location permission was revoked by the user.", Toast.LENGTH_SHORT).show();
         }
     }
+
+//    private void getLastLocation() {
+//        try {
+//            fusedLocationProviderClient.getLastLocation()
+//                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+//                        @Override
+//                        public void onSuccess(Location location) {
+//                            if (location != null) {
+//                                String cityName = getCityNameByCoordinates(location.getLatitude(), location.getLongitude());
+//                                updateLocationInUI(cityName);
+//                            }
+//                        }
+//                    })
+//                    .addOnFailureListener(getActivity(), new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(getActivity(), "Failed to get location.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        } catch (SecurityException e) {
+//            Toast.makeText(getActivity(), "Location permission was revoked by the user.", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     private void updateLocationInUI(String cityName) {
         location.setText("Location: " + cityName);
@@ -194,7 +226,7 @@ public class UserPageFragment extends Fragment {
 
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocation();
+                startLocationUpdates();
             } else {
                 Toast.makeText(getActivity(), "Location permission denied.", Toast.LENGTH_SHORT).show();
             }
@@ -222,4 +254,16 @@ public class UserPageFragment extends Fragment {
         }
         return cityName;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
 }

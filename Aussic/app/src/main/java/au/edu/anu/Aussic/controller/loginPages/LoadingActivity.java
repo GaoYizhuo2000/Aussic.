@@ -36,54 +36,8 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-//        loadUsrSessions();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         loadUsrData(user);
-
-    }
-
-    private void loadUsrSessions() {
-        FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getSessions()
-                .thenAccept(results -> {
-                    List<Map<String, Object>> maps = new ArrayList<>();
-                    maps.addAll(results);
-                    for(Map<String, Object> map : maps) {
-                        Session newSession = GsonLoader.loadSession(map);
-                        firestoreDao.setSessionRealTimeListener(newSession);
-                        RuntimeObserver.currentUserSessions.add(newSession);
-                    }
-
-                    loadSessionUsersData();
-                });
-    }
-
-    private void loadSessionUsersData(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        List<String> sessionUsersIDs = new ArrayList<>();
-        for(Session session : RuntimeObserver.currentUserSessions){
-            String id = session.getUsers().get(0).equals(user.getEmail()) ? session.getUsers().get(1) : session.getUsers().get(0);
-            sessionUsersIDs.add(id);
-        }
-
-        // Directly load user data if sessions are empty
-        if(sessionUsersIDs.isEmpty()) loadUsrData(user);
-
-        FirestoreDao firestoreDao = new FirestoreDaoImpl();
-        firestoreDao.getUsersData(sessionUsersIDs)
-                .thenAccept(results -> {
-                    List<Map<String, Object>> maps = new ArrayList<>();
-                    maps.addAll(results);
-                    for(Map<String, Object> map : maps) {
-                        User newUser = GsonLoader.loadUser(map);
-                        firestoreDao.setUsrRealTimeListener(newUser);
-                        RuntimeObserver.currentSessionsAvailableUsers.add(newUser);
-                    }
-
-
-                    loadUsrData(user);
-
-                });
     }
 
 
