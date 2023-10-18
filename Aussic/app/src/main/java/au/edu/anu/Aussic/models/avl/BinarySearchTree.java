@@ -11,6 +11,8 @@ import au.edu.anu.Aussic.models.entity.Song;
  * this Binary Search tree data structure.
  */
 public class BinarySearchTree<T> extends Tree<T> {
+    public BinarySearchTree() {
+    }
 
     public BinarySearchTree(String key, T value) {
         super(key, value);

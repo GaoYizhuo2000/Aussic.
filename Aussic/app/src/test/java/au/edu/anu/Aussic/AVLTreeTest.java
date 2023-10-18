@@ -337,7 +337,7 @@ public class AVLTreeTest {
         avlTree = avlTree.insertById(song1);
         avlTree = avlTree.insertById(song2);
 
-        avlTree = avlTree.deleteById(song2);
+        avlTree = (AVLTree<List<Song>>) avlTree.deleteById(song2);
         assertEquals("1", avlTree.key);
         assertEquals("0", avlTree.leftNode.key);
         assertNull(avlTree.rightNode.key);
@@ -352,7 +352,7 @@ public class AVLTreeTest {
         avlTree = avlTree.insertById(song1);
         avlTree = avlTree.insertById(song2);
 
-        avlTree = avlTree.deleteById(song2);
+        avlTree = (AVLTree<List<Song>>) avlTree.deleteById(song2);
         assertEquals("2", avlTree.key);
         assertEquals("1", avlTree.leftNode.key);
         assertNull(avlTree.rightNode.key);
@@ -371,7 +371,7 @@ public class AVLTreeTest {
         avlTree = avlTree.insertById(song2);
         avlTree = avlTree.insertById(song3);
 
-        avlTree = avlTree.deleteById(song2);
+        avlTree = (AVLTree<List<Song>>) avlTree.deleteById(song2);
 
         assertEquals("1", avlTree.key);
         assertEquals("0", avlTree.leftNode.key);
@@ -401,7 +401,7 @@ public class AVLTreeTest {
         testTree = testTree.insertById(song4);
 
 
-        testTree = testTree.deleteById(song2);
+        testTree = (AVLTree<List<Song>>) testTree.deleteById(song2);
 
 
         //assertEquals("", testTree.toString());
@@ -409,7 +409,7 @@ public class AVLTreeTest {
         assertEquals("1", testTree.leftNode.key);
         assertEquals("4", testTree.rightNode.key);
 
-        testTree = testTree.deleteById(song4);
+        testTree = (AVLTree<List<Song>>) testTree.deleteById(song4);
         assertEquals("3", testTree.key);
         assertEquals("1", testTree.leftNode.key);
         assertNull(testTree.rightNode.key);
@@ -446,14 +446,17 @@ public class AVLTreeTest {
         SongAttributes song4attr = new SongAttributes("CCC", "artist3") ;
         song4.setAttributes(song4attr);
 
-        testTree = testTree.insertByName(song1);
         testTree = testTree.insertByName(song2);
         testTree = testTree.insertByName(song3);
         testTree = testTree.insertByName(song4);
 
         //Todo: test the deleteByName method.
-        //testTree = testTree.deleteByName(song4);
-        testTree = testTree.deleteByName(song1);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song3);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song1);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song2);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song4);
+
+
         assertEquals("", testTree.toString());
 
     }
@@ -487,7 +490,7 @@ public class AVLTreeTest {
         testTree = testTree.insertByArtistName(song4);
 
         // Delete a song by artist name
-        testTree = testTree.deleteByArtistName(song1);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByArtistName(song1);
         //testTree = testTree.deleteByArtistName(song2);
 
         assertEquals("", testTree.toString());
@@ -534,8 +537,8 @@ public class AVLTreeTest {
             testTree =testTree.insertByGenre(genre, song3);
         }
 
-        testTree = testTree.deleteByGenre("Rock", song1);
-        testTree = testTree.deleteByGenre("R&B", song3);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByGenre("Rock", song1);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByGenre("R&B", song3);
 
     }
 
@@ -563,7 +566,7 @@ public class AVLTreeTest {
         testTree = testTree.insertByReleaseDate(song2);
         testTree = testTree.insertByReleaseDate(song3);
 
-        testTree = testTree.deleteByReleaseDate(song3);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByReleaseDate(song3);
 
     }
 }

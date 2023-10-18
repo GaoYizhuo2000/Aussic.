@@ -278,7 +278,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
         Task<QuerySnapshot> taskSongSearch;
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> results = new ArrayList<>();
-        AtomicInteger flag = new AtomicInteger();
 
         if(terms.containsKey("undefinedTerm")&& terms.get("undefinedTerm") != null){// general search
 
