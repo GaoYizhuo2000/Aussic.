@@ -450,7 +450,6 @@ public class AVLTreeTest {
         testTree = testTree.insertByName(song3);
         testTree = testTree.insertByName(song4);
 
-        //Todo: test the deleteByName method.
       //  testTree = (AVLTree<List<Song>>) testTree.deleteByName(song3);
         testTree = (AVLTree<List<Song>>) testTree.deleteByName(song1);
         testTree = (AVLTree<List<Song>>) testTree.deleteByName(song2);

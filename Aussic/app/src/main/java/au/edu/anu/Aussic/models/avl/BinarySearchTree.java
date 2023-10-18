@@ -183,11 +183,6 @@ public class BinarySearchTree<T> extends Tree<T> {
         return null;
     }
 
-//    @Override
-//    public BinarySearchTree<T> delete(T element) {
-//        return null;
-//    }
-
     /**
      * Note that this is not within a file of its own... WHY?
      * The answer is: this is just a design decision. 'insert' here will return something specific
@@ -249,13 +244,6 @@ public class BinarySearchTree<T> extends Tree<T> {
         public Tree<T> deleteByGenre(String genre, Song song) {
             return null;
         }
-
-
-//        @Override
-//        public Tree<T> delete(T element) {
-//            return null;
-//        }
-
 
     }
 }

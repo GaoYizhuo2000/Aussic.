@@ -58,7 +58,6 @@ public class UserPageFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -66,7 +65,6 @@ public class UserPageFragment extends Fragment {
     private Button favorites, getLocation;
     private ImageView userPhoto;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -82,7 +80,7 @@ public class UserPageFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment LibraryFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static UserPageFragment newInstance(String param1, String param2) {
         UserPageFragment fragment = new UserPageFragment();
         Bundle args = new Bundle();

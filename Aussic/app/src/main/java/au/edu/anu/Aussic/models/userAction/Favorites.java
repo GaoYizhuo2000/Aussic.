@@ -13,7 +13,6 @@ import au.edu.anu.Aussic.models.firebase.SingletonFirestoreDbConnection;
 
 public class Favorites extends UserAction{
 
-
     public Favorites(String actionType, String username, String targetSong, Integer targetSongId) {
         super(actionType, username, targetSong, targetSongId);
     }
@@ -39,6 +38,5 @@ public class Favorites extends UserAction{
                 docRef.update("favorites", favorites);
             }
         });
-
     }
 }

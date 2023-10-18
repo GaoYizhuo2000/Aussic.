@@ -82,7 +82,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
                     User newUsr = GsonLoader.loadUser(usrData);
 
-
                     usr.setUsr(newUsr);
                     // Notify subsequent change
                     RuntimeObserver.notifyOnDataChangeListeners();
@@ -144,7 +143,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 }
             }
         });
-
     }
 
     @Override
@@ -166,11 +164,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
     }
 
-    @Override
-    public void updateSongs() {
-
-
-    }
 
     @Override
     public CompletableFuture<Map<String, Object>> getRandomSong() {
@@ -181,7 +174,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
                 if (task.isSuccessful()) {
                     Map<String, Object> data = task.getResult().getData();
                     List<String> idList = (List<String>) data.get("idList");
-                    //随机取一个id search
+
                     Random random = new Random();
                     int index = random.nextInt(idList.size());
                     String id = idList.get(index);
@@ -291,7 +284,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
             Task<DocumentSnapshot> task3 = genresRef.document(terms.get("undefinedTerm")).get();
             Task<DocumentSnapshot> task4 = usersRef.document(terms.get("undefinedTerm")).get();
 
-            // 使用Tasks.whenAllSuccess来等待所有任务完成
             Tasks.whenAllSuccess(task1, task2, task3, task4).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task1.isSuccessful()) {
@@ -621,8 +613,4 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
         return future;
     }
-
-
-
-
 }

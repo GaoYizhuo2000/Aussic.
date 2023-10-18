@@ -54,7 +54,6 @@ public class SongAttributes implements Cloneable{
         this.artistName = artistName;
     }
 
-    // Getter 和 Setter 方法
     public String getAlbumName() {
         return albumName;
     }

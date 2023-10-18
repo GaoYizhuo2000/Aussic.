@@ -27,8 +27,6 @@ public class Song implements Cloneable, Comparable<Song> {
     private int likes;
 
 
-    //private String
-
     // Constructor
     public Song(String id, String type, String href, SongAttributes attributes) {
         this.id = id;
@@ -126,7 +124,6 @@ public class Song implements Cloneable, Comparable<Song> {
     }
 
 
-
     public String getKind() {
         return playParams.getKind();
     }
@@ -193,6 +190,5 @@ public class Song implements Cloneable, Comparable<Song> {
         this.comments = song.getComments();
         this.favorites = song.getFavorites();
         this.likes = song.getLikes();
-
     }
 }

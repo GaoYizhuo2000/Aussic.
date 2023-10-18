@@ -38,6 +38,5 @@ public class Like extends UserAction{
                 docRef.update("likes", likes);
             }
         });
-        //之后在listview中添加监听器，同步显示数据变化
     }
 }

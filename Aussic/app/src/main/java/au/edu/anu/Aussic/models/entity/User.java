@@ -27,7 +27,7 @@ public class User {
         this.iconUrl = iconUrl;
     }
 
-    public void update(){};  //更新数据库里的user数据
+    public void update(){};
 
     public void addFavorites(String songID){ this.favorites.add(songID); }
     public void addLikes(String songID){ this.likes.add(songID); }

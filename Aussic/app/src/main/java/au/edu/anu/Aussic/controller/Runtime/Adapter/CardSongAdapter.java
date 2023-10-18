@@ -43,7 +43,6 @@ public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardVi
         GeneralItem generalItem = generalItemList.get(position);
         holder.description.setText(generalItem.getSongName());
 
-        // TODO: Load the image into holder.image using an image loading library like Glide or Picasso
         Glide.with(holder.image.getContext())
                 .load(generalItem.getSongImageUrl())
                 .into(holder.image);

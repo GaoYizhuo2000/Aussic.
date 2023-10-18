@@ -36,12 +36,10 @@ import au.edu.anu.Aussic.models.entity.Song;
  */
 public class SongSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnGeneralItemClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private TextView songs;
@@ -59,7 +57,7 @@ public class SongSearchFragment extends Fragment implements OnDataArrivedListene
      * @param param2 Parameter 2.
      * @return A new instance of fragment SongNameFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static SongSearchFragment newInstance(String param1, String param2) {
         SongSearchFragment fragment = new SongSearchFragment();
         Bundle args = new Bundle();

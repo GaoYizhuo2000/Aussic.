@@ -98,14 +98,6 @@ public class Parser {
         }
         return searchingTerms;
     }
-
-
-
-
-
-
-
-
 }
 
 
