@@ -1,12 +1,8 @@
 package au.edu.anu.Aussic.models.avl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 
 /**
@@ -253,31 +249,17 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                 //return (AVLTree<T>) leftNode;
                 return new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
             } else { //Two children
-                AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
-                T predecessorT = newLeft.findMaxNode();
-                Song predecessor = null;
-                if (predecessorT instanceof List<?>) {
-                    List<Song> songList = (List<Song>) predecessorT;
-                    System.out.println("Size of songList: " + songList.size());
-                    if (!songList.isEmpty()) {
-                        predecessor = songList.get(0);
-                        System.out.println("Retrieved song: " + predecessor);
-                    } else {
-                        System.out.println("songList is empty");
-                    }
-                } else {
-                    System.out.println("predecessorT is not an instance of List: " + predecessorT);
+                AVLTree predecessorT = leftNode.findMaxNode();
+                if(predecessorT.equals(leftNode) ){
+                    AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
+                    return newLeft;
+                }else{
+                    AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
+                    AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
+                    return newPredecessor;
+
                 }
-                if (predecessor == null) {
-                    throw new IllegalStateException("Predecessor song was not found.");
-                }
-                if (newLeft.find(predecessor.getId()) != null) {
-                    System.out.println("Predecessor exists before deletion");
-                } else {
-                    System.out.println("Predecessor does not exist before deletion");
-                }
-                newLeft = (AVLTree<T>) newLeft.deleteById(predecessor);
-                newTree = new AVLTree<T>(predecessor.getId(), predecessorT, newLeft, rightNode);
+
             }
         }
 
@@ -319,22 +301,18 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                         return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
                     } else {
                         // Both children are present, need to find predecessor or successor to replace
-                        AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
-                        T predecessorT = newLeft.findMaxNode();
-                        Song predecessor = null;
-                        if (predecessorT instanceof List<?>) {
-                            List<Song> predecessorList = (List<Song>) predecessorT;
-                            if (!predecessorList.isEmpty()) {
-                                predecessor = predecessorList.get(0);
-                            }
+
+                        AVLTree predecessorT = leftNode.findMaxNode();
+                        if(predecessorT.equals(leftNode) ){
+                            AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
+                            return newLeft;
+                        }else{
+                            AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
+                            AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
+                            return newPredecessor;
+
                         }
-                        if (predecessor == null) {
-                            throw new IllegalStateException("Predecessor song was not found.");
-                        }
-                        newLeft = (AVLTree<T>) newLeft.deleteByName(predecessor);
-                        List<Song> newPredecessorList = new ArrayList<>();
-                        newPredecessorList.add(predecessor);
-                        return new AVLTree<T>(predecessor.getSongName(), (T) newPredecessorList, newLeft, rightNode);
+
                         //return new AVLTree<T>(predecessor.getSongName(), predecessorT, newLeft, rightNode);
                     }
                 }
@@ -375,22 +353,18 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                     return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
                 } else {
                     // Both children are present, need to find predecessor or successor to replace
-                    AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
-                    T predecessorT = newLeft.findMaxNode();
-                    Song predecessor = null;
-                    if (predecessorT instanceof List<?>) {
-                        List<Song> predecessorList = (List<Song>) predecessorT;
-                        if (!predecessorList.isEmpty()) {
-                            predecessor = predecessorList.get(0);
-                        }
+                    AVLTree predecessorT = leftNode.findMaxNode();
+                    if(predecessorT.equals(leftNode) ){
+                        AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
+                        return newLeft;
+                    }else{
+                        AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
+                        AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
+                        return newPredecessor;
+
                     }
-                    if (predecessor == null) {
-                        throw new IllegalStateException("Predecessor song was not found.");
-                    }
-                    newLeft = (AVLTree<T>) newLeft.deleteByArtistName(predecessor);
-                    List<Song> newPredecessorList = new ArrayList<>();
-                    newPredecessorList.add(predecessor);
-                    return new AVLTree<T>(predecessor.getArtistName(), (T) newPredecessorList, newLeft, rightNode);
+
+
                 }
             }
         }
@@ -430,22 +404,16 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                         return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
                     } else {
                         // Both children are present, need to find predecessor or successor to replace
-                        AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
-                        T predecessorT = newLeft.findMaxNode();
-                        Song predecessor = null;
-                        if (predecessorT instanceof List<?>) {
-                            List<Song> predecessorList = (List<Song>) predecessorT;
-                            if (!predecessorList.isEmpty()) {
-                                predecessor = predecessorList.get(0);
-                            }
+                        AVLTree predecessorT = leftNode.findMaxNode();
+                        if(predecessorT.equals(leftNode) ){
+                            AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
+                            return newLeft;
+                        }else{
+                            AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
+                            AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
+                            return newPredecessor;
+
                         }
-                        if (predecessor == null) {
-                            throw new IllegalStateException("Predecessor song was not found.");
-                        }
-                        newLeft = (AVLTree<T>) newLeft.deleteByReleaseDate(predecessor);
-                        List<Song> newPredecessorList = new ArrayList<>();
-                        newPredecessorList.add(predecessor);
-                        return new AVLTree<T>(predecessor.getReleaseDate(), (T) newPredecessorList, newLeft, rightNode);
                     }
                 }
             }
@@ -479,23 +447,17 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                     //return (AVLTree<T>) leftNode;
                     return new AVLTree<T>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
                 } else {
-                    // Both children are present, need to find predecessor or successor to replace
-                    AVLTree<T> newLeft = new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
-                    T predecessorT = newLeft.findMaxNode();
-                    Song predecessor = null;
-                    if (predecessorT instanceof List<?>) {
-                        List<Song> predecessorList = (List<Song>) predecessorT;
-                        if (!predecessorList.isEmpty()) {
-                            predecessor = predecessorList.get(0);
-                        }
+                    AVLTree predecessorT = leftNode.findMaxNode();
+                    if(predecessorT.equals(leftNode) ){
+                        AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
+                        return newLeft;
+                    }else{
+                        AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
+                        AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
+                        return newPredecessor;
+
                     }
-                    if (predecessor == null) {
-                        throw new IllegalStateException("Predecessor song was not found.");
-                    }
-                    newLeft = (AVLTree<T>) newLeft.deleteByGenre(genre, predecessor);
-                    List<Song> newPredecessorList = new ArrayList<>();
-                    newPredecessorList.add(predecessor);
-                    return new AVLTree<T>(genre, (T) newPredecessorList, newLeft, rightNode);
+
                 }
             }
         }
@@ -531,18 +493,18 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
 
     /**
-         * Helper for deleteById()
-         * To find the
-         * Finds the rightmost (largest) element in the left subtree
-         *
-         * @return the rightmost element
-         * @author
-         */
-        private T findMaxNode() {
-            if (this.rightNode == null || (this.rightNode.key == null && this.rightNode.value == null)) {
-                return this.value;
+     * Helper for deleteById()
+     * To find the
+     * Finds the rightmost (largest) element in the left subtree
+     *
+     * @return the rightmost element
+     * @author
+     */
+        public AVLTree<T> findMaxNode() {
+            if (this.rightNode instanceof EmptyAVL ) {
+                return this;
             } else {
-                return new AVLTree<T>(this.rightNode.key, this.rightNode.value, this.rightNode.leftNode, this.rightNode.rightNode).findMaxNode();
+                return this.rightNode.findMaxNode();
             }
         }
 
@@ -609,6 +571,11 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             @Override
             public Tree<T> deleteByGenre(String genre, Song song) {
                 return this;
+            }
+
+            @Override
+            protected AVLTree<T> findMaxNode() {
+                return null;
             }
 
         }

@@ -8,10 +8,15 @@ import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+
+import android.app.Application;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +40,15 @@ public class FirestoreDaoImplTest {
     public void setUp() {
         //Init mockito anntations
         MockitoAnnotations.initMocks(this);
-        //Init firestoreDao
-        firestoreDao = new FirestoreDaoImpl();
 
         // Mock Firebase instances
+        FirebaseAuth mockAuth = mock(FirebaseAuth.class);
+        FirebaseUser mockUser = mock(FirebaseUser.class);
+        when(mockAuth.getCurrentUser()).thenReturn(mockUser);
+
+        // Initialize FirestoreDaoImpl using the overloaded constructor
+        firestoreDao = new FirestoreDaoImpl(mockAuth);
+
         firestoreDao.firestore = mock(FirebaseFirestore.class);
         firestoreDao.songsRef = mock(CollectionReference.class);
 
@@ -84,6 +94,7 @@ public class FirestoreDaoImplTest {
         return listenerCaptor.getValue();
     }
 }
+
 
 
 

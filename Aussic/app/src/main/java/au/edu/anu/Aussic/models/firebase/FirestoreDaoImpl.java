@@ -56,6 +56,23 @@ public class FirestoreDaoImpl implements FirestoreDao {
     CollectionReference sessionsRef = firestore.collection("sessions");
     List<String> idList = null;
 
+
+    // Default constructor
+    public FirestoreDaoImpl() {
+        this(FirebaseAuth.getInstance());
+    }
+
+    // Overloaded constructor for dependency injection (used mainly for testing)
+    public FirestoreDaoImpl(FirebaseAuth firebaseAuth) {
+        this.currentUser = firebaseAuth.getCurrentUser();
+        this.firestore = SingletonFirestoreDbConnection.getInstance();
+        this.songsRef = firestore.collection("Songs");
+        this.usersRef = firestore.collection("users");
+        this.artistsRef = firestore.collection("artists");
+        this.genresRef = firestore.collection("genres");
+        this.sessionsRef = firestore.collection("sessions");
+    }
+
     public void setSongRealTimeListener(Song song){
 
         DocumentReference songRef = songsRef.document(song.getId());
@@ -100,7 +117,7 @@ public class FirestoreDaoImpl implements FirestoreDao {
                         case ADDED:
                             Session session = GsonLoader.loadSession(dc.getDocument().getData());
                             if(session.getUsers().get(0).equals(currentUser.getEmail()) || session.getUsers().get(1).equals(currentUser.getEmail())){
-                                FirestoreDao firestoreDao = new FirestoreDaoImpl();
+                                FirestoreDao firestoreDao = new FirestoreDaoImpl();//todo
                                 firestoreDao.setSessionRealTimeListener(session);
                                 if(!RuntimeObserver.currentUserSessions.contains(session)) RuntimeObserver.currentUserSessions.add(session);
                                 List<String> list = new ArrayList<>();

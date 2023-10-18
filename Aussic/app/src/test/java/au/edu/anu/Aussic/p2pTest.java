@@ -55,10 +55,10 @@ public class p2pTest {
         firestoreDao.updateHistory(RuntimeObserver.currentUser.username+"&"+"t4@gmail.com", "Testing message");
         db.collection("sessions").document(RuntimeObserver.currentUser.username+"&"+"t4@gmail.com")
                 .get().addOnCompleteListener(task -> {
-                   if(task.isSuccessful()){
-                       List<Map<String,String>> history = (List<Map<String,String>>)task.getResult().get("history");
-                       assertEquals(history.get(history.size() - 1).get("message"), "Testing message");
-                   }
+                    if(task.isSuccessful()){
+                        List<Map<String,String>> history = (List<Map<String,String>>)task.getResult().get("history");
+                        assertEquals(history.get(history.size() - 1).get("message"), "Testing message");
+                    }
                 });
 
     }

@@ -91,7 +91,7 @@ public abstract class Tree<T> {
 
 
     //public abstract Tree<T> delete(T element);   // Deletes the element and returns the node deleted.
-
+/////////////////////////////////////////////////////
     /**
      * Height of current node.
      * @return The maximum height of either children.
@@ -112,4 +112,7 @@ public abstract class Tree<T> {
                 ", rightNode=" + rightNode +
                 '}';
     }
+
+
+    protected abstract AVLTree<T> findMaxNode();
 }
