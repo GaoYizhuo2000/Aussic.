@@ -1,9 +1,12 @@
 package au.edu.anu.Aussic.controller.homePages.userPages;
 
+import android.app.Dialog;
 import android.content.Intent;
 //import android.location.Location;
 //import android.location.LocationListener;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,13 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,16 +40,24 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
+import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
+import au.edu.anu.Aussic.controller.entityPages.SongActivity;
 import au.edu.anu.Aussic.controller.homePages.userPages.FavouriteSongActivity;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
+import au.edu.anu.Aussic.models.firebase.FirestoreDao;
+import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
+import au.edu.anu.Aussic.models.userAction.Comment;
 
 /**
  * @author: u7516507, Evan Cheung
@@ -54,7 +69,7 @@ import au.edu.anu.Aussic.models.entity.User;
  * Use the {@link UserPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserPageFragment extends Fragment {
+public class UserPageFragment extends Fragment implements OnDataChangeListener {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
@@ -66,6 +81,7 @@ public class UserPageFragment extends Fragment {
     private ImageView userPhoto;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
+    private Dialog dialog;
 
 
     private String mParam1;
@@ -100,6 +116,7 @@ public class UserPageFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        RuntimeObserver.addOnDataChangeListener(this);
     }
 
     @Override
@@ -152,12 +169,18 @@ public class UserPageFragment extends Fragment {
         email.append(usr.username);
         Picasso.get().load(usr.iconUrl).into(userPhoto);
 
+        setUpDialogue();
+
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Change profile image feature not implemented yet.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Change profile image feature not implemented yet.", Toast.LENGTH_SHORT).show();
+                //showbottom()
+                showProfile();
             }
         });
+
+
 
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,4 +289,107 @@ public class UserPageFragment extends Fragment {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
+    private void setUpDialogue(){
+        this.dialog = new Dialog(getContext());
+        this.dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.dialog.setContentView(R.layout.change_profile_layout);
+        ImageView imageView1 = dialog.findViewById(R.id.p1);
+        ImageView imageView2 = dialog.findViewById(R.id.p2);
+        ImageView imageView3 = dialog.findViewById(R.id.p3);
+        ImageView imageView4 = dialog.findViewById(R.id.p4);
+        ImageView imageView5 = dialog.findViewById(R.id.p5);
+        ImageView imageView6 = dialog.findViewById(R.id.p6);
+        ImageView imageView7 = dialog.findViewById(R.id.p7);
+        ImageView imageView8 = dialog.findViewById(R.id.p8);
+
+        FirestoreDao firestoreDao = new FirestoreDaoImpl();
+
+
+        //imageView1.setClickable();
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F2.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F3.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F4.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F5.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F6.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F7.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+        imageView8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firestoreDao.updateUserImage("https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2F8.png?alt=media");
+                dialog.dismiss();
+            }
+        });
+
+
+
+    }
+
+    private void showProfile() {
+        dialog.show();
+
+        // Set the dimensions and appearance of the dialog
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        // Allow the dialog to be canceled by touching outside its bounds
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+    }
+
+    @Override
+    public void onDataChangeResponse() {
+        Picasso.get().load(RuntimeObserver.currentUser.iconUrl).into(userPhoto);
+    }
 }

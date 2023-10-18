@@ -229,9 +229,6 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                 }
             }
         });
-
-
-
     }
     private void showBottomComments() {
         dialog.show();
