@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.searchPages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,6 +29,10 @@ import au.edu.anu.Aussic.models.entity.Artist;
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.models.firebase;
 
-/**
- * @author: u7552399, Yizhuo Gao
- */
-
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
@@ -13,6 +9,12 @@ import java.util.concurrent.CompletableFuture;
 import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
+
+/**
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7581818, Oscar Wei
+ * @author: u7516507, Evan Cheung
+ */
 
 public interface FirestoreDao {
     void updateSongs();

@@ -1,12 +1,12 @@
 package au.edu.anu.Aussic.models.entity;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7552399, Yizhuo Gao
+ */
 
 //After user registration, create a new user and upload it to firestore.
 //After logging in, pass the user ID to homeactivity, and then pass it when instantiating the

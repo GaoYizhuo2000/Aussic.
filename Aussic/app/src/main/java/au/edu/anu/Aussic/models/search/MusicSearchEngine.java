@@ -7,6 +7,11 @@ import au.edu.anu.Aussic.models.entity.Song;
 
 import java.util.*;
 
+/**
+ * @author: u7581818, Oscar Wei
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7603590, Jiawei Niu
+ */
 public class MusicSearchEngine {
 
 

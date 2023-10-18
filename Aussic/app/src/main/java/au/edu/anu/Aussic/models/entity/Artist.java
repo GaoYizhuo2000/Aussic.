@@ -1,10 +1,11 @@
 package au.edu.anu.Aussic.models.entity;
 
+import java.util.List;
+
 /**
  * @author: u7552399, Yizhuo Gao
+ * @author: u7516507, Evan Cheung
  */
-
-import java.util.List;
 
 public class Artist {
     String type;

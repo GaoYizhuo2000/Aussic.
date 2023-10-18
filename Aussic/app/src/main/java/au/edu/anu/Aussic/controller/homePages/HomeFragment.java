@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.homePages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -37,6 +33,11 @@ import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to

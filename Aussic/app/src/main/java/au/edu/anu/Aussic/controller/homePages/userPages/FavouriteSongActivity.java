@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.homePages.userPages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +31,12 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 
-
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7581818, Oscar Wei
+ * @author: u7603590, Jiawei Niu
+ */
 public class FavouriteSongActivity extends AppCompatActivity implements OnGeneralDeleteBtnClickListener, OnDataChangeListener {
     private RecyclerView recyclerView;
     private SearchView searchView;

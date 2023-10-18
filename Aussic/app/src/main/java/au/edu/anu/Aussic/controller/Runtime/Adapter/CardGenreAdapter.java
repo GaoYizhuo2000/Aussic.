@@ -1,15 +1,14 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
 public class CardGenreAdapter extends CardSongAdapter {
 
     public CardGenreAdapter(List<GeneralItem> cardDataList, OnGeneralItemClickListener listener) {

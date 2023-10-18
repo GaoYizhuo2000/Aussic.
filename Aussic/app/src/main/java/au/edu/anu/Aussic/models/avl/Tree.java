@@ -1,10 +1,11 @@
 package au.edu.anu.Aussic.models.avl;
 
+import au.edu.anu.Aussic.models.entity.Song;
+
 /**
  * @author: u7581818, Oscar Wei
+ * @author: u7552399, Yizhuo Gao
  */
-
-import au.edu.anu.Aussic.models.entity.Song;
 
 /**
  * The following interface defines required methods of any Tree.

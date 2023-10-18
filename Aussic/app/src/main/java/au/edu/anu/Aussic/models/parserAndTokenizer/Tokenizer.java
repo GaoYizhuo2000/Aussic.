@@ -1,14 +1,13 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
-/**
- * @author: u7581818, Oscar Wei
- */
-
 import java.util.ArrayList;
         import java.util.List;
         import java.util.regex.Matcher;
         import java.util.regex.Pattern;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
 public class Tokenizer {
 
     private String buffer;

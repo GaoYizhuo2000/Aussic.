@@ -1,12 +1,12 @@
 package au.edu.anu.Aussic.models.entity;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import java.util.List;
 
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public class Session {
     public List<String> users;

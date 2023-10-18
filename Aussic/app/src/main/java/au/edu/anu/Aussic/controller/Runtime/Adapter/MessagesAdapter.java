@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +14,10 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<CommentItem> messages;

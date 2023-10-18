@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.homePages.userPages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.content.Intent;
 //import android.location.Location;
 //import android.location.LocationListener;
@@ -47,6 +43,11 @@ import au.edu.anu.Aussic.controller.homePages.userPages.FavouriteSongActivity;
 import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.entity.User;
+
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7603590, Jiawei Niu
+ */
 
 /**
  * A simple {@link Fragment} subclass.

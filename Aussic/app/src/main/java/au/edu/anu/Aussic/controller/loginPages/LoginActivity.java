@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.loginPages;
 
-/**
- * @author: u7603590, Jiawei Niu
- */
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import au.edu.anu.Aussic.R;
+
+/**
+ * @author: u7603590, Jiawei Niu
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7516507, Evan Cheung
+ */
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;

@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.models.entity;
 
-/**
- * @author: u7581818, Oscar Wei
- */
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +7,12 @@ import java.util.Map;
 
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CommentItem;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
+
+/**
+ * @author: u7581818, Oscar Wei
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7516507, Evan Cheung
+ */
 
 public class Song implements Cloneable, Comparable<Song> {
     private String id;

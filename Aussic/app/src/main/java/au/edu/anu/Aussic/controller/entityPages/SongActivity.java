@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.entityPages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +39,12 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.Comment;
 import au.edu.anu.Aussic.models.userAction.Favorites;
 import au.edu.anu.Aussic.models.userAction.Like;
+
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7603590, Jiawei Niu
+ */
 
 public class SongActivity extends AppCompatActivity implements OnDataChangeListener {
     private ImageView roundImageView;

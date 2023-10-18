@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.models.firebase;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 
@@ -45,6 +41,11 @@ import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7581818, Oscar Wei
+ */
 public class FirestoreDaoImpl implements FirestoreDao {
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     public FirebaseFirestore firestore = SingletonFirestoreDbConnection.getInstance();

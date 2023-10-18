@@ -1,15 +1,15 @@
 package au.edu.anu.Aussic.models.userAction;
 
-/**
- * @author Yizhuo Gao
- */
-
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
 import au.edu.anu.Aussic.models.firebase.SingletonFirestoreDbConnection;
+
+/**
+ * @author: u7552399, Yizhuo Gao
+ */
 
 public class Favorites extends UserAction{
 

@@ -1,13 +1,13 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public class ListArtistAdapter extends ListSongAdapter{
 

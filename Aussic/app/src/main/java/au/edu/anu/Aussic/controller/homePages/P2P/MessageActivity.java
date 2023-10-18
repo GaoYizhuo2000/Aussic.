@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.homePages.P2P;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +28,10 @@ import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.Comment;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public class MessageActivity extends AppCompatActivity implements OnDataChangeListener {
     private User userPeer;

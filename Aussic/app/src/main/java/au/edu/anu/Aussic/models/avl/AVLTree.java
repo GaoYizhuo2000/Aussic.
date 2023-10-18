@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.models.avl;
 
-/**
- * @author: u7581818, Oscar Wei
- */
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +8,11 @@ import java.util.Set;
 
 import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.Song;
+
+/**
+ * @author: u7581818, Oscar Wei
+ * @author: u7552399, Yizhuo Gao
+ */
 
 public class AVLTree<T> extends BinarySearchTree<T> {
     public AVLTree(String key, T value) {

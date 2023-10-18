@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -24,6 +20,10 @@ import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
 import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public interface OnGeneralItemClickListener {
     default void onItemClicked(GeneralItem generalItem) throws IOException {

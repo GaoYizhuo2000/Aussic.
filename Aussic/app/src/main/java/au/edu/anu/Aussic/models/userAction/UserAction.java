@@ -1,7 +1,7 @@
 package au.edu.anu.Aussic.models.userAction;
 
 /**
- * @author Yizhuo Gao
+ * @author: u7552399, Yizhuo Gao
  */
 
 public abstract class UserAction {

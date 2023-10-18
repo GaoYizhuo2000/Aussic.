@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.entityPages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +30,11 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
+
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7603590, Jiawei Niu
+ */
 
 public class GenreActivity extends AppCompatActivity implements OnDataArrivedListener, OnGeneralItemClickListener {
     private ImageView imageView;

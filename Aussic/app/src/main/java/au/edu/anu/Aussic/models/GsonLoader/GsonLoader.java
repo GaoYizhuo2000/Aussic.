@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.models.GsonLoader;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import com.google.gson.Gson;
         import com.google.gson.reflect.TypeToken;
 
@@ -20,6 +16,11 @@ import com.google.gson.Gson;
         import au.edu.anu.Aussic.models.entity.Session;
         import au.edu.anu.Aussic.models.entity.Song;
         import au.edu.anu.Aussic.models.entity.User;
+
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7581818, Oscar Wei
+ */
 
 public class GsonLoader {
 

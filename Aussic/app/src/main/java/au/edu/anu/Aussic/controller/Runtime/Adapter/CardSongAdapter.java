@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +16,9 @@ import java.util.List;
 
 import au.edu.anu.Aussic.R;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
 public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardViewHolder> {
 
     protected List<GeneralItem> generalItemList;

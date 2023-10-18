@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.Runtime.observer;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import android.media.MediaPlayer;
 
 import java.util.ArrayList;
@@ -15,6 +11,10 @@ import au.edu.anu.Aussic.models.entity.Session;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 /**
  * The class for song playing and pausing

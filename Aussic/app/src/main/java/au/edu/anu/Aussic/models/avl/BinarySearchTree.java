@@ -1,13 +1,14 @@
 package au.edu.anu.Aussic.models.avl;
 
-/**
- * @author: u7581818, Oscar Wei
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.anu.Aussic.models.entity.Song;
+
+/**
+ * @author: u7581818, Oscar Wei
+ * @author: u7552399, Yizhuo Gao
+ */
 
 /**
  * An AVL tree is actually an extension of a Binary Search Tree

@@ -1,12 +1,11 @@
 package au.edu.anu.Aussic.models.entity;
 
-/**
- * @author: u7581818, Oscar Wei
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
 public class SongAttributes implements Cloneable{
     private String albumName;
     private List<String> genreNames;

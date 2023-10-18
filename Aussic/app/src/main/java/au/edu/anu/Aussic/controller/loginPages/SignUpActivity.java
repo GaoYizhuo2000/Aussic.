@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.loginPages;
 
-/**
- * @author: u7603590, Jiawei Niu
- */
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -30,6 +26,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * @author: u7603590, Jiawei Niu
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7516507, Evan Cheung
+ */
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonSignUp, buttonGoBack;
     private EditText usernameSignUp, passwordSignUp, comfirmPassword;

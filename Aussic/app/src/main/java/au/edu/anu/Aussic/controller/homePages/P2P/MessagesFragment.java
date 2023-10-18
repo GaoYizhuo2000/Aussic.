@@ -27,7 +27,9 @@ import au.edu.anu.Aussic.models.entity.User;
 
 /**
  * @author: u7516507, Evan Cheung
- *
+ */
+
+/**
  * A simple {@link Fragment} subclass.
  * Use the {@link MessagesFragment#newInstance} factory method to
  * create an instance of this fragment.

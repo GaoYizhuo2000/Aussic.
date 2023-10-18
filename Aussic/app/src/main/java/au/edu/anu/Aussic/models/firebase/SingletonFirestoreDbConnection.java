@@ -1,10 +1,10 @@
 package au.edu.anu.Aussic.models.firebase;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 /**
  * @author: u7552399, Yizhuo Gao
  */
-
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SingletonFirestoreDbConnection {
     private static FirebaseFirestore firestore;

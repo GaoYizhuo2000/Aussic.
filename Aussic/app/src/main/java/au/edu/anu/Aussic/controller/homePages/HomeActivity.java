@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.homePages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -45,6 +41,11 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
+/**
+ * @author: u7516507, Evan Cheung
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7603590, Jiawei Niu
+ */
 
 public class HomeActivity extends AppCompatActivity implements OnMediaChangeListener {
 

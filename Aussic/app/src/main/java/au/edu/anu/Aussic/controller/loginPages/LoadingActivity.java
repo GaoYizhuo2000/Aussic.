@@ -1,9 +1,5 @@
 package au.edu.anu.Aussic.controller.loginPages;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -29,6 +25,10 @@ import au.edu.anu.Aussic.models.entity.User;
 import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public class LoadingActivity extends AppCompatActivity {
     @Override

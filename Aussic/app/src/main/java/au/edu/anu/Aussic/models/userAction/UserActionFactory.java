@@ -3,7 +3,7 @@ package au.edu.anu.Aussic.models.userAction;
 import com.google.gson.JsonObject;
 
 /**
- * @author Yizhuo Gao
+ * @author: u7552399, Yizhuo Gao
  */
 
 public class UserActionFactory {

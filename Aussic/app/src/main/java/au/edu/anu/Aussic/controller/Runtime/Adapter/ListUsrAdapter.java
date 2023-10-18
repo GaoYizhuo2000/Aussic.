@@ -1,12 +1,12 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
-/**
- * @author: u7516507, Evan Cheung
- */
-
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 public class ListUsrAdapter extends ListSongAdapter{
     public ListUsrAdapter(List<GeneralItem> items, OnGeneralItemClickListener listener) {

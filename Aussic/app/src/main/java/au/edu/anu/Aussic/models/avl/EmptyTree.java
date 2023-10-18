@@ -1,10 +1,10 @@
 package au.edu.anu.Aussic.models.avl;
 
+import au.edu.anu.Aussic.models.entity.Song;
+
 /**
  * @author: u7581818, Oscar Wei
  */
-
-import au.edu.anu.Aussic.models.entity.Song;
 
 /**
  * To avoid null pointer errors (and because this implementation is immutable)
@@ -15,7 +15,6 @@ public abstract class EmptyTree<T> extends Tree<T> {
     public abstract Tree<T> insertById(Song song);
 
     //public abstract Tree<T> delete(T element);
-////////////////////////////////////////////////////
     @Override
     public T min() {
         // No minimum.

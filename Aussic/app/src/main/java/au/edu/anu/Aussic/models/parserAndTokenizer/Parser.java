@@ -1,12 +1,14 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
-/**
- * @author: u7581818, Oscar Wei
- */
-
 import java.util.*;
 
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
+
+/**
+ * @author: u7581818, Oscar Wei
+ * @author: u7552399, Yizhuo Gao
+ * @author: u7516507, Evan Cheung
+ */
 
 // <Exp> = <term>| <term>;<Exp>
 // <Term> = \a<Factor> | \n<Factor> | \g<Factor> | \r<Factor>
