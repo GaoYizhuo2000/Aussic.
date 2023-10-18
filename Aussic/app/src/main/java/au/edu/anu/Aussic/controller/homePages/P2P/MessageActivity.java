@@ -92,7 +92,10 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
 
     @Override
     public void onDataChangeResponse() {
-        if(this.userPeer == null) this.userPeer = RuntimeObserver.currentMessagingSession.getPeerUsr();
+        if(this.userPeer == null) {
+            this.userPeer = RuntimeObserver.currentMessagingSession.getPeerUsr();
+            if (this.userPeer != null) onDataChangeResponse();
+        }
         else{
             if(userPeer.getBlockList().contains(RuntimeObserver.currentUser.username))
                 this.blockMessage.setText("This user has blocked you...");
