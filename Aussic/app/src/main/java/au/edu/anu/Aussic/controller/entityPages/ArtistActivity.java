@@ -5,6 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +37,7 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
     private ImageView imageView;
     private TextView name;
     private RecyclerView recyclerView;
+    private Button artistToHomeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +48,18 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
         this.imageView = findViewById(R.id.artist_round_image);
         this.name = findViewById(R.id.artist_artist_name);
         this.recyclerView = findViewById(R.id.artist_recyclerview);
+        this.artistToHomeButton = findViewById(R.id.artist_back_Home);
+
+        artistToHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         loadSongsUnderArtist();
     }
+
 
     public void loadSongsUnderArtist(){
 

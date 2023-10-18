@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Evan Cheung -->
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,11 +8,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.searchPages.GeneralSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="50dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,12 +27,14 @@
                 android:textSize="40dp"
                 android:text="Songs..."
                 android:fontFamily="casual"/>
+
             <!-- Placeholder for Song List (RecyclerView) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_song_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
@@ -45,6 +49,7 @@
                 android:textSize="40dp"
                 android:text="Genres..."
                 android:fontFamily="casual"/>
+
             <!-- Placeholder for Genre List (RecyclerView) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_genre_recyclerView"
@@ -62,6 +67,7 @@
                 android:textSize="40dp"
                 android:text="Artists..."
                 android:fontFamily="casual"/>
+
             <!-- Placeholder for Artist List (RecyclerView) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_artist_recyclerView"
@@ -78,6 +84,7 @@
                 android:textSize="40dp"
                 android:text="Users..."
                 android:fontFamily="casual"/>
+
             <!-- Placeholder for Artist List (RecyclerView) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_user_recyclerView"
@@ -90,8 +97,8 @@
                 android:layout_height="200dp"
                 android:background="@color/trans"/>
 
-
         </LinearLayout>
+
     </ScrollView>
 
 </FrameLayout>

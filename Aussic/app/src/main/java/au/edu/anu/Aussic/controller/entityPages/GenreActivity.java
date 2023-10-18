@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +35,7 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
     private ImageView imageView;
     private TextView name;
     private RecyclerView recyclerView;
+    private Button genreToHomeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,14 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
         this.imageView = findViewById(R.id.genre_image);
         this.name = findViewById(R.id.genre_genre_name);
         this.recyclerView = findViewById(R.id.genre_recyclerview);
+        this.genreToHomeButton = findViewById(R.id.genre_back_Home);
+
+        genreToHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         loadSongsUnderGenre();
     }

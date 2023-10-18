@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Evan Cheung -->
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,15 +8,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.searchPages.GenreSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="50dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/search_genres_genres"
                 android:layout_width="wrap_content"
@@ -24,6 +27,7 @@
                 android:textSize="40dp"
                 android:text="Genres..."
                 android:fontFamily="casual"/>
+
             <!-- Placeholder for Artist List (RecyclerView) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_list_genre_genre_recyclerView"
@@ -38,6 +42,7 @@
                 android:background="@color/trans"/>
 
         </LinearLayout>
+
     </ScrollView>
 
 </FrameLayout>
