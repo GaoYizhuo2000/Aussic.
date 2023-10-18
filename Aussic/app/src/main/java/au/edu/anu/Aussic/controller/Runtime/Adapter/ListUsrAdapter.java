@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import com.bumptech.glide.Glide;
 
 import java.util.List;

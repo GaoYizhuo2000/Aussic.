@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.homePages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -40,7 +44,6 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDao;
 import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.userAction.UserAction;
 import au.edu.anu.Aussic.models.userAction.UserActionFactory;
-
 
 
 public class HomeActivity extends AppCompatActivity implements OnMediaChangeListener {
@@ -90,7 +93,6 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             }
         });
 
-
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
@@ -100,8 +102,6 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, homeFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
-
-//        replaceFragment(homeFragment);
 
         bottomNavigationView.setBackground(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -135,8 +135,6 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             RuntimeObserver.getCurrentMediaPlayer().start();
             fab.setImageResource(R.drawable.ic_bottom_stop);
         }
-
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +202,6 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
 
         });
     }
-
 
     @Override
     protected void onDestroy() {

@@ -1,6 +1,10 @@
 package au.edu.anu.Aussic.models.GsonLoader;
 
-        import com.google.gson.Gson;
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
+import com.google.gson.Gson;
         import com.google.gson.reflect.TypeToken;
 
 

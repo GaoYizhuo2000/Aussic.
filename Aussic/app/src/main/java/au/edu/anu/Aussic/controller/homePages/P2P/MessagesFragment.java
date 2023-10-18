@@ -26,6 +26,8 @@ import au.edu.anu.Aussic.models.entity.Genre;
 import au.edu.anu.Aussic.models.entity.User;
 
 /**
+ * @author: u7516507, Evan Cheung
+ *
  * A simple {@link Fragment} subclass.
  * Use the {@link MessagesFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -99,7 +101,6 @@ public class MessagesFragment extends Fragment implements OnGeneralItemClickList
 
             this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             this.recyclerView.setAdapter(new ListUsrAdapter(sessionList, this));
-
         }
     }
 }

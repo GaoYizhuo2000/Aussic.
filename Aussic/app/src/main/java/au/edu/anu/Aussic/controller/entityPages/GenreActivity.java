@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.entityPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,7 +89,6 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
             onDataArrivedResponse();
         });
 
-
     }
 
     @Override
@@ -98,7 +101,6 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
 
         setImage(Functions.makeImageUrl(200, 200, RuntimeObserver.currentDisplayingGenre.getImageUrl()));
         this.name.setText(RuntimeObserver.currentDisplayingGenre.getGenreName());
-
 
     }
 

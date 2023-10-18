@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.firebase;
 
+/**
+ * @author: u7552399, Yizhuo Gao
+ */
+
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;

@@ -1,8 +1,11 @@
 package au.edu.anu.Aussic.models.search;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
+
 public class Query {
     private String artistName;
-
 
     public Query(String artistName) {
         this.artistName = artistName;

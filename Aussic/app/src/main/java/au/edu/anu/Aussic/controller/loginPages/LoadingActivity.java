@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.loginPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;

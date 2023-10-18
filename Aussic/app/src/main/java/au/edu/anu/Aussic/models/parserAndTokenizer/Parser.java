@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
+
 import java.util.*;
 
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;

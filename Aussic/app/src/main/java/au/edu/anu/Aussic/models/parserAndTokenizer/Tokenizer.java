@@ -1,6 +1,8 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
-
+/**
+ * @author: u7581818, Oscar Wei
+ */
 
 import java.util.ArrayList;
         import java.util.List;
@@ -11,7 +13,6 @@ public class Tokenizer {
 
     private String buffer;
     private Token currentToken;
-
 
     public Tokenizer(String text) {
         buffer = text;          // save input text (string)

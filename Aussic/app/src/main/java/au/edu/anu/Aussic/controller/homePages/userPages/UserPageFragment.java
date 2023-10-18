@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.homePages.userPages;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.content.Intent;
 //import android.location.Location;
 //import android.location.LocationListener;

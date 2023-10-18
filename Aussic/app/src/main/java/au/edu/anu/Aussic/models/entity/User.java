@@ -1,12 +1,17 @@
 package au.edu.anu.Aussic.models.entity;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-//用户注册后新建user上传firestore
-//登陆之后把用户id传给homeactivity，实例化个人主页fragment的时候再传，然后在fragment初始化的时候根据用户id从firebastore获取用户信息展示出来
+//After user registration, create a new user and upload it to firestore.
+//After logging in, pass the user ID to homeactivity, and then pass it when instantiating the
+// personal homepage fragment. Then when the fragment is initialized, the user information is
+// obtained from firebastore based on the user ID and displayed.
 public class User {
     public String username;
     private List<String> favorites = new ArrayList<>(); //放歌曲id

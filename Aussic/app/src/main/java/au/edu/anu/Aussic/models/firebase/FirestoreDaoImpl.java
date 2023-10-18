@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.firebase;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 

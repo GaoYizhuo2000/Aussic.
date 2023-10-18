@@ -2,12 +2,10 @@ package au.edu.anu.Aussic.models.userAction;
 
 import com.google.gson.JsonObject;
 
-
 /**
- *
- *
  * @author Yizhuo Gao
  */
+
 public class UserActionFactory {
     public static UserAction createUserAction(JsonObject jsonObject) {
         String actionType = jsonObject.get("actionType").getAsString();
@@ -37,7 +35,6 @@ public class UserActionFactory {
                     jsonObject.get("targetSongId").getAsInt()
             );
         }
-
         return null;
     }
 }

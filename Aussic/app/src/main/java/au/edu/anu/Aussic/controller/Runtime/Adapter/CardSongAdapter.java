@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

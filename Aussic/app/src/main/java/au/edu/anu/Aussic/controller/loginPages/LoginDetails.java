@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.loginPages;
 
+/**
+ * @author: u7603590, Jiawei Niu
+ */
+
 import java.io.Serializable;
 
 import au.edu.anu.Aussic.R;

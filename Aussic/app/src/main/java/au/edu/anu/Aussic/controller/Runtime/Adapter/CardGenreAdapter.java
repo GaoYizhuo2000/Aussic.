@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
+/**
+ * @author: u7516507, Evan Cheung
+ */
+
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;

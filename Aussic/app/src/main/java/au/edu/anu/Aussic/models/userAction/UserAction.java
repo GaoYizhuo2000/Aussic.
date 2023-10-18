@@ -1,10 +1,9 @@
 package au.edu.anu.Aussic.models.userAction;
 
 /**
- *
- *
  * @author Yizhuo Gao
  */
+
 public abstract class UserAction {
     protected String actionType;
     protected String username;
@@ -17,7 +16,6 @@ public abstract class UserAction {
         this.targetSong = targetSong;
         this.targetSongId = targetSongId;
     }
-
 
     public abstract String getToastMessage();
 

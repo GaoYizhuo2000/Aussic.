@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Author: Evan Cheung -->
-
+<!-- Author: Evan Cheung --><!-- Author: u7516507, Evan Cheung -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

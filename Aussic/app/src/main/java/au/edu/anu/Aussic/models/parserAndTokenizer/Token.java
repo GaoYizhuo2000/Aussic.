@@ -1,5 +1,9 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
+/**
+ * @author: u7581818, Oscar Wei
+ */
+
 public class Token {
     public enum Type {STRING, ARTISTNAME, NAME, GENRE, RELEASEDATE, SEMICOLON, USER} // \a, \n, \g, \r
     private final String token; // Token representation in String form.

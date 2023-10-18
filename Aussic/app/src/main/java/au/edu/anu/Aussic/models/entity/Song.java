@@ -1,4 +1,9 @@
 package au.edu.anu.Aussic.models.entity;
+
+/**
+ * @author: u7581818, Oscar Wei
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
