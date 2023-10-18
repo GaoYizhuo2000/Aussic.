@@ -431,6 +431,12 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
     @Override
+    public void updateUserImage(String imageUrl){
+        DocumentReference docRef = usersRef.document(currentUser.getEmail());
+        docRef.update("iconUrl", imageUrl);
+    }
+
+    @Override
     public CompletableFuture<String> updateUserFavorites(String songId) {
         CompletableFuture<String> future = new CompletableFuture<>();
         String username = currentUser.getEmail();
