@@ -25,6 +25,13 @@ public class SongAttributes implements Cloneable{
     private List<Preview> previews;
     private String artistName;
 
+    public SongAttributes(String name, String artistName, String releaseDate, List<String> genreNames){
+        this.name = name;
+        this.artistName = artistName;
+        this.releaseDate = releaseDate;
+        this.genreNames = genreNames;
+    }
+
     public SongAttributes(String name, String artistName) {
         this.name = name;
         this.artistName = artistName;

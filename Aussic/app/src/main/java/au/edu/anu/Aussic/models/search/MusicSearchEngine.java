@@ -137,14 +137,3 @@ public class MusicSearchEngine {
         return result;
     }
 }
-    //search engine test
-   // List<Song> testList = new ArrayList<>();
-   //     testList.add(new Song("1"));
-   //             testList.add(new Song("2"));
-   //             testList.add(new Song("3"));
-   //             testList.add(new Song("4"));
-   //             Map<String, String> testTerms = new HashMap<>();
-   //     testTerms.put("id", "2");
-   //     MusicSearchEngine searchEngine = new MusicSearchEngine(testList);
-   //     Set<Song> res = searchEngine.search(testTerms);
-   //     System.out.println(res);
