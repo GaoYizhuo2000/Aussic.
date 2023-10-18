@@ -225,13 +225,6 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         if (song == null)
             throw new IllegalArgumentException("Deletion cannot be null");
 
-        if (leftNode instanceof EmptyAVL) {
-            leftNode = null;
-        }
-        if (rightNode instanceof EmptyAVL) {
-            rightNode = null;
-        }
-
         AVLTree<T> newTree = null;
         if (song.getId().compareTo(key) > 0 && rightNode != null) {
             newTree = new AVLTree<>(key, value, leftNode, rightNode.deleteById(song));

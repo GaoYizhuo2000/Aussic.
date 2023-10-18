@@ -15,11 +15,11 @@ import java.util.*;
 public class MusicSearchEngine {
 
     List<Song> songList = new ArrayList<>();
-    private AVLTree<List<Song>> idTree;
-    private AVLTree<List<Song>> songNameTree;
-    private AVLTree<List<Song>> artistTree;
-    private AVLTree<List<Song>> genreTree;
-    private AVLTree<List<Song>> releaseDateTree;
+    private Tree<List<Song>> idTree;
+    private Tree<List<Song>> songNameTree;
+    private Tree<List<Song>> artistTree;
+    private Tree<List<Song>> genreTree;
+    private Tree<List<Song>> releaseDateTree;
 
     public MusicSearchEngine(List<Song> songList) {
         this.songList = songList;
@@ -55,12 +55,12 @@ public class MusicSearchEngine {
 
     }
     public void deleteSong(Song song){
-        idTree = (AVLTree<List<Song>>) idTree.deleteById(song);
-        songNameTree = (AVLTree<List<Song>>) songNameTree.deleteByName(song);
-        artistTree = (AVLTree<List<Song>>) artistTree.deleteByArtistName(song);
-        releaseDateTree = (AVLTree<List<Song>>) releaseDateTree.deleteByReleaseDate(song);
+        idTree =  idTree.deleteById(song);
+        songNameTree =  songNameTree.deleteByName(song);
+        artistTree =  artistTree.deleteByArtistName(song);
+        releaseDateTree =  releaseDateTree.deleteByReleaseDate(song);
         for(String genre: song.getGenre()){
-            genreTree = (AVLTree<List<Song>>) genreTree.deleteByGenre(genre, song);
+            genreTree = genreTree.deleteByGenre(genre, song);
         }
     }
 
