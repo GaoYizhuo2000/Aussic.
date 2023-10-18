@@ -191,4 +191,22 @@ public class Song implements Cloneable, Comparable<Song> {
         this.favorites = song.getFavorites();
         this.likes = song.getLikes();
     }
+
+
+    public void setSongName(String songName) {
+        attributes.setName(songName);
+    }
+
+
+    public void setArtistName(String artistName) {
+        attributes.setArtistName(artistName);
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        attributes.setReleaseDate(releaseDate);
+    }
+
+    public void setGenres(List<String> genres) {
+        attributes.setGenreNames(genres);
+    }
 }
