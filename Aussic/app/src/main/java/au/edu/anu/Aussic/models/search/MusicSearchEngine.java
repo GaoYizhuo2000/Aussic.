@@ -56,22 +56,22 @@ public class MusicSearchEngine {
 
     }
     public void deleteSong(Song song){
-        idTree = idTree.deleteById(song);
-        songNameTree.deleteByName(song);
-        artistTree.deleteByArtistName(song);
-        releaseDateTree.deleteByReleaseDate(song);
+        idTree = (AVLTree<List<Song>>) idTree.deleteById(song);
+        songNameTree = (AVLTree<List<Song>>) songNameTree.deleteByName(song);
+        artistTree = (AVLTree<List<Song>>) artistTree.deleteByArtistName(song);
+        releaseDateTree = (AVLTree<List<Song>>) releaseDateTree.deleteByReleaseDate(song);
         for(String genre: song.getGenre()){
-            genreTree.deleteByGenre(genre, song);
+            genreTree = (AVLTree<List<Song>>) genreTree.deleteByGenre(genre, song);
         }
     }
 
     public void addSong(Song song){
         idTree = idTree.insertById(song);
-        songNameTree.insertByName(song);
-        artistTree.insertByArtistName(song);
-        releaseDateTree.insertByReleaseDate(song);
+        songNameTree = songNameTree.insertByName(song);
+        artistTree = artistTree.insertByArtistName(song);
+        releaseDateTree = releaseDateTree.insertByReleaseDate(song);
         for(String genre: song.getGenre()){
-            genreTree.insertByGenre(genre, song);
+            genreTree = genreTree.insertByGenre(genre, song);
         }
     }
 
