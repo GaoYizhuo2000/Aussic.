@@ -348,6 +348,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             throw new IllegalArgumentException("Deletion arguments cannot be null");
 
         String artistName = song.getArtistName();
+        String id = song.getId();
 
         AVLTree<T> newTree = null;
         if (artistName.compareTo(key) > 0 && rightNode != null) {
@@ -356,7 +357,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             newTree = new AVLTree<>(key, value, leftNode.deleteByArtistName(song), rightNode);
         } else { // Artist name matches the current node's key
             List<Song> songList = (List<Song>) value;
-            songList.removeIf(s -> s.getArtistName().equals(artistName));
+            songList.removeIf(s -> s.getId().equals(id));
             if (!songList.isEmpty()) {
                 return new AVLTree<>(key, value, leftNode, rightNode);
             } else {
@@ -402,6 +403,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             throw new IllegalArgumentException("Deletion arguments cannot be null");
 
         String releaseDate = song.getReleaseDate();
+        String id = song.getId();
 
         AVLTree<T> newTree = null;
         if (releaseDate.compareTo(key) > 0 && rightNode != null) {
@@ -410,7 +412,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             newTree = new AVLTree<>(key, value, leftNode.deleteByReleaseDate(song), rightNode);
         } else { // Release date matches the current node's key
             List<Song> songList = (List<Song>) value;
-            songList.removeIf(s -> s.getReleaseDate().equals(releaseDate));
+            songList.removeIf(s -> s.getId().equals(id));
             if (!songList.isEmpty()) {
                 return new AVLTree<>(key, value, leftNode, rightNode);
             } else {
