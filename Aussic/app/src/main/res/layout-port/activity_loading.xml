@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Author: Evan Cheung --><!-- Author: u7516507, Evan Cheung -->
+<!-- Author: u7516507, Evan Cheung -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    tools:context=".controller.loginPages.LoadingActivity">
+    tools:context=".controller.loginPages.LoadingActivity"
+    tools:ignore="MissingDefaultResource">
 
     <ImageView
         android:id="@+id/loading_logo"
