@@ -21,6 +21,11 @@ public class AVLTreeTest {
     private AVLTree<List<Song>> avlTree;
 
 
+    /**
+     * Checks balance factors of AVL nodes. Prints and asserts if node's balance is incorrect.
+     *
+     * @author: Oscar Wei
+     */
     private void checkBalanceFactors(AVLTree<List<Song>> node) {
         if (node == null) return;
         try {
@@ -39,6 +44,7 @@ public class AVLTreeTest {
 
     /**
      * Check if a null song throws an appropriate exception.
+     * @author: Oscar Wei
      */
     @Test(expected = IllegalArgumentException.class)
     public void insertByNameNullInputTest() {
@@ -46,6 +52,11 @@ public class AVLTreeTest {
         testTree.insertByName(null);
     }
 
+    /**
+     * Validates AVL tree's song insertion by name, ensuring correct key placement
+     * and list association for multiple songs.
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertByNameTest() {
         Song song1 = new Song("1");
@@ -90,7 +101,10 @@ public class AVLTreeTest {
     }
 
     /**
-     * Check if songs with the same name are added to the same node's list
+     * Tests the {@code insertByName} method of {@code AVLTree} to ensure songs with identical names
+     * are aggregated into a single node's list.
+     *
+     * @author: Oscar Wei
      */
     @Test
     public void insertByNameDuplicateNamesTest() {
@@ -111,6 +125,13 @@ public class AVLTreeTest {
         assertEquals(expectedSongs, testTree.value);
     }
 
+
+    /**
+     * Tests advanced insertion of songs by name, ensuring AVL tree structure
+     * and balance for all 26 alphabet letters.
+     *
+     * @author: Oscar Wei
+     */
     @Test
     public void insertSongsByNameAdvanced() {
         char songName = 'A';
@@ -130,8 +151,12 @@ public class AVLTreeTest {
         assertEquals("{key=Pvalue=[Song{id='15', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist15', name='P', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Hvalue=[Song{id='7', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist7', name='H', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Dvalue=[Song{id='3', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist3', name='D', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Bvalue=[Song{id='1', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist1', name='B', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Avalue=[Song{id='0', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist0', name='A', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Cvalue=[Song{id='2', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist2', name='C', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Fvalue=[Song{id='5', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist5', name='F', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Evalue=[Song{id='4', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist4', name='E', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Gvalue=[Song{id='6', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist6', name='G', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}}, rightNode={key=Lvalue=[Song{id='11', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist11', name='L', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Jvalue=[Song{id='9', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist9', name='J', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Ivalue=[Song{id='8', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist8', name='I', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Kvalue=[Song{id='10', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist10', name='K', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Nvalue=[Song{id='13', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist13', name='N', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Mvalue=[Song{id='12', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist12', name='M', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Ovalue=[Song{id='14', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist14', name='O', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}}}, rightNode={key=Tvalue=[Song{id='19', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist19', name='T', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Rvalue=[Song{id='17', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist17', name='R', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Qvalue=[Song{id='16', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist16', name='Q', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Svalue=[Song{id='18', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist18', name='S', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Xvalue=[Song{id='23', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist23', name='X', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Vvalue=[Song{id='21', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist21', name='V', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Uvalue=[Song{id='20', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist20', name='U', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Wvalue=[Song{id='22', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist22', name='W', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Yvalue=[Song{id='24', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist24', name='Y', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={key=Zvalue=[Song{id='25', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist25', name='Z', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}}}}", testTree.toString());
     }
 
-
-
+    /**
+     * Tests song insertion by genre, ensuring AVL tree maintains structure and songs are
+     * correctly associated to genres.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertByGenreTest() {
         Song song1 = new Song("1");
@@ -200,6 +225,10 @@ public class AVLTreeTest {
     }
 
 
+    /**
+     * Tests the {@code insertByGenre} method of the {@code AVLTree} class for handling duplicate genres.
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertDuplicateGenres() {
         Song song1 = new Song("5");
@@ -222,6 +251,18 @@ public class AVLTreeTest {
 //        assertEquals("{}",testTree.rightNode);
     }
 
+    /**
+     * Tests the {@code insertByGenre} method of the {@code AVLTree} class for handling songs with a large number of the same genre.
+     *
+     * <p>This test focuses on the scenario where a single song has a large number (1000) of the same genre ("Jazz").
+     * The primary goal is to ensure that the AVLTree can:</p>
+     * <ul>
+     *     <li>Correctly handle and insert songs with a large number of the same genre.</li>
+     *     <li>Maintain data integrity and not lose any genre entries during the insertion process.</li>
+     *     <li>Consolidate the song under a single genre node, even if the genre is repeated multiple times for the song.</li>
+     * </ul>
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertMaxGenreSize() {
         Song song = new Song("8");
@@ -239,6 +280,12 @@ public class AVLTreeTest {
         assertTrue(testTree.value.contains(song));
     }
 
+    /**
+     *
+     * Tests if inserting a null song by genre throws IllegalArgumentException within the expected timeout.
+     *
+     * @author: Oscar Wei
+     */
     @Test(expected = IllegalArgumentException.class, timeout = 1000)
     public void insertNullSong() {
         AVLTree<List<Song>> testTree = new AVLTree<>("Rock", new ArrayList<>());
@@ -246,6 +293,14 @@ public class AVLTreeTest {
     }
 
 
+    /**
+     * This test verifies the functionality of inserting songs into an AVL tree based on their artist names.
+     * The goal is to ensure that after insertion, the AVL tree maintains its balanced structure and songs
+     * are correctly grouped under the respective artist names. Through the test, we're also verifying that
+     * multiple songs from the same artist are grouped together while maintaining the AVL tree properties.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertByArtistNameTest() {
         //avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -290,6 +345,15 @@ public class AVLTreeTest {
         assertEquals(expectedArtist3sSongs, avlTree.rightNode.value);
     }
 
+
+    /**
+     * This test validates the AVL tree's ability to group songs under the same artist name.
+     * We're inserting two songs by 'artist1'. After insertion, we check if the tree's key
+     * is indeed 'artist1' and if both songs are grouped under this artist name in the tree.
+     *
+     * @author: Oscar Wei
+     */
+
     @Test(timeout = 1000)
     public void insertSameArtistTest() {
         Song song1 = new Song("SongA");
@@ -311,6 +375,11 @@ public class AVLTreeTest {
     }
 
 
+    /**
+     * Tests AVL tree's insertion using song IDs, ensuring correct node placement by ID.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertByIdTest(){
         Song song1 = new Song("1");
@@ -328,6 +397,14 @@ public class AVLTreeTest {
         assertEquals("2", avlTree.rightNode.key);
     }
 
+
+
+
+    /**
+     * Tests AVL tree's insertion using song release dates, verifying correct organization by date and song aggregation.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertByReleaseDateTest(){
         Song song1 = new Song("1");
@@ -366,6 +443,11 @@ public class AVLTreeTest {
 
     }
 
+    /**
+     * Tests AVL tree's immutability ensuring that original nodes aren't directly modified post insertion.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void immutableTest() {
         avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -374,6 +456,13 @@ public class AVLTreeTest {
         assertNotEquals("2", avlTree.rightNode.key);
     }
 
+
+    /**
+     * Tests AVL tree's left rotation by inserting nodes in ascending
+     * order and verifying the tree's structure post rotation.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void LeftRotateTest() {
         avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -388,6 +477,12 @@ public class AVLTreeTest {
         assertEquals("3",avlTree.rightNode.key);
     }
 
+    /**
+     * Tests AVL tree's right rotation by inserting nodes in descending order
+     * and verifying the tree's structure post rotation.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void RightRotateTest() {
         avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -402,6 +497,12 @@ public class AVLTreeTest {
     }
 
 
+    /**
+     * Verifies that AVL tree prevents duplicate insertion by ensuring that
+     * left and right child nodes are distinct from the parent node.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void insertDuplicateTest() { //Duplicates are not allowed.
         avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -412,6 +513,13 @@ public class AVLTreeTest {
     }
 
 
+
+    /**
+     * Tests the balance factor of AVL tree after sequential insertions to
+     * ensure it maintains proper balance after each operation.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void balanceFactorTest() {
         avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -422,12 +530,14 @@ public class AVLTreeTest {
         assertEquals(0, avlTree.getBalanceFactor());
     }
 
-    @Test(timeout = 1000)
-    public void SearchTest() {
-        
-    }
 
 
+    /**
+     * Tests the advanced rotations of the AVL tree to verify proper tree restructuring
+     * after multiple insertions, ensuring tree remains balanced.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void advancedRotationsTest() {
         avlTree = new AVLTree<>("0", new ArrayList<>());
@@ -461,7 +571,14 @@ public class AVLTreeTest {
     }
 
     //Test for deletion
-    //use deleteById to test all possible situation
+
+
+    /**
+     * Tests the deletion of a node with no child in the AVL tree,
+     * ensuring the tree structure remains correct after deletion.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void noChildDeletionTest1() {
         Song song1 = new Song("1");
@@ -477,6 +594,12 @@ public class AVLTreeTest {
         assertNull(avlTree.rightNode.key);
     }
 
+    /**
+     * Verify AVL tree maintains structure when deleting childless node.
+     * Tests insertion, deletion, and tree balance.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void noChildDeletionTest2() {
         Song song1 = new Song("1");
@@ -494,6 +617,11 @@ public class AVLTreeTest {
 
 
 
+    /**
+     * Test AVL tree deletion of node with one child. Checks tree structure after deletion.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void oneChildDeletionTest() {
         Song song1 = new Song("1");
@@ -512,6 +640,12 @@ public class AVLTreeTest {
         assertEquals("3", avlTree.rightNode.key);
     }
 
+    /**
+     * Test AVL tree deletion of node with two children. Validates tree structure post-deletion.
+     *
+     * @throws Exception if the test fails or times out.
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void twoChildDeletionTest() {
         Song song1 = new Song("1");
@@ -550,12 +684,15 @@ public class AVLTreeTest {
     }
 
 
-    @Test(timeout = 1000)
-    public void advancedDeletionTest() {
-
-    }
 
 
+    /**
+     * Tests AVL tree deletion by name, validating tree emptiness after multiple
+     * deletions by name of nodes with associated attributes.
+     *
+     * @throws Exception if the test fails or times out.
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByNameTest(){
         Song song1 = new Song("1");
@@ -590,6 +727,13 @@ public class AVLTreeTest {
         assertNull(testTree.key);
     }
 
+    /**
+     * Tests AVL tree deletion of a leaf node by name, verifying tree structure after deletion,
+     * and handles nodes with associated attributes.
+     *
+     * @throws Exception if the test fails or times out.
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteLeafNodeByNameTest(){
         Song song1 = new Song("1");
@@ -624,6 +768,12 @@ public class AVLTreeTest {
     }
 
 
+    /**
+     * Tests AVL tree deletion of a node with one child by name,
+     * validating tree structure post-deletion, including attributes.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByNameOneChildNodeTest(){
         Song song1 = new Song("1");
@@ -663,6 +813,12 @@ public class AVLTreeTest {
         assertEquals("DDD", testTree.rightNode.key);
     }
 
+    /**
+     * Tests AVL tree deletion of a node with two children by name, verifying tree structure
+     * post-deletion, including attributes.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByNameTwoChildrenNodeTest(){
         Song song1 = new Song("1");
@@ -696,15 +852,18 @@ public class AVLTreeTest {
 
         testTree = testTree.deleteByName(song3);
 
-        // Depending on your AVL tree delete implementation, after deleting the node with two children (song1),
-        // either the leftmost node in the right subtree (song2) or the rightmost node in the left subtree will replace song1.
-        // Assuming song2 replaces it:
         assertEquals("CCC", testTree.key);
         assertEquals("AAA", testTree.leftNode.key);
         assertEquals("DDD", testTree.rightNode.key);
     }
 
 
+    /**
+     * Tests AVL tree deletion of a song by artist name, verifying tree structure post-deletion.
+     * Includes song attributes handling. Handles exceptions and timeouts.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByArtistNameTest() {
         // Initialize songs and their attributes
@@ -741,6 +900,12 @@ public class AVLTreeTest {
         assertEquals("artist3", testTree.rightNode.key);
     }
 
+    /**
+     * Tests AVL tree deletion of a song by artist name in a leaf node,
+     * ensuring proper tree structure post-deletion. Includes song attributes handling.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByArtistNameLeafNodeTest() {
         // Initialize songs and their attributes
@@ -777,6 +942,13 @@ public class AVLTreeTest {
         assertNull(testTree.leftNode.rightNode.key);
     }
 
+    /**
+     * Tests AVL tree deletion of a song by artist name with one child,
+     * ensuring proper tree structure post-deletion.
+     * Includes song attributes handling. Handles exceptions and timeouts.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByArtistNameWithOneChildTest() {
         Song song1 = new Song("1");
@@ -814,6 +986,13 @@ public class AVLTreeTest {
         assertEquals("artist2", testTree.key);
         assertEquals("artist4", testTree.rightNode.key);
     }
+
+    /**
+     * Tests AVL tree deletion of a song by artist name with two children,
+     * ensuring proper tree structure post-deletion.
+     *
+     * @author: Oscar Wei
+     */
 
     @Test(timeout = 1000)
     public void deleteByArtistNameWithTwoChildrenTest() {
@@ -853,7 +1032,12 @@ public class AVLTreeTest {
     }
 
 
-
+    /**
+     * Tests AVL tree song deletion by genre, verifying tree structure post-deletion,
+     * including songs with multiple genres. Handles exceptions and timeouts during testing.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteByGenreTest(){
         Song song1 = new Song("1");
@@ -897,6 +1081,12 @@ public class AVLTreeTest {
         testTree = (AVLTree<List<Song>>) testTree.deleteByGenre("R&B", song3);
     }
 
+    /**
+     * Tests AVL tree deletion of a song by release date, focusing on a leaf node.
+     *
+     * @author: Oscar Wei
+     *
+     */
     @Test(timeout = 1000)
     public void deleteOneOfSongByReleaseDateTest(){
         Song song1 = new Song("1");
@@ -930,6 +1120,11 @@ public class AVLTreeTest {
         assertEquals(resList, testTree.value);
     }
 
+    /**
+     * Tests AVL tree deletion of a song by release date from a leaf node.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteLeafByReleaseDateTest(){
         Song song1 = new Song("1");
@@ -968,6 +1163,11 @@ public class AVLTreeTest {
     }
 
 
+    /**
+     * Tests AVL tree deletion of a song by release date when the song has one child.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteNodeWithOneChildByReleaseDateTest(){
         Song song1 = new Song("1");
@@ -993,6 +1193,11 @@ public class AVLTreeTest {
         assertNull(testTree.leftNode.key);
     }
 
+    /**
+     * Tests AVL tree deletion of a song by release date when the song has two children.
+     *
+     * @author: Oscar Wei
+     */
     @Test(timeout = 1000)
     public void deleteNodeWithTwoChildrenByReleaseDateTest(){
         Song song1 = new Song("1");
