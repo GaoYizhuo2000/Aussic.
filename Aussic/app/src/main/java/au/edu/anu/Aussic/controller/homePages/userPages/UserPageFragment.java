@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import android.Manifest;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -83,6 +85,7 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
     private Dialog dialog;
+    private boolean isViewAlive;
 
 
     private String mParam1;
@@ -128,6 +131,8 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_userpage, container, false);
 
+        this.isViewAlive = true;
+
         email = rootView.findViewById(R.id.userEmail);
         favorites = rootView.findViewById(R.id.favoritesListButton);
         userPhoto = rootView.findViewById(R.id.userPhoto);
@@ -172,7 +177,9 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         // Directly load user data from runtime storage
         User usr = RuntimeObserver.currentUser;
         email.append(usr.username);
-        Picasso.get().load(usr.iconUrl).into(userPhoto);
+        Glide.with(this)
+                .load(usr.iconUrl)
+                .into(userPhoto);
 
         setUpDialogue();
 
@@ -392,6 +399,15 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
 
     @Override
     public void onDataChangeResponse() {
-        Picasso.get().load(RuntimeObserver.currentUser.iconUrl).into(userPhoto);
+        if(isViewAlive)
+            Glide.with(this)
+                .load(RuntimeObserver.currentUser.iconUrl)
+                .into(userPhoto);
+    }
+
+    @Override
+    public void onDestroyView() {
+        this.isViewAlive = false;
+        super.onDestroyView();
     }
 }

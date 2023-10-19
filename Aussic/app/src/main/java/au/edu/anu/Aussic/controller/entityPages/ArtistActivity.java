@@ -62,6 +62,7 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
             }
         });
 
+        // Loading the songs under this artist when activity start
         loadSongsUnderArtist();
     }
 
@@ -97,7 +98,7 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
 
     @Override
     public void onDataArrivedResponse() {
-
+        // If data arrive, load data into list and image
         List<GeneralItem> songList = new ArrayList<>();
         for(Song song : RuntimeObserver.songsUnderCurrentDisplayingArtist) songList.add(new GeneralItem(song));
 
@@ -111,6 +112,7 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
 
     private void setImage(String imageUrl){
 
+        // Set the image using Glide
         Glide.with(this)
                 .load(imageUrl)
                 .apply(new RequestOptions().override((int)(720 * 0.8), (int)(720 * 0.8)))
