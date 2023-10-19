@@ -183,43 +183,35 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
     }
 
-
+    /**
+     * @see FirestoreDao#getRandomSong()
+     * */
     @Override
     public CompletableFuture<Map<String, Object>> getRandomSong() {
         CompletableFuture<Map<String, Object>> resultFuture = new CompletableFuture<>();
+        //if idList（ids of all songs） is empty then get from firebase
         if(idList == null){
             DocumentReference docRef = firestore.collection("idList").document("idList");
             docRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Map<String, Object> data = task.getResult().getData();
-                    List<String> idList = (List<String>) data.get("idList");
-
-                    Random random = new Random();
-                    int index = random.nextInt(idList.size());
-                    String id = idList.get(index);
-                    Map<String, String> terms= new HashMap<>();
-                    terms.put("id", id);
-                    terms.put("artistName", null);
-                    terms.put("name", null);
-                    terms.put("releaseDate", null);
-                    searchSongs(terms).thenAccept(songResult -> {
-                        resultFuture.complete(songResult.get(0));
-                    });
+                    idList = (List<String>) data.get("idList");
                 }
             });
-        }else{
-            Random random = new Random();
-            int index = random.nextInt(idList.size());
-            String id = idList.get(index);
-            Map<String, String> terms= new HashMap<>();
-            terms.put("id", id);
-            terms.put("artistName", null);
-            terms.put("name", null);
-            terms.put("releaseDate", null);
-            searchSongs(terms).thenAccept(songResult -> {
-                resultFuture.complete(songResult.get(0));
-            });
         }
+        Random random = new Random();
+        int index = random.nextInt(idList.size());
+        String id = idList.get(index);
+        Map<String, String> terms= new HashMap<>();
+        terms.put("id", id);
+        terms.put("artistName", null);
+        terms.put("name", null);
+        terms.put("releaseDate", null);
+        searchSongs(terms).thenAccept(songResult -> {
+            resultFuture.complete(songResult.
+                    get(0));
+        });
+
         return resultFuture;
     }
 
@@ -283,7 +275,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
     }
 
 
-    //search songs according to terms, to be improved later
+    /**
+     * @see FirestoreDao#searchSongs(Map)
+     * */
     @Override
     public CompletableFuture<List<Map<String, Object>>> searchSongs(Map<String, String> terms) {
         List<Task> allTask = new ArrayList<>();
@@ -295,14 +289,13 @@ public class FirestoreDaoImpl implements FirestoreDao {
         Task<QuerySnapshot> taskSongSearch;
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
         List<Map<String, Object>> results = new ArrayList<>();
-
-        if(terms.containsKey("undefinedTerm")&& terms.get("undefinedTerm") != null){// general search
-
+        //if undefined term exist then treat this term as artistName, songName and genreName
+        if(terms.containsKey("undefinedTerm")&& terms.get("undefinedTerm") != null){
             Task<QuerySnapshot> task1 = query.whereEqualTo(FieldPath.of("attributes", "name"), terms.get("undefinedTerm")).get();
             Task<DocumentSnapshot> task2 = artistsRef.document(terms.get("undefinedTerm")).get();
             Task<DocumentSnapshot> task3 = genresRef.document(terms.get("undefinedTerm")).get();
             Task<DocumentSnapshot> task4 = usersRef.document(terms.get("undefinedTerm")).get();
-
+            // wait for all the tasks complete
             Tasks.whenAllSuccess(task1, task2, task3, task4).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task1.isSuccessful()) {
@@ -323,7 +316,6 @@ public class FirestoreDaoImpl implements FirestoreDao {
                     future.complete(results);
                 }
             });
-
         }else{
             if(terms.containsKey("artistName")&& terms.get("artistName") != null){
                 query = query.whereEqualTo(FieldPath.of("attributes","artistName"), terms.get("artistName"));
@@ -386,7 +378,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
         return future;
     }
-
+    /**
+     * @see FirestoreDao#addUserdata(User)
+     * */
     @Override
     public void addUserdata(User user) {
         Gson gson = new Gson();
@@ -396,6 +390,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         usersRef.document((String) userdata.get("username")).set(userdata);
     }
 
+    /**
+     * @see FirestoreDao#getUserdata(FirebaseUser)
+     * */
     @Override
     public CompletableFuture<Map<String, Object>> getUserdata(FirebaseUser user) {
         DocumentReference userdataRef = firestore.collection("users").document(user.getEmail());
@@ -407,7 +404,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#getUsersData(List)
+     * */
     @Override
     public CompletableFuture <List<Map<String, Object>>> getUsersData(List<String> IDs){
         List<Map<String, Object>> results = new ArrayList<>();
@@ -429,18 +428,23 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#updateUserImage(String)
+     * */
     @Override
     public void updateUserImage(String imageUrl){
         DocumentReference docRef = usersRef.document(currentUser.getEmail());
         docRef.update("iconUrl", imageUrl);
     }
-
+    /**
+     * @see FirestoreDao#updateUserFavorites(String)
+     * */
     @Override
     public CompletableFuture<String> updateUserFavorites(String songId) {
         CompletableFuture<String> future = new CompletableFuture<>();
         String username = currentUser.getEmail();
         DocumentReference docRef = firestore.collection("users").document(username);
+        //get current userdata from firebase and update the favorite list then reload to the firebase
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Map<String, Object> userdata = task.getResult().getData();
@@ -460,7 +464,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#deleteUserFavorites(String)
+     * */
     @Override
     public void deleteUserFavorites(String songId) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -478,7 +484,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
             }
         });
     }
-
+    /**
+     * @see FirestoreDao#updateUserLikes(String)
+     * */
     @Override
     public CompletableFuture<String> updateUserLikes(String songId) {
         CompletableFuture<String> future = new CompletableFuture<>();
@@ -504,7 +512,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#getSongsByIdList(List) (String)
+     * */
     @Override
     public CompletableFuture<List<Map<String, Object>>> getSongsByIdList(List<String> songIdList) {
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
@@ -521,7 +531,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#getAllUsers()
+     * */
     @Override
     public CompletableFuture<List<Map<String, Object>>> getAllUsers() {
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
@@ -538,6 +550,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         return future;
     }
 
+    /**
+     * @see FirestoreDao#getSessions()
+     * */
     @Override
     public CompletableFuture<List<Map<String, Object>>> getSessions() {
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
@@ -554,7 +569,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#getSession(String)
+     * */
     @Override
     public CompletableFuture<Map<String, Object>> getSession(String sessionName){
         DocumentReference sessionDataRef = sessionsRef.document(sessionName);
@@ -567,7 +584,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
         });
         return future;
     }
-
+    /**
+     * @see FirestoreDao#createSession(String)
+     * */
     @Override
     public void createSession(String targetUserName) {
         Map<String, Object> sessionData = new HashMap<>();
@@ -580,16 +599,19 @@ public class FirestoreDaoImpl implements FirestoreDao {
         sessionData.put("name", currentUser.getEmail() + "&" + targetUserName);
         sessionsRef.document(currentUser.getEmail() + "&" + targetUserName).set(sessionData);
     }
-
+    /**
+     * @see FirestoreDao#updateHistory(String, String)
+     * */
     @Override
     public void updateHistory(String sessionId, String message) {
         Map<String, Object> newMessage = new HashMap<>();
         newMessage.put("message", message);
         newMessage.put("userName", currentUser.getEmail());
-//        newMessage.put(currentUser.getEmail(),message);
         sessionsRef.document(sessionId).update("history", FieldValue.arrayUnion(newMessage));
     }
-
+    /**
+     * @see FirestoreDao#loadRandomGenres(int)
+     * */
     @Override
     public CompletableFuture<List<Map<String, Object>>> loadRandomGenres(int num){
         CompletableFuture<List<Map<String, Object>>> future = new CompletableFuture<>();
@@ -603,7 +625,9 @@ public class FirestoreDaoImpl implements FirestoreDao {
 
         return future;
     }
-
+    /**
+     * the helper method for @see FirestoreDao#loadRandomGenres(int)
+     * */
     private CompletableFuture<List<Map<String, Object>>> loadGenresHelper(CompletableFuture<List<Map<String, Object>>> future, List<String> data, int num){
         Set<String> randStrings= new HashSet<>();
         Random random = new Random();

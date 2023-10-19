@@ -1,10 +1,5 @@
 package au.edu.anu.Aussic.models.parserAndTokenizer;
 
-import java.util.ArrayList;
-        import java.util.List;
-        import java.util.regex.Matcher;
-        import java.util.regex.Pattern;
-
 /**
  * @author: u7581818, Oscar Wei
  */
@@ -34,8 +29,8 @@ public class Tokenizer {
         char secondChar = buffer.charAt(1);
         if (firstChar == '\\' && secondChar== 'a')
             currentToken = new Token("\\a", Token.Type.ARTISTNAME);
-        else if (firstChar == '\\' && secondChar== 'n')
-            currentToken = new Token("\\n", Token.Type.NAME);
+        else if (firstChar == '\\' && secondChar== 's')
+            currentToken = new Token("\\n", Token.Type.SONGNAME);
         else if (firstChar == '\\' && secondChar== 'g')
             currentToken = new Token("\\g", Token.Type.GENRE);
         else if (firstChar == '\\' && secondChar== 'r')
