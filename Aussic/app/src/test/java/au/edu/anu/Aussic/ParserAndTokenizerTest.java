@@ -21,7 +21,7 @@ public class ParserAndTokenizerTest {
 
     @Test
     public void testTokenization() {
-        Tokenizer tokenizer = new Tokenizer("\\a Tina Arena; \\n I Want to Know What Love Is (Single Edit)");
+        Tokenizer tokenizer = new Tokenizer("\\a Tina Arena; \\s I Want to Know What Love Is (Single Edit)");
 
         assertTrue(tokenizer.hasNext());
         assertEquals(Token.Type.ARTISTNAME, tokenizer.current().getType());
@@ -48,7 +48,7 @@ public class ParserAndTokenizerTest {
 
     @Test
     public void testSimpleParsing() {
-        Parser parser = new Parser(new Tokenizer("\\a Tina Arena; \\n I Want to Know What Love Is (Single Edit)"));
+        Parser parser = new Parser(new Tokenizer("\\a Tina Arena; \\s I Want to Know What Love Is (Single Edit)"));
         Map<String, String> result = parser.Parse();
         assertEquals("Tina Arena", result.get("artistName"));
         assertEquals("I Want to Know What Love Is (Single Edit)", result.get("name"));
@@ -56,15 +56,13 @@ public class ParserAndTokenizerTest {
 
     @Test
     public void testAdvancedParsing() {
-        Parser parser = new Parser(new Tokenizer("\\n Walk the Line; \\a Iggy Azalea; \\r 2014-01-01; \\g [\"Hip-Hop/Rap\", \"Music\",  \"Alternative Rap\",  \"Rap\", \"Underground Rap\"]"));
+        Parser parser = new Parser(new Tokenizer("\\s Walk the Line; \\a Iggy Azalea; \\r 2014-01-01; \\g [\"Hip-Hop/Rap\", \"Music\",  \"Alternative Rap\",  \"Rap\", \"Underground Rap\"]"));
         Map<String, String> result = parser.Parse();
         assertEquals("Iggy Azalea", result.get("artistName"));
         assertEquals("Walk the Line", result.get("name"));
         assertEquals("2014-01-01", result.get("releaseDate"));
         assertEquals("[\"Hip-Hop/Rap\", \"Music\",  \"Alternative Rap\",  \"Rap\", \"Underground Rap\"]", result.get("genre"));
     }
-
-
 }
 
 
