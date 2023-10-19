@@ -2,8 +2,10 @@
 <!-- Author: u7516507, Evan Cheung -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
 
     <ImageView
         android:id="@+id/spinning_round_image"

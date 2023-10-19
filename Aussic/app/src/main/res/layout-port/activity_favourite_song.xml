@@ -7,78 +7,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.homePages.userPages.FavouriteSongActivity">
+    tools:context=".controller.homePages.userPages.FavouriteSongActivity"
+    tools:ignore="MissingDefaultResource">
 
-    <Button
-        android:id="@+id/favorites_return_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/baseline_arrow_circle_left_24"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintDimensionRatio="1:1" />
+        <Button
+            android:id="@+id/favorites_return_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/baseline_arrow_circle_left_24"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_percent="0.06"
+            app:layout_constraintDimensionRatio="1:1" />
 
-    <ImageView
-        android:id="@+id/favorites_starImage"
-        android:layout_width="69dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_song_fav" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/favorites_return_button"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-    <TextView
-        android:id="@+id/favorites_SongListText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="95dp"
-        android:text="Favourit Song List"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/favorites_starImage"
-        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-    <SearchView
-        android:id="@+id/fav_searchview"
-        android:layout_width="280dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="67dp"
-        android:background="@drawable/baseline_rectangle_border"
-        android:visibility="visible"
-        app:iconifiedByDefault="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favorites_starImage"
-        app:queryHint="Eg: \\a Troye;\\n Youth"
-        app:searchIcon="@drawable/ic_bar_search" />
+                        <ImageView
+                            android:id="@+id/favorites_starImage"
+                            android:layout_width="69dp"
+                            android:layout_height="59dp"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginTop="80dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_song_fav" />
 
-    <Button
-        android:id="@+id/fav_searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/edittext_white"
-        android:text="Search"
-        android:textColor="@color/black"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/fav_searchview"
-        app:layout_constraintTop_toBottomOf="@+id/favorites_SongListText" />
+                        <TextView
+                            android:id="@+id/favorites_SongListText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="95dp"
+                            android:text="Favourite Song List"
+                            android:textSize="30sp"
+                            app:layout_constraintStart_toEndOf="@+id/favorites_starImage"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favorites_search_list_recyclerView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:ignore="MissingConstraints"
-        app:layout_constraintTop_toBottomOf="@id/fav_searchview"
-        android:paddingTop="30dp"/>
+                        <SearchView
+                            android:id="@+id/fav_searchview"
+                            android:layout_width="280dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="28dp"
+                            android:layout_marginTop="67dp"
+                            android:background="@drawable/baseline_rectangle_border"
+                            android:visibility="visible"
+                            app:iconifiedByDefault="false"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/favorites_starImage"
+                            app:queryHint="Eg: \\a Troye;\\n Youth"
+                            app:searchIcon="@drawable/ic_bar_search" />
+
+                        <Button
+                            android:id="@+id/fav_searchButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="55dp"
+                            android:background="@drawable/edittext_white"
+                            android:text="Search"
+                            android:textColor="@color/black"
+                            android:textSize="10sp"
+                            app:layout_constraintStart_toEndOf="@+id/fav_searchview"
+                            app:layout_constraintTop_toBottomOf="@+id/favorites_SongListText" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/favorites_search_list_recyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            tools:ignore="MissingConstraints"
+                            app:layout_constraintTop_toBottomOf="@id/fav_searchview"
+                            android:paddingTop="30dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 

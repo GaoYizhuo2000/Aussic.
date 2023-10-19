@@ -10,7 +10,8 @@
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".controller.homePages.HomeActivity">
+    tools:context=".controller.homePages.HomeActivity"
+    tools:ignore="MissingDefaultResource">
 
     <LinearLayout
         android:layout_width="match_parent"

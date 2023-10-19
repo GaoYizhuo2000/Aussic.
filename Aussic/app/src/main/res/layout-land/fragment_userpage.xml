@@ -5,64 +5,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.homePages.userPages.UserPageFragment"
     tools:ignore="MissingDefaultResource">
 
-    <ImageView
-        android:id="@+id/userPhoto"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginStart="45dp"
-        android:src="@drawable/baseline_account_circle_24" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/userLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:layout_marginStart="435dp"
-        android:textSize="15sp"
-        android:text="Location: " />
-
-    <Button
-        android:id="@+id/getUserLocationButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="400dp"
-        android:layout_marginTop="180sp"
-        android:background="@drawable/baseline_refresh_24"
-        android:textSize="7sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="400dp"
-        android:orientation="vertical"
-        android:maxWidth="200dp">
-
-        <TextView
-            android:id="@+id/userEmail"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_white"
-            android:backgroundTint="@color/sky_blue"
-            android:layout_marginTop="10dp"
-            android:text="  Email: "
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/favoritesListButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_white"
-            android:layout_marginTop="20dp"
-            android:text="Favorites"
-            android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/userPhoto"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginStart="45dp"
+                    android:src="@drawable/baseline_account_circle_24" />
+
+                <Button
+                    android:id="@+id/getUserLocationButton"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/baseline_refresh_24"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:id="@+id/userLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Location: "
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="100dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_white"
+                    android:backgroundTint="@color/sky_blue"
+                    android:layout_marginTop="10dp"
+                    android:text="  Email: "
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/favoritesListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_white"
+                    android:layout_marginTop="20dp"
+                    android:text="Favorites"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>
+

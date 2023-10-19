@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.entityPages.ArtistActivity">
+    tools:context=".controller.entityPages.ArtistActivity"
+    tools:ignore="MissingDefaultResource">
 
     <Button
         android:id="@+id/artist_back_Home"
@@ -19,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintDimensionRatio="1:1" />
+
 
     <ScrollView
         app:layout_constraintTop_toTopOf="parent"
