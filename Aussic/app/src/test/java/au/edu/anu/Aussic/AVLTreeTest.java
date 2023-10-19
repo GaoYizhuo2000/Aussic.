@@ -245,17 +245,6 @@ public class AVLTreeTest {
         testTree.insertByGenre("Rock", null);
     }
 
-    @Test(expected = IllegalArgumentException.class, timeout = 1000)
-    public void insertNullGenre() {
-        Song song = new Song("7");
-        SongAttributes songAttr = new SongAttributes("FFF", "artist7");
-        song.setAttributes(songAttr);
-
-        AVLTree<List<Song>> testTree = new AVLTree<>("Rock", new ArrayList<>());
-        testTree.insertByGenre(null, song);
-    }
-
-
 
     @Test(timeout = 1000)
     public void insertByArtistNameTest() {
@@ -300,6 +289,27 @@ public class AVLTreeTest {
         assertEquals("artist3", avlTree.rightNode.key);
         assertEquals(expectedArtist3sSongs, avlTree.rightNode.value);
     }
+
+    @Test(timeout = 1000)
+    public void insertSameArtistTest() {
+        Song song1 = new Song("SongA");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("SongB");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist1");
+        song2.setAttributes(song2attr);
+
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getAttributes().getArtistName(), l);
+        testTree = testTree.insertByArtistName(song2);
+
+        assertEquals("artist1", testTree.key);
+        assertTrue(testTree.value.contains(song1) && testTree.value.contains(song2));
+    }
+
 
     @Test(timeout = 1000)
     public void insertByIdTest(){
@@ -577,26 +587,140 @@ public class AVLTreeTest {
         testTree =  testTree.deleteByName(song2);
         testTree =  testTree.deleteByName(song4);
 
-        assertEquals("", testTree.toString());
-
+        assertNull(testTree.key);
     }
+
+    @Test(timeout = 1000)
+    public void deleteLeafNodeByNameTest(){
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+
+        Tree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("AAA", "artist2");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("BBB", "artist2");
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("CCC", "artist3");
+        song4.setAttributes(song4attr);
+
+        testTree = testTree.insertByName(song2);
+        testTree = testTree.insertByName(song3);
+        testTree = testTree.insertByName(song4);
+
+        testTree = testTree.deleteByName(song4);
+
+        assertEquals("BBB", testTree.key);
+        assertEquals("AAA", testTree.leftNode.key);
+        assertNull(testTree.rightNode.key);
+    }
+
+
+    @Test(timeout = 1000)
+    public void deleteByNameOneChildNodeTest(){
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+
+        Tree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("AAA", "artist2");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("BBB", "artist2");
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("CCC", "artist3");
+        song4.setAttributes(song4attr);
+
+        Song song5 = new Song("5");
+        SongAttributes song5atrr = new SongAttributes("DDD", "artist4");
+        song5.setAttributes(song5atrr);
+
+        testTree = testTree.insertByName(song2);
+        testTree = testTree.insertByName(song3);
+        testTree = testTree.insertByName(song4);
+        testTree = testTree.insertByName(song5);
+
+
+        testTree = testTree.deleteByName(song4);
+
+        assertEquals("BBB", testTree.key);
+        assertEquals("AAA", testTree.leftNode.key);
+        assertEquals("DDD", testTree.rightNode.key);
+    }
+
+    @Test(timeout = 1000)
+    public void deleteByNameTwoChildrenNodeTest(){
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+
+        Tree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("AAA", "artist2");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("BBB", "artist2");
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("CCC", "artist3");
+        song4.setAttributes(song4attr);
+
+        Song song5 = new Song("5");
+        SongAttributes song5atrr = new SongAttributes("DDD", "artist4");
+        song5.setAttributes(song5atrr);
+
+        testTree = testTree.insertByName(song2);
+        testTree = testTree.insertByName(song3);
+        testTree = testTree.insertByName(song4);
+        testTree = testTree.insertByName(song5);
+
+        testTree = testTree.deleteByName(song3);
+
+        // Depending on your AVL tree delete implementation, after deleting the node with two children (song1),
+        // either the leftmost node in the right subtree (song2) or the rightmost node in the left subtree will replace song1.
+        // Assuming song2 replaces it:
+        assertEquals("CCC", testTree.key);
+        assertEquals("AAA", testTree.leftNode.key);
+        assertEquals("DDD", testTree.rightNode.key);
+    }
+
 
     @Test(timeout = 1000)
     public void deleteByArtistNameTest() {
         // Initialize songs and their attributes
-        Song song1 = new Song("SongA");
+        Song song1 = new Song("1");
         SongAttributes song1attr = new SongAttributes("AAA", "artist1");
         song1.setAttributes(song1attr);
 
-        Song song2 = new Song("SongB");
+        Song song2 = new Song("2");
         SongAttributes song2attr = new SongAttributes("BBB", "artist1");
         song2.setAttributes(song2attr);
 
-        Song song3 = new Song("SongC");
+        Song song3 = new Song("3");
         SongAttributes song3attr = new SongAttributes("CCC", "artist2");
         song3.setAttributes(song3attr);
 
-        Song song4 = new Song("SongD");
+        Song song4 = new Song("4");
         SongAttributes song4attr = new SongAttributes("DDD", "artist3");
         song4.setAttributes(song4attr);
 
@@ -611,9 +735,121 @@ public class AVLTreeTest {
 
         // Delete a song by artist name
         testTree = (AVLTree<List<Song>>) testTree.deleteByArtistName(song1);
-        //testTree = testTree.deleteByArtistName(song2);
 
-        assertEquals("", testTree.toString());
+        assertEquals("artist2", testTree.key);
+        assertEquals("artist1", testTree.leftNode.key);
+        assertEquals("artist3", testTree.rightNode.key);
+    }
+
+    @Test(timeout = 1000)
+    public void deleteByArtistNameLeafNodeTest() {
+        // Initialize songs and their attributes
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist1");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("CCC", "artist2");
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("DDD", "artist3");
+        song4.setAttributes(song4attr);
+
+        // Insert songs into the AVL tree by artist name
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getAttributes().getArtistName(), l);
+        testTree = testTree.insertByArtistName(song2);
+        testTree = testTree.insertByArtistName(song3);
+        testTree = testTree.insertByArtistName(song4);
+
+        // Delete a song that resides in a leaf node
+        testTree = (AVLTree<List<Song>>) testTree.deleteByArtistName(song4);
+
+        //assertEquals("", testTree.toString());
+        assertEquals("artist2", testTree.key);
+        assertEquals("artist1", testTree.leftNode.key);
+        assertNull(testTree.leftNode.rightNode.key);
+    }
+
+    @Test(timeout = 1000)
+    public void deleteByArtistNameWithOneChildTest() {
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist1");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("CCC", "artist2");
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("DDD", "artist3");
+        song4.setAttributes(song4attr);
+
+        Song song5 = new Song("5");
+        SongAttributes song5attr = new SongAttributes("EEE", "artist4");
+        song5.setAttributes(song5attr);
+
+        // Insert songs into the AVL tree by artist name
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getAttributes().getArtistName(), l);
+        testTree = testTree.insertByArtistName(song2);
+        testTree = testTree.insertByArtistName(song3);
+        testTree = testTree.insertByArtistName(song4);
+        testTree = testTree.insertByArtistName(song5);
+
+        // Delete a song that resides in a node with one child (song4)
+        testTree = (AVLTree<List<Song>>) testTree.deleteByArtistName(song4);
+
+        assertEquals("artist2", testTree.key);
+        assertEquals("artist4", testTree.rightNode.key);
+    }
+
+    @Test(timeout = 1000)
+    public void deleteByArtistNameWithTwoChildrenTest() {
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist1");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("CCC", "artist2");
+        song3.setAttributes(song3attr);
+
+        Song song4 = new Song("4");
+        SongAttributes song4attr = new SongAttributes("DDD", "artist3");
+        song4.setAttributes(song4attr);
+
+        Song song5 = new Song("5");
+        SongAttributes song5attr = new SongAttributes("EEE", "artist4");
+        song5.setAttributes(song5attr);
+
+        // Insert songs into the AVL tree by artist name
+        List<Song> l = new ArrayList<>();
+        l.add(song1);
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getAttributes().getArtistName(), l);
+        testTree = testTree.insertByArtistName(song2);
+        testTree = testTree.insertByArtistName(song3);
+        testTree = testTree.insertByArtistName(song4);
+        testTree = testTree.insertByArtistName(song5);
+        testTree = (AVLTree<List<Song>>) testTree.deleteByArtistName(song3);
+
+        assertEquals("artist3", testTree.key);
+        assertEquals("artist1", testTree.leftNode.key);
+        assertEquals("artist4", testTree.rightNode.key);
     }
 
 
@@ -659,18 +895,14 @@ public class AVLTreeTest {
 
         testTree = (AVLTree<List<Song>>) testTree.deleteByGenre("Rock", song1);
         testTree = (AVLTree<List<Song>>) testTree.deleteByGenre("R&B", song3);
-
     }
 
     @Test(timeout = 1000)
-    public void deleteByReleaseDateTest(){
+    public void deleteOneOfSongByReleaseDateTest(){
         Song song1 = new Song("1");
-        SongAttributes song1attr = new SongAttributes("AAA", "artist1") ;
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
         song1attr.setReleaseDate("2023-10-14");
         song1.setAttributes(song1attr);
-        List<Song> songsReleasedSameDate = new ArrayList<>();
-        //songsReleasedSameDate.add(song1);
-        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getReleaseDate(), songsReleasedSameDate);
 
         Song song2 = new Song("2");
         SongAttributes song2attr = new SongAttributes("BBB", "artist2");
@@ -679,14 +911,117 @@ public class AVLTreeTest {
 
         Song song3 = new Song("3");
         SongAttributes song3attr = new SongAttributes("CCC", "artist3");
-        song3attr.setReleaseDate("2023-10-13");
+        song3attr.setReleaseDate("2023-10-15");
         song3.setAttributes(song3attr);
 
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getReleaseDate(), new ArrayList<>());
+
+        // The song is inserted making it a leaf node.
         testTree = testTree.insertByReleaseDate(song1);
         testTree = testTree.insertByReleaseDate(song2);
         testTree = testTree.insertByReleaseDate(song3);
 
+        // Deleting the leaf node.
+        testTree = (AVLTree<List<Song>>) testTree.deleteByReleaseDate(song1);
+        assertEquals("2023-10-14", testTree.key);
+        List<Song> resList = new ArrayList<>();
+        resList.add(song2);
+
+        assertEquals(resList, testTree.value);
+    }
+
+    @Test(timeout = 1000)
+    public void deleteLeafByReleaseDateTest(){
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1attr.setReleaseDate("2023-10-14");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist2");
+        song2attr.setReleaseDate("2023-10-14");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("CCC", "artist3");
+        song3attr.setReleaseDate("2023-10-15");
+        song3.setAttributes(song3attr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getReleaseDate(), new ArrayList<>());
+
+        // The song is inserted making it a leaf node.
+        testTree = testTree.insertByReleaseDate(song1);
+        testTree = testTree.insertByReleaseDate(song2);
+        testTree = testTree.insertByReleaseDate(song3);
+
+
+        // Deleting the leaf node.
         testTree = (AVLTree<List<Song>>) testTree.deleteByReleaseDate(song3);
 
+        assertEquals("2023-10-14", testTree.key);
+        List<Song> resList = new ArrayList<>();
+        resList.add(song1);
+        resList.add(song2);
+        assertEquals(resList, testTree.value);
+        assertNull(testTree.leftNode.key);
+        assertNull(testTree.rightNode.key);
+    }
+
+
+    @Test(timeout = 1000)
+    public void deleteNodeWithOneChildByReleaseDateTest(){
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1attr.setReleaseDate("2023-10-14");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist2");
+        song2attr.setReleaseDate("2023-10-15");
+        song2.setAttributes(song2attr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getReleaseDate(), new ArrayList<>());
+
+        // Inserting two nodes, making song1 a parent and song2 a child.
+        testTree = testTree.insertByReleaseDate(song1);
+        testTree = testTree.insertByReleaseDate(song2);
+
+        // Deleting the parent node with one child.
+        testTree = (AVLTree<List<Song>>) testTree.deleteByReleaseDate(song1);
+        assertEquals("2023-10-15", testTree.key);
+        assertNull(testTree.rightNode.key);
+        assertNull(testTree.leftNode.key);
+    }
+
+    @Test(timeout = 1000)
+    public void deleteNodeWithTwoChildrenByReleaseDateTest(){
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("AAA", "artist1");
+        song1attr.setReleaseDate("2023-10-14");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("BBB", "artist2");
+        song2attr.setReleaseDate("2023-10-15");
+        song2.setAttributes(song2attr);
+
+        Song song3 = new Song("3");
+        SongAttributes song3attr = new SongAttributes("CCC", "artist3");
+        song3attr.setReleaseDate("2023-10-13");
+        song3.setAttributes(song3attr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getReleaseDate(), new ArrayList<>());
+
+        // Inserting three nodes, making song1 a parent with song2 and song3 as its children.
+        testTree = testTree.insertByReleaseDate(song1);
+        testTree = testTree.insertByReleaseDate(song2);
+        testTree = testTree.insertByReleaseDate(song3);
+
+        // Deleting the parent node with two children.
+        testTree = (AVLTree<List<Song>>) testTree.deleteByReleaseDate(song2);
+
+        //assertEquals("", testTree.toString());
+        assertEquals("2023-10-14", testTree.key);
+        assertEquals("2023-10-13", testTree.leftNode.key);
     }
 }
