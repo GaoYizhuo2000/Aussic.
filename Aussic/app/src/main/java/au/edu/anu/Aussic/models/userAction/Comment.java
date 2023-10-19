@@ -10,27 +10,51 @@ import java.util.Map;
 import au.edu.anu.Aussic.models.firebase.SingletonFirestoreDbConnection;
 
 /**
- * @author: u7552399, Yizhuo Gao
+ * The `Comment` class represents a user action of adding a comment to a song.
+ * It extends the `UserAction` class and provides functionality for updating song attributes based on the comment.
+ *
+ * Example usage:
+ * ```java
+ * Comment comment = new Comment("Comment", "john_doe", "Song Title", 123, "Great song!");
+ * comment.update();
+ * ```
+ *
+ * The `Comment` class allows users to add comments to songs, and the comments are stored in the Firebase Firestore database.
+ * It updates the comments section of the target song, including the number of comments and the comment details.
+ *
+ * @author u7552399, Yizhuo Gao
  */
-
 public class Comment extends UserAction{
     protected String content;
 
+    /**
+     * Constructs a `Comment` object with the specified parameters.
+     *
+     * @param actionType    The type of user action (e.g., "Comment").
+     * @param username      The username of the user who made the comment.
+     * @param targetSong    The title of the song that the comment is added to.
+     * @param targetSongId  The ID of the target song.
+     * @param content       The content of the comment.
+     */
     public Comment(String actionType, String username, String targetSong, Integer targetSongId, String content) {
         super(actionType, username, targetSong, targetSongId);
         this.content = content;
     }
 
+    /**
+     * Gets a toast message describing the comment action.
+     *
+     * @return A toast message.
+     */
     @Override
     public String getToastMessage() {
         return String.format("User %s commented on the song \"%s\": %s", username, targetSong, content);
     }
 
     /**
-     * update attributes in songs according to this useraction
-     *
-     *
-     * */
+     * Updates song attributes in the Firebase Firestore database based on the comment action.
+     * It increments the number of comments and adds the comment details to the target song.
+     */
     @Override
     public void update() {
         FirebaseFirestore db = SingletonFirestoreDbConnection.getInstance();

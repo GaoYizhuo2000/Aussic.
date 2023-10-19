@@ -8,9 +8,32 @@ import au.edu.anu.Aussic.models.entity.Song;
 import java.util.*;
 
 /**
- * @author: u7581818, Oscar Wei
- * @author: u7552399, Yizhuo Gao
- * @author: u7603590, Jiawei Niu
+ * The `MusicSearchEngine` class provides a music search engine that allows searching for songs based on various criteria.
+ * It uses AVL trees to efficiently index and search songs by different attributes such as ID, song name, artist name, genre, and release date.
+ *
+ * Example usage:
+ * ```java
+ * List<Song> songList = // Load songs from a data source
+ * MusicSearchEngine searchEngine = new MusicSearchEngine(songList);
+ * Map<String, String> searchTerms = new HashMap<>();
+ * searchTerms.put("artistName", "Adele");
+ * searchTerms.put("genre", "Pop");
+ * Set<Song> searchResults = searchEngine.search(searchTerms);
+ * ```
+ *
+ * Supported search criteria:
+ * - `id`: Search by song ID.
+ * - `name`: Search by song name.
+ * - `artistName`: Search by artist name.
+ * - `genre`: Search by genre.
+ * - `releaseDate`: Search by release date.
+ * - `undefinedTerm`: Search for a generic string term in song name, artist name, and genre.
+ *
+ * The `MusicSearchEngine` class allows adding songs, deleting songs, and searching for songs based on the provided criteria.
+ *
+ * @author u7581818, Oscar Wei
+ * @author u7552399, Yizhuo Gao
+ * @author u7603590, Jiawei Niu
  */
 public class MusicSearchEngine {
 
@@ -26,6 +49,9 @@ public class MusicSearchEngine {
         initialise();
     }
 
+    /**
+     * Initializes the AVL trees by indexing the songs based on various attributes.
+     */
     public void initialise(){
         Song song0 = songList.remove(0);
         List<Song> l = new ArrayList<>();
@@ -54,6 +80,13 @@ public class MusicSearchEngine {
 
 
     }
+
+
+    /**
+     * Deletes a song from all indexed AVL trees.
+     *
+     * @param song The song to be deleted.
+     */
     public void deleteSong(Song song){
         idTree =  idTree.deleteById(song);
         songNameTree =  songNameTree.deleteByName(song);
@@ -64,6 +97,12 @@ public class MusicSearchEngine {
         }
     }
 
+
+    /**
+     * Adds a song to all indexed AVL trees.
+     *
+     * @param song The song to be added.
+     */
     public void addSong(Song song){
         idTree = idTree.insertById(song);
         songNameTree = songNameTree.insertByName(song);
@@ -74,6 +113,12 @@ public class MusicSearchEngine {
         }
     }
 
+    /**
+     * Searches for songs based on the provided search terms.
+     *
+     * @param terms A map of search terms and their corresponding values.
+     * @return A set of songs that match the search criteria.
+     */
     public Set<Song> search(Map<String, String> terms){
         Set<Song> idTreeRes =  new HashSet<>();
         Set<Song> songNameTreeRes= new HashSet<>();
