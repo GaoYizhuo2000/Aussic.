@@ -17,4 +17,9 @@
         android:title="My"
         android:icon="@drawable/baseline_account_circle_24" />
 
+    <item
+        android:id="@+id/menu_none"
+        android:enabled="false"
+        android:visible="false" />
+
 </menu>

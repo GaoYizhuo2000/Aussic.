@@ -119,7 +119,10 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             drawerLayout.closeDrawer(GravityCompat.START);
             if(menuItem.getItemId() == R.id.nav_home) replaceFragment(homeFragment);
 
-            else if(menuItem.getItemId() == R.id.nav_messages) replaceFragment(messagesFragment);
+            else if(menuItem.getItemId() == R.id.nav_messages) {
+                replaceFragment(messagesFragment);
+                deselectBottomNavigation();
+            }
 
             else if(menuItem.getItemId() == R.id.nav_logout) {
                 // Finish the Home activity and return back to the login activity
@@ -232,4 +235,11 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             else this.fab.setImageResource(R.drawable.ic_bottom_play);
         }
     }
+
+    private void deselectBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        // menu_none is a dummy menu item that does nothing
+        bottomNavigationView.setSelectedItemId(R.id.menu_none);
+    }
+
 }

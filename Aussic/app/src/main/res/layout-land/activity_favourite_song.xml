@@ -55,7 +55,7 @@
                 android:text="Favourite Song List"
                 android:textSize="30sp" />
 
-            <SearchView
+            <androidx.appcompat.widget.SearchView
                 android:id="@+id/fav_searchview"
                 android:layout_width="390dp"
                 android:layout_height="30dp"

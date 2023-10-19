@@ -3,6 +3,8 @@ package au.edu.anu.Aussic.controller.searchPages;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
@@ -10,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import androidx.appcompat.widget.SearchView;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataArrivedListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 import au.edu.anu.Aussic.models.GsonLoader.GsonLoader;
@@ -202,7 +206,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String input) {
-                // The IME action was detected, perform the same action as your search button
+                // The IME action was detected, perform the same search logic
                 doSearch(input);
                 return true;
             }
@@ -231,8 +235,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         }
         // hide the keyboard when button is clicked
         searchView.setQuery("", false); // Set the query text to an empty string
-        searchView.setIconified(true);
-        searchView.setIconified(true);
+        Functions.hideKeyboard(this);
 
         Parser parser = new Parser(new Tokenizer(input));
         Map<String, String> searchingTerms = parser.Parse();
@@ -334,4 +337,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         });
         RuntimeObserver.notifyOnDataChangeListeners();
     }
+
+
 }

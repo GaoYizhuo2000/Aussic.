@@ -1,6 +1,7 @@
 package au.edu.anu.Aussic.controller.homePages.userPages;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,7 +10,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SearchView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import au.edu.anu.Aussic.R;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.Functions;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListFavSongAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralDeleteBtnClickListener;
@@ -174,8 +175,10 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         if(input == null|| input.equals("")){
             RuntimeObserver.currentUsrFavoriteSearchResults = new ArrayList<>();
             RuntimeObserver.notifyOnDataChangeListeners();
+            Functions.hideKeyboard(this);
             return;
         }
+        Functions.hideKeyboard(this);
         // hide the keyboard when button is clicked
         searchView.setQuery("", false); // Set the query text to an empty string
         searchView.setIconified(true);

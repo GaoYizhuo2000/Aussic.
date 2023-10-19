@@ -53,7 +53,7 @@
                             app:layout_constraintStart_toEndOf="@+id/favorites_starImage"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <SearchView
+                        <androidx.appcompat.widget.SearchView
                             android:id="@+id/fav_searchview"
                             android:layout_width="280dp"
                             android:layout_height="30dp"
@@ -95,6 +95,5 @@
         </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
