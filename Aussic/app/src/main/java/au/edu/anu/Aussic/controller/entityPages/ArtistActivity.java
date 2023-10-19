@@ -67,6 +67,7 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
 
     public void loadSongsUnderArtist(){
 
+        // Get the songs of the artist from formatted searching
         String input = "\\a " + RuntimeObserver.currentDisplayingArtist.getArtistName();
 
         Parser parser = new Parser(new Tokenizer(input));
@@ -82,12 +83,14 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
             for(Map<String, Object> map : maps) {
                 if (map == null) continue;
                 switch ((String) map.get("type")){
+                    // Only add songs to the list
                     case "songs":
                         Song newSong = GsonLoader.loadSong(map);
                         RuntimeObserver.songsUnderCurrentDisplayingArtist.add(newSong);
                         break;
                 }
             }
+            // Response when data arrive
             onDataArrivedResponse();
         });
     }

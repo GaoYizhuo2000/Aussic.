@@ -120,7 +120,7 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
                 }
             }
 
-            this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            if(recyclerView.getAdapter() == null) this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(new MessagesAdapter(messages));
         }
     }
