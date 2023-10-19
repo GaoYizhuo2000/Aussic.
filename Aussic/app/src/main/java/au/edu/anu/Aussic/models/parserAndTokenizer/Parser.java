@@ -2,8 +2,6 @@ package au.edu.anu.Aussic.models.parserAndTokenizer;
 
 import java.util.*;
 
-import au.edu.anu.Aussic.models.search.MusicSearchEngine;
-
 /**
  * @author: u7581818, Oscar Wei
  * @author: u7552399, Yizhuo Gao
@@ -21,7 +19,6 @@ public class Parser {
         this.tokenizer = tokenizer;
     }
     public Map<String, String> Parse() {
-        Boolean isInputValid = true;
         Map<String, String> searchingTerms = new HashMap<>();
         while(tokenizer.hasNext()){
             if(tokenizer.current().getType() == Token.Type.ARTISTNAME){
@@ -31,19 +28,17 @@ public class Parser {
                     searchingTerms.put("artistName", value);
                     tokenizer.next();
                 }else{
-                    isInputValid = false;
                     break;
                 }
             }
 
-            else if(tokenizer.current().getType() == Token.Type.NAME) {
+            else if(tokenizer.current().getType() == Token.Type.SONGNAME) {
                 tokenizer.next();
                 if(tokenizer.hasNext()){
                     String value = tokenizer.current().getToken();
                     searchingTerms.put("name", value);
                     tokenizer.next();
                 }else{
-                    isInputValid = false;
                     break;
                 }
             }
@@ -55,7 +50,6 @@ public class Parser {
                     searchingTerms.put("genre", value);
                     tokenizer.next();
                 }else{
-                    isInputValid = false;
                     break;
                 }
             }
@@ -67,7 +61,6 @@ public class Parser {
                     searchingTerms.put("releaseDate", value);
                     tokenizer.next();
                 }else{
-                    isInputValid = false;
                     break;
                 }
             }
@@ -78,7 +71,6 @@ public class Parser {
                     searchingTerms.put("user", value);
                     tokenizer.next();
                 }else{
-                    isInputValid = false;
                     break;
                 }
             }
@@ -87,12 +79,10 @@ public class Parser {
                 if(!tokenizer.hasNext()){break;}
             }
             else if(tokenizer.current().getType() == Token.Type.STRING) {
-                isInputValid = false;
                 searchingTerms.put("undefinedTerm", tokenizer.current().getToken());
                 tokenizer.next();
             }
             else{
-                isInputValid = false;
                 break;
             }
         }

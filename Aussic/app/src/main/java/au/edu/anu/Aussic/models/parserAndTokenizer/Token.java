@@ -5,7 +5,7 @@ package au.edu.anu.Aussic.models.parserAndTokenizer;
  */
 
 public class Token {
-    public enum Type {STRING, ARTISTNAME, NAME, GENRE, RELEASEDATE, SEMICOLON, USER} // \a, \n, \g, \r
+    public enum Type {STRING, ARTISTNAME, SONGNAME, GENRE, RELEASEDATE, SEMICOLON, USER} // \a, \s, \g, \r
     private final String token; // Token representation in String form.
     private final Type type;    // Type of the token.
     public Token(String token, Type type) {

@@ -5,7 +5,6 @@ import au.edu.anu.Aussic.models.parserAndTokenizer.Token;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 import au.edu.anu.Aussic.models.parserAndTokenizer.Parser;
 
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -37,7 +36,7 @@ public class ParserAndTokenizerTest {
         tokenizer.next();
 
         assertTrue(tokenizer.hasNext());
-        assertEquals(Token.Type.NAME, tokenizer.current().getType());
+        assertEquals(Token.Type.SONGNAME, tokenizer.current().getType());
         tokenizer.next();
 
         assertTrue(tokenizer.hasNext());
