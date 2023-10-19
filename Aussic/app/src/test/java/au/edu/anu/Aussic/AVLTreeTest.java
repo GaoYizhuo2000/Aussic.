@@ -6,10 +6,13 @@ import static org.junit.Assert.*;
 
 import java.io.StringBufferInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import au.edu.anu.Aussic.models.avl.AVLTree;
 import au.edu.anu.Aussic.models.avl.EmptyTree;
+import au.edu.anu.Aussic.models.avl.Tree;
 import au.edu.anu.Aussic.models.entity.Song;
 import au.edu.anu.Aussic.models.entity.SongAttributes;
 
@@ -17,10 +20,31 @@ public class AVLTreeTest {
 
     private AVLTree<List<Song>> avlTree;
 
-//    @Before
-//    public void setUp() {
-//        avlTree = new AVLTree<>("0", new ArrayList<>());
-//    }
+
+    private void checkBalanceFactors(AVLTree<List<Song>> node) {
+        if (node == null) return;
+        try {
+            int balance = node.getBalanceFactor();
+            if (balance < -1 || balance > 1) {
+                System.out.println("Balcance of current node: " + balance + "aaa" + node.key + node.value);
+            }
+            assertTrue(balance >= -1 && balance <= 1);
+            checkBalanceFactors((AVLTree<List<Song>>) node.leftNode);
+            checkBalanceFactors((AVLTree<List<Song>>) node.rightNode);
+        } catch (ClassCastException e) {
+            // This node is an EmptyAVL node, so do nothing and return
+            return;
+        }
+    }
+
+    /**
+     * Check if a null song throws an appropriate exception.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void insertByNameNullInputTest() {
+        AVLTree<List<Song>> testTree = new AVLTree<>(null, new ArrayList<>());
+        testTree.insertByName(null);
+    }
 
     @Test(timeout = 1000)
     public void insertByNameTest() {
@@ -64,6 +88,50 @@ public class AVLTreeTest {
         assertEquals(expectedSongsCalledCCC, testTree.rightNode.value);
 
     }
+
+    /**
+     * Check if songs with the same name are added to the same node's list
+     */
+    @Test
+    public void insertByNameDuplicateNamesTest() {
+        Song song1 = new Song("1");
+        SongAttributes song1attr = new SongAttributes("DUPLICATE", "artist1");
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("2");
+        SongAttributes song2attr = new SongAttributes("DUPLICATE", "artist2");
+        song2.setAttributes(song2attr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>("DUPLICATE", new ArrayList<>());
+        testTree = testTree.insertByName(song1);
+        testTree = testTree.insertByName(song2);
+
+        assertEquals("DUPLICATE", testTree.key);
+        List<Song> expectedSongs = Arrays.asList(song1, song2);
+        assertEquals(expectedSongs, testTree.value);
+    }
+
+    @Test
+    public void insertSongsByNameAdvanced() {
+        char songName = 'A';
+        AVLTree<List<Song>> testTree = new AVLTree<>(Character.toString(songName), new ArrayList<>());
+        for (int i = 0; i < 26; i++) {
+            Song song = new Song(Integer.toString(i));
+            SongAttributes songAttr = new SongAttributes(Character.toString(songName), "artist" + i);
+            song.setAttributes(songAttr);
+            testTree = testTree.insertByName(song);
+            songName++;
+        }
+
+        //For every node in the tree, use getBalanceFactor() to check the if the balance is 0, -1, or 1;
+        checkBalanceFactors(testTree);
+        //assertEquals("", testTree.toString());
+        assertEquals("P", testTree.key);
+        assertEquals("{key=Pvalue=[Song{id='15', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist15', name='P', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Hvalue=[Song{id='7', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist7', name='H', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Dvalue=[Song{id='3', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist3', name='D', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Bvalue=[Song{id='1', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist1', name='B', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Avalue=[Song{id='0', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist0', name='A', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Cvalue=[Song{id='2', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist2', name='C', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Fvalue=[Song{id='5', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist5', name='F', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Evalue=[Song{id='4', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist4', name='E', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Gvalue=[Song{id='6', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist6', name='G', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}}, rightNode={key=Lvalue=[Song{id='11', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist11', name='L', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Jvalue=[Song{id='9', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist9', name='J', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Ivalue=[Song{id='8', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist8', name='I', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Kvalue=[Song{id='10', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist10', name='K', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Nvalue=[Song{id='13', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist13', name='N', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Mvalue=[Song{id='12', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist12', name='M', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Ovalue=[Song{id='14', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist14', name='O', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}}}, rightNode={key=Tvalue=[Song{id='19', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist19', name='T', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Rvalue=[Song{id='17', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist17', name='R', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Qvalue=[Song{id='16', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist16', name='Q', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Svalue=[Song{id='18', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist18', name='S', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Xvalue=[Song{id='23', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist23', name='X', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Vvalue=[Song{id='21', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist21', name='V', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={key=Uvalue=[Song{id='20', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist20', name='U', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}, rightNode={key=Wvalue=[Song{id='22', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist22', name='W', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}, rightNode={key=Yvalue=[Song{id='24', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist24', name='Y', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={key=Zvalue=[Song{id='25', attributes='Song Attribute {albumName='null', genreNames=null, artistName='artist25', name='Z', trackNumber=0, durationInMillis=0, releaseDate='null'}}], leftNode={}, rightNode={}}}}}}", testTree.toString());
+    }
+
+
+
     @Test(timeout = 1000)
     public void insertByGenreTest() {
         Song song1 = new Song("1");
@@ -119,6 +187,7 @@ public class AVLTreeTest {
         List<Song> expectedSongsFff = new ArrayList<>();
         expectedSongsFff.add(song3);
 
+        checkBalanceFactors(testTree);
         assertEquals(expectedSongsRB, testTree.value);
         assertEquals("Pop", testTree.leftNode.key);
         assertEquals(expectedSongsPop, testTree.leftNode.value);
@@ -129,6 +198,64 @@ public class AVLTreeTest {
         assertEquals("fff", testTree.rightNode.rightNode.key);
         assertEquals(expectedSongsFff, testTree.rightNode.rightNode.value);
     }
+
+
+    @Test(timeout = 1000)
+    public void insertDuplicateGenres() {
+        Song song1 = new Song("5");
+        SongAttributes song1attr = new SongAttributes("DDD", "artist5");
+        song1attr.setGenreNames(Arrays.asList("Country"));
+        song1.setAttributes(song1attr);
+
+        Song song2 = new Song("6");
+        SongAttributes song2attr = new SongAttributes("EEE", "artist6");
+        song2attr.setGenreNames(Arrays.asList("Country"));
+        song2.setAttributes(song2attr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>("Country", new ArrayList<>());
+        testTree = testTree.insertByGenre("Country", song1);
+        testTree = testTree.insertByGenre("Country", song2);
+
+        assertTrue(testTree.value.contains(song1));
+        assertTrue(testTree.value.contains(song2));
+//        assertEquals("{}",testTree.leftNode);
+//        assertEquals("{}",testTree.rightNode);
+    }
+
+    @Test(timeout = 1000)
+    public void insertMaxGenreSize() {
+        Song song = new Song("8");
+        SongAttributes songAttr = new SongAttributes("GGG", "artist8");
+        List<String> genres = new ArrayList<>(Collections.nCopies(1000, "Jazz"));
+        songAttr.setGenreNames(genres);
+        song.setAttributes(songAttr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>("Jazz", new ArrayList<>());
+        for (String genre : song.getGenre()) {
+            testTree = testTree.insertByGenre(genre, song);
+        }
+
+        assertEquals("Jazz", testTree.key);
+        assertTrue(testTree.value.contains(song));
+    }
+
+    @Test(expected = IllegalArgumentException.class, timeout = 1000)
+    public void insertNullSong() {
+        AVLTree<List<Song>> testTree = new AVLTree<>("Rock", new ArrayList<>());
+        testTree.insertByGenre("Rock", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class, timeout = 1000)
+    public void insertNullGenre() {
+        Song song = new Song("7");
+        SongAttributes songAttr = new SongAttributes("FFF", "artist7");
+        song.setAttributes(songAttr);
+
+        AVLTree<List<Song>> testTree = new AVLTree<>("Rock", new ArrayList<>());
+        testTree.insertByGenre(null, song);
+    }
+
+
 
     @Test(timeout = 1000)
     public void insertByArtistNameTest() {
@@ -172,9 +299,6 @@ public class AVLTreeTest {
         assertEquals(expectedArtist1sSongs, avlTree.leftNode.value);
         assertEquals("artist3", avlTree.rightNode.key);
         assertEquals(expectedArtist3sSongs, avlTree.rightNode.value);
-
-        //assertEquals("", avlTree.toString());
-
     }
 
     @Test(timeout = 1000)
@@ -400,11 +524,11 @@ public class AVLTreeTest {
         testTree = testTree.insertById(song3);
         testTree = testTree.insertById(song4);
 
+        //assertEquals("", testTree.toString());
 
         testTree = (AVLTree<List<Song>>) testTree.deleteById(song2);
 
-
-        //assertEquals("", testTree.toString());
+        checkBalanceFactors(testTree);
         assertEquals("3", testTree.key);
         assertEquals("1", testTree.leftNode.key);
         assertEquals("4", testTree.rightNode.key);
@@ -414,8 +538,6 @@ public class AVLTreeTest {
         assertEquals("1", testTree.leftNode.key);
         assertNull(testTree.rightNode.key);
     }
-
-
 
 
     @Test(timeout = 1000)
@@ -432,7 +554,7 @@ public class AVLTreeTest {
         List<Song> l = new ArrayList<>();
         l.add(song1);
 
-        AVLTree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
+        Tree<List<Song>> testTree = new AVLTree<>(song1.getSongName(), l);
 
         Song song2 = new Song("2");
         SongAttributes song2attr = new SongAttributes("AAA", "artist2") ;
@@ -450,11 +572,10 @@ public class AVLTreeTest {
         testTree = testTree.insertByName(song3);
         testTree = testTree.insertByName(song4);
 
-        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song3);
-        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song1);
-        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song2);
-        testTree = (AVLTree<List<Song>>) testTree.deleteByName(song4);
-
+        testTree =  testTree.deleteByName(song3);
+        testTree =  testTree.deleteByName(song1);
+        testTree =  testTree.deleteByName(song2);
+        testTree =  testTree.deleteByName(song4);
 
         assertEquals("", testTree.toString());
 

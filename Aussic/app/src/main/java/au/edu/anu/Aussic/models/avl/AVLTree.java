@@ -15,6 +15,8 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         super();
     }
 
+    private int height;
+
     public AVLTree(String key, T value) {
         super(key, value);
         // Set left and right children to be of EmptyAVL as opposed to EmptyBST.
@@ -32,6 +34,15 @@ public class AVLTree<T> extends BinarySearchTree<T> {
     public int getBalanceFactor() {
         return leftNode.getHeight() - rightNode.getHeight();
     }
+
+    public int getHeight() {
+        // Check whether leftNode or rightNode are EmptyTree
+        int leftNodeHeight = leftNode instanceof EmptyTree ? 0 : 1 + leftNode.getHeight();
+        int rightNodeHeight = rightNode instanceof EmptyTree ? 0 : 1 + rightNode.getHeight();
+        height = Math.max(leftNodeHeight, rightNodeHeight);
+        return height;
+    }
+
 
     @Override
     public AVLTree<T> insertById(Song song) {
@@ -198,22 +209,26 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return this;
     }
 
+
+
     public AVLTree<T> rightRotate() {
-        Tree<T> newParent = this.leftNode;
-        Tree<T> newLeftOfCurrent = newParent.rightNode;
+        AVLTree<T> newParent = (AVLTree<T>) this.leftNode;
+        this.leftNode = newParent.rightNode;
         newParent.rightNode = this;
-        this.leftNode = newLeftOfCurrent;
-        return (AVLTree<T>) newParent;
+        this.getHeight();      // Update height of this node
+        newParent.getHeight(); // Update height of new parent node
+        return newParent;
     }
 
     public AVLTree<T> leftRotate() {
-        Tree<T> newParent = this.rightNode;
-        Tree<T> newRightOfCurrent = newParent.leftNode;
+        AVLTree<T> newParent = (AVLTree<T>) this.rightNode;
+        this.rightNode = newParent.leftNode;
         newParent.leftNode = this;
-        this.rightNode = newRightOfCurrent;
-        return (AVLTree<T>) newParent;
-
+        this.getHeight();      // Update height of this node
+        newParent.getHeight(); // Update height of new parent node
+        return newParent;
     }
+
 
     /**
      * Delete node by id
@@ -227,35 +242,28 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
         AVLTree<T> newTree = null;
         if (song.getId().compareTo(key) > 0 && rightNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode, rightNode.deleteById(song));
+            newTree = new AVLTree<>(key, value, leftNode, balanceTree( rightNode.deleteById(song)));
         } else if (song.getId().compareTo(key) < 0 && leftNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode.deleteById(song), rightNode);
+            newTree = new AVLTree<>(key, value, balanceTree( leftNode.deleteById(song)), rightNode);
         } else {
-            //The song's ID is equal to current node's key
-            //Node to be deleted is found
             if (leftNode instanceof EmptyAVL && rightNode instanceof EmptyAVL) { //Leaf node
                 return new EmptyAVL<>();
             } else if (leftNode instanceof EmptyAVL) {  // Right child only
-                //return (AVLTree<T>) rightNode;
-                return new AVLTree<>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.leftNode);
+                return new AVLTree<>(rightNode.key, rightNode.value, rightNode.leftNode, rightNode.rightNode);
             } else if (rightNode instanceof EmptyAVL) { //Left child only
-                //return (AVLTree<T>) leftNode;
                 return new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, leftNode.rightNode);
             } else { //Two children
                 AVLTree predecessorT = leftNode.findMaxNode();
                 if(predecessorT.equals(leftNode) ){
                     AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
-                    return newLeft;
+                    return balanceTree(newLeft);
                 }else{
                     AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
                     AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
-                    return newPredecessor;
-
+                    return balanceTree(newPredecessor);
                 }
-
             }
         }
-
         //Balance tree
         return balanceTree(newTree);
     }
@@ -269,9 +277,9 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
         AVLTree<T> newTree = null;
         if (songName.compareTo(key) > 0 && rightNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode, rightNode.deleteByName(song));
+            newTree = new AVLTree<>(key, value, leftNode, balanceTree(rightNode.deleteByName(song)));
         } else if (songName.compareTo(key) < 0 && leftNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode.deleteByName(song), rightNode);
+            newTree = new AVLTree<>(key, value, balanceTree(leftNode.deleteByName(song)), rightNode);
         } else { // Song name matches the current node's key
             List<Song> songList = (List<Song>) value;
             songList.removeIf(s -> s.getId().equals(songId));
@@ -298,15 +306,12 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                         AVLTree predecessorT = leftNode.findMaxNode();
                         if(predecessorT.equals(leftNode) ){
                             AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
-                            return newLeft;
+                            return balanceTree(newLeft);
                         }else{
                             AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
                             AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
-                            return newPredecessor;
-
+                            return balanceTree(newPredecessor);
                         }
-
-                        //return new AVLTree<T>(predecessor.getSongName(), predecessorT, newLeft, rightNode);
                     }
                 }
             }
@@ -324,9 +329,9 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
         AVLTree<T> newTree = null;
         if (artistName.compareTo(key) > 0 && rightNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode, rightNode.deleteByArtistName(song));
+            newTree = new AVLTree<>(key, value, leftNode, balanceTree(rightNode.deleteByArtistName(song)));
         } else if (artistName.compareTo(key) < 0 && leftNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode.deleteByArtistName(song), rightNode);
+            newTree = new AVLTree<>(key, value, balanceTree(leftNode.deleteByArtistName(song)), rightNode);
         } else { // Artist name matches the current node's key
             List<Song> songList = (List<Song>) value;
             songList.removeIf(s -> s.getId().equals(id));
@@ -349,15 +354,13 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                     AVLTree predecessorT = leftNode.findMaxNode();
                     if(predecessorT.equals(leftNode) ){
                         AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
-                        return newLeft;
+                        return balanceTree(newLeft);
                     }else{
                         AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
                         AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
-                        return newPredecessor;
+                        return balanceTree(newPredecessor);
 
                     }
-
-
                 }
             }
         }
@@ -375,9 +378,9 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
         AVLTree<T> newTree = null;
         if (releaseDate.compareTo(key) > 0 && rightNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode, rightNode.deleteByReleaseDate(song));
+            newTree = new AVLTree<>(key, value, leftNode, balanceTree(rightNode.deleteByReleaseDate(song)));
         } else if (releaseDate.compareTo(key) < 0 && leftNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode.deleteByReleaseDate(song), rightNode);
+            newTree = new AVLTree<>(key, value, balanceTree(leftNode.deleteByReleaseDate(song)), rightNode);
         } else { // Release date matches the current node's key
             List<Song> songList = (List<Song>) value;
             songList.removeIf(s -> s.getId().equals(id));
@@ -400,11 +403,11 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                         AVLTree predecessorT = leftNode.findMaxNode();
                         if(predecessorT.equals(leftNode) ){
                             AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
-                            return newLeft;
+                            return balanceTree(newLeft);
                         }else{
                             AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
                             AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
-                            return newPredecessor;
+                            return balanceTree(newPredecessor);
 
                         }
                     }
@@ -419,9 +422,9 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
         AVLTree<T> newTree = null;
         if (genre.compareTo(key) > 0 && rightNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode, rightNode.deleteByGenre(genre, song));
+            newTree = new AVLTree<>(key, value, leftNode, balanceTree(rightNode.deleteByGenre(genre, song)));
         } else if (genre.compareTo(key) < 0 && leftNode != null) {
-            newTree = new AVLTree<>(key, value, leftNode.deleteByGenre(genre, song), rightNode);
+            newTree = new AVLTree<>(key, value, balanceTree(leftNode.deleteByGenre(genre, song)), rightNode);
         } else { // Genre matches the current node's key
             List<Song> songList = (List<Song>) value;
             songList.removeIf(s -> s.getId().equals(song.getId()));
@@ -443,46 +446,53 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                     AVLTree predecessorT = leftNode.findMaxNode();
                     if(predecessorT.equals(leftNode) ){
                         AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, rightNode);
-                        return newLeft;
+                        return balanceTree(newLeft);
                     }else{
                         AVLTree<T> newLeft = (AVLTree<T>) new AVLTree<>(leftNode.key, leftNode.value, leftNode.leftNode, predecessorT.leftNode);
                         AVLTree<T> newPredecessor = new AVLTree<>(predecessorT.key, (T)predecessorT.value, newLeft, predecessorT.rightNode);
-                        return newPredecessor;
-
+                        return balanceTree(newPredecessor);
                     }
-
                 }
             }
         }
-
         return balanceTree(newTree);
     }
 
+    private Tree<T> balanceTree(Tree<T> tree) {
 
-    /**
-     *
-     * @param node
-     * @return
-     */
-    private AVLTree<T> balanceTree(AVLTree<T> node) {
-        if (node.getBalanceFactor() < -1) {  // Right heavy
-            // Check if we need a double rotation (right-left)
-            if (((AVLTree<T>)node.rightNode).getBalanceFactor() > 0) {
-                AVLTree<T> rightNode = (AVLTree<T>) node.rightNode;
-                node.rightNode = rightNode.leftRotate();
-            }
-            node = node.leftRotate();
-        } else if (node.getBalanceFactor() > 1) {  // Left heavy
-            // Check if we need a double rotation (left-right)
-            if (((AVLTree<T>)node.leftNode).getBalanceFactor() < 0) {
-                AVLTree<T> leftNode = (AVLTree<T>) node.leftNode;
-                node.leftNode = leftNode.rightRotate();
-            }
-            node = node.rightRotate();
+        int balanceFactor = tree.getBalanceFactor();
+
+        if (balanceFactor < -1) {
+            // Right subtree is heavier
+            return balanceRightHeavy((AVLTree<T>) tree);
+        } else if (balanceFactor > 1) {
+            // Left subtree is heavier
+            return balanceLeftHeavy((AVLTree<T>) tree);
         }
-        return node;
+        return tree; // Already balanced
     }
 
+    private AVLTree<T> balanceRightHeavy(AVLTree<T> tree) {
+        AVLTree<T> rightNode = (AVLTree<T>) tree.rightNode;
+        //Right left rotate
+        if(tree.rightNode.rightNode.getHeight() < tree.rightNode.leftNode.getHeight()){
+            tree.rightNode = rightNode.rightRotate();
+            return tree.leftRotate();
+        }
+        //Right heavy, left rotate anyway
+        return tree.leftRotate();
+    }
+
+    private AVLTree<T> balanceLeftHeavy(AVLTree<T> tree) {
+        AVLTree<T> leftNode = (AVLTree<T>) tree.leftNode;
+        //Left right rotate
+        if (tree.leftNode.leftNode.getHeight() < tree.leftNode.rightNode.getHeight()){
+            tree.leftNode = leftNode.leftRotate();
+            return tree.rightRotate();
+        }
+        //Left heavy, right rotate anyway
+        return tree.rightRotate();
+    }
 
 
     /**
@@ -501,9 +511,7 @@ public class AVLTree<T> extends BinarySearchTree<T> {
             }
         }
 
-
-        private class EmptyAVL<T> extends EmptyTree<T> {
-
+    public class EmptyAVL<T> extends EmptyTree<T> {
             @Override
             public Tree<T> insertById(Song song) {
                 List<Song> songList = new ArrayList<>();
@@ -571,6 +579,10 @@ public class AVLTree<T> extends BinarySearchTree<T> {
                 return null;
             }
 
+        @Override
+        protected int getBalanceFactor() {
+            return 0;
         }
+    }
     }
 
