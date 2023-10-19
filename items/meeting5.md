@@ -63,15 +63,10 @@ Lead/scribe:
   
 
 | Number | Item |
-
 | :----- | :----------------------------------------------------------------------- |
-
 | 1 | Report the current progress (product backlog). |
-
 | 2 | Determine the features to be developed in the next sprint. |
-
 | 3 | Discuss the use of firestore and firebase |
-
 | 4 | Determine the next steps for everyone |
 
 
@@ -83,15 +78,10 @@ Lead/scribe:
   
 
 | Task | Assigned To | Due Date |
-
 | :----------------------------------------------------------------------------- | :---------: | :--------: |
-
 | Debug the login and sign-in features. And complete the User pages| Jiawei | 09/10/2023 |
-
 | Connect the backend logic to firestore | Yizhuo | 09/10/2023 |
-
 | Add sone elements to the home page and search page, and other pages | Evan | 09/10/2023 |
-
 | Update tokenizer and parser grammar rules, and update the AVL tree to include key  | Oscar | 09/10/2023 |
 
   
@@ -139,13 +129,8 @@ The following dictates who will scribe in this and the next meeting.
   
 
 | Name |
-
 | :---------: |
-
 | Evan Cheung |
-
 | Yizhuo Gao |
-
 | Jiawei Niu |
-
 | Oscar Wei |
