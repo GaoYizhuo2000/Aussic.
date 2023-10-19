@@ -18,6 +18,7 @@ import au.edu.anu.Aussic.R;
 
 /**
  * @author: u7516507, Evan Cheung
+ * An adapter for song list
  */
 
 public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.ListSongViewHolder> {

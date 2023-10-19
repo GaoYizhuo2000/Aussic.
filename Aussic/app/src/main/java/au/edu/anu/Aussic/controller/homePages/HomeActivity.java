@@ -49,17 +49,56 @@ import au.edu.anu.Aussic.models.userAction.UserActionFactory;
 
 public class HomeActivity extends AppCompatActivity implements OnMediaChangeListener {
 
+    /**
+     * Floating action button for media play/pause actions.
+     */
     FloatingActionButton fab;
+
+    /**
+     * Drawer layout for the navigation drawer.
+     */
     DrawerLayout drawerLayout;
+
+    /**
+     * Bottom navigation view to switch between primary sections.
+     */
     BottomNavigationView bottomNavigationView;
+
+    /**
+     * Navigation view used within the drawer layout.
+     */
     NavigationView navigationView;
+
+    /**
+     * The main home fragment.
+     */
     private HomeFragment homeFragment = new HomeFragment();
+
+    /**
+     * The user's profile page fragment.
+     */
     private UserPageFragment userPageFragment = new UserPageFragment();
+
+    /**
+     * Fragment for displaying messages.
+     */
     private MessagesFragment messagesFragment = new MessagesFragment();
+
+    /**
+     * Handler for managing timed tasks.
+     */
     private Handler timerHandler = new Handler();
-    private JsonObject jsonObject = null;
+
+    /**
+     * JSON array to manage collections of data.
+     */
     private JsonArray jsonArray;
+
+    /**
+     * Length of the JSON array.
+     */
     private int arrayLength = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +133,7 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             }
         });
 
+        // Set up the side nav bar and tool bar
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav,R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
@@ -159,7 +199,11 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         loadJsonObjectFromRawResource(R.raw.useractions);
         timerHandler.postDelayed(timerRunnable, 10000);
     }
-    // Outside Oncreate
+
+    /**
+     * Replaces the current fragment with the provided one.
+     * @param fragment Fragment to be displayed.
+     */
     private void replaceFragment(Fragment fragment) {
         // Find the existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -168,6 +212,9 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         fragmentTransaction.commit();
     }
 
+    /**
+     * Runnable that periodically invokes loadShowData() every second.
+     */
     private Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -178,6 +225,11 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
             timerHandler.postDelayed(this, 1000);
         }
     };
+
+    /**
+     * Loads a JSON object from the provided raw resource.
+     * @param resourceId The resource ID of the raw file.
+     */
     public void loadJsonObjectFromRawResource(int resourceId) {
         try {
             // Open the resource stream
@@ -192,6 +244,9 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         }
     }
 
+    /**
+     * Loads and updates user interaction data.
+     */
     private void loadShowData() {
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.getRandomUseraction().thenAccept(useraction -> {
@@ -202,11 +257,13 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
 
             UserAction userAction = UserActionFactory.createUserAction(jsonObject);
             userAction.update();
-           // Toast.makeText(this, userAction.getToastMessage(), Toast.LENGTH_SHORT).show();
 
         });
     }
 
+    /**
+     * Releases the media player resources upon the destruction of the activity.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -216,6 +273,11 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         }
     }
 
+    /**
+     * Assigns an OnClickListener to all child views of a given view.
+     * @param parent The parent view.
+     * @param listener The OnClickListener to be set.
+     */
     private void setOnClickListenerForAllChildren(View parent, View.OnClickListener listener) {
         if (!(parent instanceof ViewGroup)) {
             return;
@@ -228,6 +290,9 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         }
     }
 
+    /**
+     * Updates the FAB icon based on media player's state.
+     */
     @Override
     public void onMediaChangeResponse() {
         if(RuntimeObserver.getCurrentMediaPlayer() != null){
@@ -236,6 +301,9 @@ public class HomeActivity extends AppCompatActivity implements OnMediaChangeList
         }
     }
 
+    /**
+     * Deselects any selected item in the bottom navigation view.
+     */
     private void deselectBottomNavigation() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         // menu_none is a dummy menu item that does nothing

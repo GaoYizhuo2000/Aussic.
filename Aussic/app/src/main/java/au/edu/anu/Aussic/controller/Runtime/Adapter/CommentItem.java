@@ -2,6 +2,7 @@ package au.edu.anu.Aussic.controller.Runtime.Adapter;
 
 /**
  * @author: u7516507, Evan Cheung
+ * the information in a comment item include user name user image and user comment content
  */
 
 public class CommentItem {

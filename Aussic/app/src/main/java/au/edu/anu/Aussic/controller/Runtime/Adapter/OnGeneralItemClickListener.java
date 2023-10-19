@@ -23,6 +23,7 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 
 /**
  * @author: u7516507, Evan Cheung
+ * An interface that define the required behavior of clickable item
  */
 
 public interface OnGeneralItemClickListener {

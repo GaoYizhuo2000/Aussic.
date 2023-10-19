@@ -14,10 +14,11 @@ import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 /**
  * @author: u7516507, Evan Cheung
+ * Represents a centralized runtime data storage. Allows for various observers to be notified of data changes.
  */
 
 /**
- * The class for song playing and pausing
+ * The class for memory records in the runtime
  */
 public class RuntimeObserver {
     public static MusicSearchEngine musicSearchEngine;
@@ -28,7 +29,6 @@ public class RuntimeObserver {
     public static Genre currentDisplayingGenre;
     public static List<Song> songsUnderCurrentDisplayingGenre = new ArrayList<>();
     public static User currentUser;
-    public static User currentPeerUser;
     public static List<Session> currentUserSessions = new ArrayList<>();
     public static List<User> currentSessionsAvailableUsers = new ArrayList<>();
     public static Session currentMessagingSession;

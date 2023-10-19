@@ -40,46 +40,27 @@ import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment implements OnGeneralItemClickListener, OnMediaChangeListener {
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
+    /** RecyclerView to display genres in a card format. */
     private RecyclerView cardRecyclerView;
+
+    /** RecyclerView to display songs in a list format. */
     private RecyclerView listRecyclerView;
+
+    /** TextView below the round image displaying song name. */
     private TextView roundUnderText;
+
+    /** Circular ImageView displaying the currently playing song's image. */
     private ImageView roundImage;
-    // Flag to keep track of view state
+
+    /** Flag indicating if the view is currently alive or destroyed. */
     private boolean isViewAlive;
 
     public HomeFragment() {
         // Required empty public constructor
-        RuntimeObserver.addOnMediaChangeListener(this);
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
     @Override
     public void onDestroyView() {
         this.isViewAlive = false;
@@ -112,11 +93,8 @@ public class HomeFragment extends Fragment implements OnGeneralItemClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
+        RuntimeObserver.addOnMediaChangeListener(this);
     }
 
     @Override
@@ -126,6 +104,9 @@ public class HomeFragment extends Fragment implements OnGeneralItemClickListener
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    /**
+     * Sets up the data for card and list views.
+     */
     public void setViewList(){
         cardRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         List<GeneralItem> songList = new ArrayList<>();
@@ -141,6 +122,12 @@ public class HomeFragment extends Fragment implements OnGeneralItemClickListener
         listRecyclerView.setAdapter(new ListSongAdapter(songList, this));
     }
 
+    /**
+     * Sets and styles the round image using the provided image URL and song name.
+     *
+     * @param imageUrl URL of the image to be displayed.
+     * @param songName Name of the song associated with the image.
+     */
     private void setRoundImage(String imageUrl,String songName){
 
         Glide.with(this)
@@ -152,6 +139,10 @@ public class HomeFragment extends Fragment implements OnGeneralItemClickListener
         roundUnderText.setText(Functions.adjustLength(songName));
     }
 
+
+    /**
+     * Updates the animation of the round image based on media playback status.
+     */
     @Override
     public void onMediaChangeResponse() {
         if(this.isViewAlive && RuntimeObserver.getCurrentMediaPlayer() != null){

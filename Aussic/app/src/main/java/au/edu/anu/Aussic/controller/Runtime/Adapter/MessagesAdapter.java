@@ -17,6 +17,7 @@ import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
 
 /**
  * @author: u7516507, Evan Cheung
+ * An adapter for P2P messages list, include owner and peer user
  */
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

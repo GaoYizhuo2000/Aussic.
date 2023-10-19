@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * @author: u7516507, Evan Cheung
+ * the cardview genre adapter for given genres
  */
 public class CardGenreAdapter extends CardSongAdapter {
 

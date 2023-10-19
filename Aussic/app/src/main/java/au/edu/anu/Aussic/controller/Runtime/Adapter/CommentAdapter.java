@@ -17,6 +17,7 @@ import au.edu.anu.Aussic.R;
 
 /**
  * @author: u7516507, Evan Cheung
+ * the adapter for the comments in a song
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 

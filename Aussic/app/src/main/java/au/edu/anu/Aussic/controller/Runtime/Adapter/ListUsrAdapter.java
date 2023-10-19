@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * @author: u7516507, Evan Cheung
+ * An adapter for user list
  */
 
 public class ListUsrAdapter extends ListSongAdapter{

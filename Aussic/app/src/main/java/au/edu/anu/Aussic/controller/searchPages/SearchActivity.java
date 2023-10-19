@@ -46,6 +46,7 @@ import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
 /**
  * @author: u7516507, Evan Cheung
  * @author: u7552399, Yizhuo Gao
+ * An activity providing search functionality for songs, users, artists and genres
  */
 
 public class SearchActivity extends AppCompatActivity implements OnDataArrivedListener {
@@ -95,6 +96,7 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         this.sortID = 0;
         replaceFragment(generalSearch);
 
+        // Set up tabs interaction for sorting and filtering
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -140,7 +142,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                     case 6:
                         setTabColor(6, R.drawable.ic_tabs_bg);
                         replaceFragment(userSearch);
-                    // Add more cases if there are more tabs
                 }
                 if(selectedTabIndex > 3){
                     View likes = ((ViewGroup) tabs.getChildAt(0)).getChildAt(0);
@@ -280,9 +281,6 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
                 else if(sortID == 1) sortByFavorites(RuntimeObserver.currentSearchResultSongs);
             }
             RuntimeObserver.notifyOnDataArrivedListeners();
-//            results.toString();
-//            System.out.println(results);
-//            Toast.makeText(this, results.toString(), Toast.LENGTH_LONG).show();
         });
     }
 
@@ -318,6 +316,11 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
     }
 
 
+    /**
+     * Sorts a list of songs based on their number of likes.
+     *
+     * @param songList The list of songs to sort.
+     */
     private void sortByLikes(List<Song> songList){
         Collections.sort(songList, new Comparator<Song>(){
             @Override
@@ -328,6 +331,12 @@ public class SearchActivity extends AppCompatActivity implements OnDataArrivedLi
         RuntimeObserver.notifyOnDataChangeListeners();
     }
 
+
+    /**
+     * Sorts a list of songs based on their number of favorites.
+     *
+     * @param songList The list of songs to sort.
+     */
     private void sortByFavorites(List<Song> songList){
         Collections.sort(songList, new Comparator<Song>(){
             @Override

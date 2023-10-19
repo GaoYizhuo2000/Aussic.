@@ -34,11 +34,22 @@ import au.edu.anu.Aussic.models.userAction.Comment;
  */
 
 public class MessageActivity extends AppCompatActivity implements OnDataChangeListener {
+    /** The current peer user for messaging. */
     private User userPeer;
+
+    /** Image representation for blocking actions. */
     private ImageView blockSign;
+
+    /** Text representation for block status. */
     private TextView blockMessage;
+
+    /** Input field for entering messages. */
     private EditText input;
+
+    /** Button to trigger message sending. */
     private Button sendBtn;
+
+    /** Recycler view to display messages. */
     private RecyclerView recyclerView;
 
 
@@ -56,6 +67,7 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
         this.sendBtn = findViewById(R.id.the_message_btn_send);
         this.recyclerView = findViewById(R.id.messages_list);
 
+        // Set up click listener for the block button
         this.blockSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +79,7 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
             }
         });
 
+        // Set up click listener for the sendBtn
         this.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,10 +99,15 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
             }
         });
 
+        // React to any data change when created
         onDataChangeResponse();
 
     }
 
+    /**
+     * Responds to changes in data, updates UI elements
+     * like block indicators and message list.
+     */
     @Override
     public void onDataChangeResponse() {
         if(this.userPeer == null) {

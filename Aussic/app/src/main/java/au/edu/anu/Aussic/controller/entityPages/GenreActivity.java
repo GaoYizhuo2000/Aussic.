@@ -37,11 +37,22 @@ import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
  */
 
 public class GenreActivity extends AppCompatActivity implements OnDataArrivedListener, OnGeneralItemClickListener {
+    /** ImageView for genre's representation */
     private ImageView imageView;
+
+    /** TextView for genre's name */
     private TextView name;
+
+    /** RecyclerView for displaying the songs of the genre */
     private RecyclerView recyclerView;
+
+    /** Button for navigating back to home */
     private Button genreToHomeButton;
 
+    /**
+     * Lifecycle method called when activity is first created.
+     * Initializes views and loads songs under the genre.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +75,10 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
         loadSongsUnderGenre();
     }
 
+    /**
+     * Loads songs under currently displayed genre.
+     * Load the songs under certain genre using search engine
+     */
     public void loadSongsUnderGenre(){
 
         String input = "\\g " + RuntimeObserver.currentDisplayingGenre.getGenreName();
@@ -92,6 +107,10 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
 
     }
 
+    /**
+     * Called when song data for the genre has arrived.
+     * Updates views with arrived data.
+     */
     @Override
     public void onDataArrivedResponse() {
         List<GeneralItem> songList = new ArrayList<>();
@@ -105,6 +124,11 @@ public class GenreActivity extends AppCompatActivity implements OnDataArrivedLis
 
     }
 
+    /**
+     * Set the genre's representation image using the provided URL.
+     *
+     * @param imageUrl URL of the genre's image.
+     */
     private void setImage(String imageUrl){
 
         Glide.with(this)

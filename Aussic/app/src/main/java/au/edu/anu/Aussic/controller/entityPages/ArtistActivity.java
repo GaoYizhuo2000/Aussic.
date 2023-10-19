@@ -39,10 +39,22 @@ import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
  */
 
 public class ArtistActivity extends AppCompatActivity implements OnDataArrivedListener, OnGeneralItemClickListener {
+    /** ImageView for artist's picture */
     private ImageView imageView;
+
+    /** TextView for artist's name */
     private TextView name;
+
+    /** RecyclerView for displaying the songs of the artist */
     private RecyclerView recyclerView;
+
+    /** Button for navigating back to home */
     private Button artistToHomeButton;
+
+    /**
+     * Lifecycle method called when activity is first created.
+     * Initializes views and loads songs under the artist.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +78,10 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
         loadSongsUnderArtist();
     }
 
+    /**
+     * Loads songs under the currently displayed artist.
+     * Load the songs under certain artist using search engine
+     */
     public void loadSongsUnderArtist(){
 
         // Get the songs of the artist from formatted searching
@@ -96,6 +112,10 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
         });
     }
 
+    /**
+     * Called when data has arrived.
+     * Updates views with arrived data.
+     */
     @Override
     public void onDataArrivedResponse() {
         // If data arrive, load data into list and image
@@ -110,6 +130,11 @@ public class ArtistActivity extends AppCompatActivity implements OnDataArrivedLi
 
     }
 
+    /**
+     * Set the artist's image with the URL.
+     *
+     * @param imageUrl URL of the artist's image.
+     */
     private void setImage(String imageUrl){
 
         // Set the image using Glide

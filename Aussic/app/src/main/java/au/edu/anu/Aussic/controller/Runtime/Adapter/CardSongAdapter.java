@@ -18,6 +18,7 @@ import au.edu.anu.Aussic.R;
 
 /**
  * @author: u7516507, Evan Cheung
+ * the cardview adapter for the given songs
  */
 public class CardSongAdapter extends RecyclerView.Adapter<CardSongAdapter.CardViewHolder> {
 

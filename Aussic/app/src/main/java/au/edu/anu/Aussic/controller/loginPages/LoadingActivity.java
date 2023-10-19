@@ -27,6 +27,8 @@ import au.edu.anu.Aussic.models.firebase.FirestoreDaoImpl;
 import au.edu.anu.Aussic.models.search.MusicSearchEngine;
 
 /**
+ *  Loads necessary user data, favorite songs, a random song for playback,
+ *  songs for display, and genres for display. Once the data is loaded, it navigates to the home screen.
  * @author: u7516507, Evan Cheung
  */
 

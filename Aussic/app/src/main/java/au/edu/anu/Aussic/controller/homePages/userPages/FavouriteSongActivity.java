@@ -39,9 +39,17 @@ import au.edu.anu.Aussic.models.parserAndTokenizer.Tokenizer;
  * @author: u7603590, Jiawei Niu
  */
 public class FavouriteSongActivity extends AppCompatActivity implements OnGeneralDeleteBtnClickListener, OnDataChangeListener {
+    /** RecyclerView for displaying the list of favorite songs. */
     private RecyclerView recyclerView;
+
+    /** SearchView for searching favorite songs. */
     private SearchView searchView;
-    private Button searchButton, goBackUserPage;
+
+    /** Button to trigger the search functionality. */
+    private Button searchButton;
+
+    /** Button to navigate back to the user page. */
+    private Button goBackUserPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +75,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         this.searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Request focus and show the soft keyboard
+                // Request focus and show the keyboard
                 searchView.setIconified(false);
             }
         });
@@ -75,7 +83,7 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         this.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String input) {
-                // The IME action was detected, perform the same action as your search button
+                // The IME action was detected, perform the doSearch
                 doSearch(input);
                 return true;
             }
@@ -97,6 +105,11 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         onDataChangeResponse();
     }
 
+    /**
+     * Set up the RecyclerView with the provided list of favorite songs.
+     *
+     * @param favorites List of favorite songs.
+     */
     private void setFavoritesList(List<Song> favorites){
 
         List<GeneralItem> itemList = new ArrayList<>();
@@ -105,6 +118,11 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         recyclerView.setAdapter(new ListFavSongAdapter(itemList, this));
     }
 
+    /**
+     * Handles click for each item in the RecyclerView.
+     *
+     * @param generalItem The clicked item's data.
+     */
     @Override
     public void onItemClicked(GeneralItem generalItem) throws IOException {
         RuntimeObserver.setCurrentSong(generalItem.getSong());
@@ -117,10 +135,13 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         RuntimeObserver.getCurrentMediaPlayer().start();
 
         Intent intent = new Intent(FavouriteSongActivity.this, SongActivity.class);
-        // add more extras if necessary
+
         startActivity(intent);
     }
 
+    /**
+     * Refresh the list of songs based on current data state.
+     */
     @Override
     public void onDataChangeResponse() {
         if(RuntimeObserver.currentUsrFavoriteSearchResults.isEmpty()){
@@ -156,12 +177,17 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        RuntimeObserver.currentUsrFavoriteSearchResults = new ArrayList<>();
     }
 
+    /**
+     * Deletes a song from favorites based on its position in the list.
+     *
+     * @param position Position of the song to be deleted.
+     */
     @Override
     public void onDeleteBtnClicked(int position) {
-        // Add delete event here
-        //delete this song from firestore and runtimeObserver
+        // Delete this song from firestore and runtimeObserver
         Song songDeleted = RuntimeObserver.currentUsrFavoriteSongs.remove(position);
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
         firestoreDao.deleteUserFavorites(songDeleted.getId());
@@ -171,6 +197,11 @@ public class FavouriteSongActivity extends AppCompatActivity implements OnGenera
         setFavoritesList(RuntimeObserver.currentUsrFavoriteSongs);
     }
 
+    /**
+     * Executes a search based on user input.
+     *
+     * @param input The search query.
+     */
     private void doSearch(String input){
         if(input == null|| input.equals("")){
             RuntimeObserver.currentUsrFavoriteSearchResults = new ArrayList<>();

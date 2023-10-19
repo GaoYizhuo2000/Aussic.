@@ -47,18 +47,40 @@ import au.edu.anu.Aussic.models.userAction.Like;
  */
 
 public class SongActivity extends AppCompatActivity implements OnDataChangeListener {
+    /** ImageView for displaying the round song image. */
     private ImageView roundImageView;
+
+    /** TextView for displaying the song's name. */
     private TextView nameText;
+
+    /** TextView for displaying the artist's name. */
     private TextView artistText;
+
+    /** ImageView to control song playback (play/pause). */
     private ImageView play;
+
+    /** ImageView to mark song as liked. */
     private ImageView like;
+
+    /** ImageView to mark song as favorite. */
     private ImageView fav;
+
+    /** ImageView to open the comments section for the song. */
     private ImageView comment;
+
+    /** Dialog to show the comments section. */
     private Dialog dialog;
+
+    /** Adapter for managing and displaying comments in a RecyclerView. */
     private CommentAdapter commentAdapter;
 
+    /** Button for navigating back to the home screen. */
     private Button goBacktoHome;
+
+    /** RecyclerView for displaying the list of comments. */
     RecyclerView commentsRecyclerView;
+
+    /** Data access object for Firestore interactions. */
     FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
 
@@ -78,6 +100,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         this.comment = findViewById(R.id.song_comment);
         this.goBacktoHome = findViewById(R.id.goBacktoHome);
 
+        // Set up finish for back button
         goBacktoHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +108,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             }
         });
 
+        // Set up page turning for artist text
         this.artistText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -95,10 +119,13 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         });
 
 
+        // Set up round image and relevant info for the song
         if (RuntimeObserver.getCurrentSong() != null) setTheSong(Functions.makeImageUrl(200, 200, RuntimeObserver.getCurrentSong().getUrlToImage()), RuntimeObserver.getCurrentSong().getSongName(), RuntimeObserver.getCurrentSong().getArtistName());
 
+        // Set up play/pause icon for the player
         if(RuntimeObserver.getCurrentMediaPlayer().isPlaying()) this.play.setImageResource(R.drawable.ic_song_pause);
 
+        // Set up like/unlike for the like button and show relevant data
         if(RuntimeObserver.currentUser.getLikes().contains(RuntimeObserver.getCurrentSong().getId())){
             this.like.setImageResource(R.drawable.ic_song_like);
             TextView likeText = findViewById(R.id.like_count);
@@ -107,6 +134,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         }
 
 
+        // Set up fav/unfav for the like button and show relevant data
         if(RuntimeObserver.currentUser.getFavorites().contains(RuntimeObserver.getCurrentSong().getId())){
             this.fav.setImageResource(R.drawable.ic_song_fav);
             TextView favText = findViewById(R.id.fav_count);
@@ -114,6 +142,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             favText.setText(favCount > 99 ? "99+" : "" + favCount);
         }
 
+        // Set up click listener for the play button
         this.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +162,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             }
         });
 
+        // Set up click listener for the like button
         this.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -149,6 +179,7 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             }
         });
 
+        // Set up click listener for the fav button
         this.fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -165,18 +196,29 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
                 }
             }
         });
+
+        // Set up comment dialogue
         setUpComments();
+
+        // Set up click listener for the comment button
         this.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 showBottomComments();
             }
         });
+
+        // react to any data change when created
         onDataChangeResponse();
-
-
     }
 
+    /**
+     * Updates the UI to display the current song's details.
+     *
+     * @param imageUrl  URL for the song's image.
+     * @param songName  Name of the song.
+     * @param artistName Name of the artist.
+     */
     private void setTheSong(String imageUrl,String songName, String artistName){
 
         Glide.with(this)
@@ -190,6 +232,9 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
         artistText.setText(Functions.adjustLength(artistName));
     }
 
+    /**
+     * Initializes and sets up the comments section.
+     */
     private void setUpComments(){
         this.dialog = new Dialog(this);
         this.dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -230,6 +275,10 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
             }
         });
     }
+
+    /**
+     * Displays the comments section at the bottom of the screen.
+     */
     private void showBottomComments() {
         dialog.show();
 
@@ -245,6 +294,9 @@ public class SongActivity extends AppCompatActivity implements OnDataChangeListe
     }
 
 
+    /**
+     * React to any realtime listener and show relevant data
+     */
     @Override
     public void onDataChangeResponse(){
         if(RuntimeObserver.getCurrentSong() != null){

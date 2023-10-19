@@ -7,6 +7,7 @@ import au.edu.anu.Aussic.models.entity.User;
 
 /**
  * @author: u7516507, Evan Cheung
+ * A class that contains any type of presented data
  */
 public class GeneralItem {
     private Song song;

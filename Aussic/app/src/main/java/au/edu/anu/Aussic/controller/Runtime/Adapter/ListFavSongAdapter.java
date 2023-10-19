@@ -13,6 +13,7 @@ import au.edu.anu.Aussic.R;
 
 /**
  * @author: u7516507, Evan Cheung
+ * An adapter for the user favorite song list, include delete button
  */
 
 public class ListFavSongAdapter extends ListSongAdapter {

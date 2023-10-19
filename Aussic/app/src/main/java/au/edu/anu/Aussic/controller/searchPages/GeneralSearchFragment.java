@@ -37,17 +37,9 @@ import au.edu.anu.Aussic.models.entity.User;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GeneralSearchFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A collection fragment for all search results
  */
 public class GeneralSearchFragment extends Fragment implements OnDataArrivedListener, OnDataChangeListener, OnGeneralItemClickListener {
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
     private TextView songs;
     private RecyclerView searchSongRecyclerView;
     private TextView artists;
@@ -61,31 +53,11 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AllTypesFragment.
-     */
-
-    public static GeneralSearchFragment newInstance(String param1, String param2) {
-        GeneralSearchFragment fragment = new GeneralSearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
         RuntimeObserver.addOnDataArrivedListener(this);
         RuntimeObserver.addOnDataChangeListener(this);
     }
@@ -116,6 +88,9 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
         return inflater.inflate(R.layout.fragment_general_search, container, false);
     }
 
+    /**
+     * Response to data arrival, display all search results here, include songs, Artists, genres and users
+     */
     @Override
     public void onDataArrivedResponse() {
         if(RuntimeObserver.getCurrentSongList() != null && !RuntimeObserver.getCurrentSongList().isEmpty()) {
@@ -155,6 +130,9 @@ public class GeneralSearchFragment extends Fragment implements OnDataArrivedList
         }
     }
 
+    /**
+     * Response to the change of song likes and favorites that will influence on their presented order
+     */
     @Override
     public void onDataChangeResponse() {
         onDataArrivedResponse();

@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * @author: u7516507, Evan Cheung
+ * An adapter for artist list
  */
 
 public class ListArtistAdapter extends ListSongAdapter{

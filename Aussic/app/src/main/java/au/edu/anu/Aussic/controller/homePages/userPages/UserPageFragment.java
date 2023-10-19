@@ -69,16 +69,10 @@ import au.edu.anu.Aussic.models.userAction.Comment;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UserPageFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class UserPageFragment extends Fragment implements OnDataChangeListener {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private TextView email,location;
     private Button favorites, getLocation;
     private ImageView userPhoto;
@@ -88,40 +82,14 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
     private boolean isViewAlive;
 
 
-    private String mParam1;
-    private String mParam2;
-
     public UserPageFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LibraryFragment.
-     */
-
-    public static UserPageFragment newInstance(String param1, String param2) {
-        UserPageFragment fragment = new UserPageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Retrieve arguments passed to the fragment if available.
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         RuntimeObserver.addOnDataChangeListener(this);
     }
 
@@ -298,6 +266,9 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
+    /**
+     * populate the dialogue with the clickable images
+     */
     private void setUpDialogue(){
         this.dialog = new Dialog(getContext());
         this.dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -314,7 +285,6 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         FirestoreDao firestoreDao = new FirestoreDaoImpl();
 
 
-        //imageView1.setClickable();
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -378,11 +348,11 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
                 dialog.dismiss();
             }
         });
-
-
-
     }
 
+    /**
+     * Display the changable profile images
+     */
     private void showProfile() {
         dialog.show();
 
@@ -397,6 +367,9 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         dialog.setCanceledOnTouchOutside(true);
     }
 
+    /**
+     * Response to any realtime data change, generally change user image here
+     */
     @Override
     public void onDataChangeResponse() {
         if(isViewAlive)
