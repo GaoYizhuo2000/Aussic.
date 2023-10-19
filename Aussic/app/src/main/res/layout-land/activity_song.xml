@@ -36,7 +36,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_vertial_song"
@@ -171,6 +172,12 @@
                     android:stateListAnimator="@animator/image_click_animator" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/trans"
+                app:layout_constraintTop_toTopOf="@id/constraintLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
