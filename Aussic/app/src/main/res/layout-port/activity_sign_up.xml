@@ -12,39 +12,40 @@
 
     <EditText
         android:id="@+id/signUpUsername"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="260dp"
-        android:background="@color/sky_blue"
+        android:background="@drawable/edittext_white"
+        android:backgroundTint="@color/sky_blue"
         android:hint="Please enter your email address"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/signUpPassword"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/sky_blue"
+        android:background="@drawable/edittext_white"
+        android:backgroundTint="@color/sky_blue"
         android:hint="Password"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signUpUsername" />
 
     <EditText
         android:id="@+id/comfirmPassword"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="Comfirm Password"
-        android:background="@color/sky_blue"
-        android:textSize="20sp"
+        android:background="@drawable/edittext_white"
+        android:backgroundTint="@color/sky_blue"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signUpPassword" />
 

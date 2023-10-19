@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: u7516507, Evan Cheung -->
+<!-- Author: u7603590, Jiawei Niu -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.entityPages.SongActivity"
+    tools:ignore="MissingDefaultResource">
+
+    <!-- Omitted goBacktoHome Button for brevity... -->
+
+
+    <Button
+        android:id="@+id/goBacktoHome"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/baseline_arrow_circle_left_24"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintDimensionRatio="1:1" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_vertial_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_horizontal_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <ImageView
+            android:id="@+id/song_spinning_round_image"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:background="@drawable/round_image_bg"
+            android:stateListAnimator="@animator/image_click_animator"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_song"
+            app:layout_constraintStart_toStartOf="@id/guideline_vertial_song"
+            app:layout_constraintTop_toTopOf="@id/guideline_horizontal_song" />
+
+
+        <ImageView
+            android:id="@+id/song_fab"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/ic_song_play"
+            android:stateListAnimator="@animator/image_click_animator"
+            app:layout_constraintEnd_toEndOf="@id/song_spinning_round_image"
+            app:layout_constraintStart_toStartOf="@id/song_spinning_round_image"
+            app:layout_constraintTop_toBottomOf="@id/song_spinning_round_image"
+            app:tint="@color/trans_light_sea_green" />
+
+        <!-- song_song_name and song_artist_name on the right half of the screen -->
+
+        <TextView
+            android:id="@+id/song_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="260dp"
+            android:fontFamily="casual"
+            android:padding="20dp"
+            android:text="Loading..."
+            android:textSize="50sp"
+            app:layout_constraintStart_toEndOf="@+id/song_spinning_round_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/song_artist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="casual"
+            android:padding="20dp"
+            android:text="Loading..."
+            android:textSize="50sp"
+            app:layout_constraintStart_toEndOf="@+id/song_spinning_round_image"
+            app:layout_constraintTop_toBottomOf="@id/song_song_name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="79dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="30dp">
+
+            <ImageView
+                android:id="@+id/song_like"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_song_not_like"
+                android:stateListAnimator="@animator/image_click_animator" />
+
+            <TextView
+                android:id="@+id/like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/trans"
+                android:fontFamily="casual"
+                android:padding="4dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                android:textStyle="bold" /> <!-- Semi-transparent background -->
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="30dp">
+
+            <ImageView
+                android:id="@+id/song_fav"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_song_not_fav"
+                android:stateListAnimator="@animator/image_click_animator" />
+
+            <TextView
+                android:id="@+id/fav_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/trans"
+                android:fontFamily="casual"
+                android:padding="4dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="36sp"
+                android:textStyle="bold" /> <!-- Semi-transparent background -->
+        </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/song_comment"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_song_comment"
+            android:stateListAnimator="@animator/image_click_animator" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

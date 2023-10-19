@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: u7516507, Evan Cheung -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.searchPages.UserSearchFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/search_users_users"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="casual"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="Users..."
+                android:textSize="40dp" />
+
+            <!-- Placeholder for Artist List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_list_user_user_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/trans" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

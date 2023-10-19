@@ -163,12 +163,8 @@
                 android:layout_height="200dp"
                 android:background="@color/trans"/>
 
-
-
         </LinearLayout>
 
-
-
-</ScrollView>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

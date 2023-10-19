@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: u7516507, Evan Cheung -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".controller.homePages.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/home_frag_its_playing"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="casual"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="It's Playing:"
+                android:textSize="40dp" />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/spinning_round_image"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/round_image_bg"
+                    android:scaleType="center"
+                    android:stateListAnimator="@animator/image_click_animator" />
+
+                <TextView
+                    android:id="@+id/round_image_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/spinning_round_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="casual"
+                    android:text="Loading..."
+                    android:textSize="30dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/home_frag_you_may_like"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="casual"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="You may like"
+                android:textSize="40dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/card_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <TextView
+                android:id="@+id/home_frag_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="casual"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="Daily..."
+                android:textSize="40dp" />
+
+            <!-- Placeholder for Song List (RecyclerView) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/trans" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
