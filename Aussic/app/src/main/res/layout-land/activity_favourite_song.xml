@@ -59,13 +59,13 @@
                 android:id="@+id/fav_searchview"
                 android:layout_width="390dp"
                 android:layout_height="30dp"
-                app:layout_constraintTop_toBottomOf="@+id/favorites_SongListText"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/baseline_rectangle_border"
                 android:visibility="visible"
                 app:iconifiedByDefault="false"
-                app:queryHint="Eg: \\a Troye;\\n Youth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favorites_SongListText"
+                app:queryHint="Eg: \\a Troye Sivan;\\n Youth"
                 app:searchIcon="@drawable/ic_bar_search" />
 
             <Button

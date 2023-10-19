@@ -40,8 +40,8 @@
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/ic_bar_search_bg"
-                    app:queryHint="Eg: \\a Troye;\\s Youth"
                     app:iconifiedByDefault="false"
+                    app:queryHint="Eg: \\a Troye Sivan;\\s Youth"
                     app:searchIcon="@drawable/ic_bar_search" />
 
                 <Button
