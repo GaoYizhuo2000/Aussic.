@@ -33,6 +33,13 @@ public class Session {
         this.history = session.getHistory();
         this.name = session.getName();
     }
+
+    /**
+     * Gets the peer user associated with this session.
+     *
+     * @return The peer user, or null if not found.
+     * @author: Evan Cheung
+     */
     public User getPeerUsr(){
         for(User user : RuntimeObserver.currentSessionsAvailableUsers){
             if (user.username.equals(this.users.get(0))) return user;
@@ -41,6 +48,14 @@ public class Session {
         return null;
     }
 
+    /**
+     * Compares this Session object to another object to determine equality based on their names.
+     *
+     * @param object The object to compare to this Session.
+     * @return true if the objects are equal (have the same name), false otherwise.
+     *
+     * @author: Evan Cheung
+     */
     @Override
     public boolean equals(Object object){
         if(object instanceof Session) {

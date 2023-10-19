@@ -53,6 +53,14 @@ public class User {
         this.blockList = usr.getBlockList();
     }
 
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param object The object to compare to.
+     * @return {@code true} if this object is the same as the object argument; {@code false} otherwise.
+     *
+     * @author: Evan Cheung
+     */
     @Override
     public boolean equals(Object object){
         if(object instanceof User){

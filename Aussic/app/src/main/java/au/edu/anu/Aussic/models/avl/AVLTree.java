@@ -44,6 +44,17 @@ public class AVLTree<T> extends BinarySearchTree<T> {
     }
 
 
+    /**
+     * Inserts a song into the AVL tree by its ID while maintaining the AVL balance.
+     * Rotates the tree if necessary to ensure balance.
+     *
+     * @param song The song to insert.
+     * @return The updated AVL tree after insertion.
+     * @throws IllegalArgumentException If the input song is null.
+     *
+     * @author: Oscar Wei
+     * @author: Yizhuo Gao
+     */
     @Override
     public AVLTree<T> insertById(Song song) {
         // Ensure input is not null.
@@ -76,6 +87,18 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return this;
     }
 
+
+
+    /**
+     * Inserts a song into the AVL tree by its name while maintaining AVL balance.
+     * Rotates the tree if necessary to ensure balance.
+     *
+     * @param song The song to insert.
+     * @return The updated AVL tree after insertion.
+     * @throws IllegalArgumentException If the input song is null.
+     *
+     * @author: Yizhuo gao
+     */
     @Override
     public AVLTree<T> insertByName(Song song) {
         if (song == null)
@@ -109,6 +132,16 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return this;
     }
 
+    /**
+     * Inserts a song into the AVL tree by its artist name while maintaining AVL balance.
+     * Rotates the tree if necessary to ensure balance.
+     *
+     * @param song The song to insert.
+     * @return The updated AVL tree after insertion.
+     * @throws IllegalArgumentException If the input song is null.
+     *
+     * @author: Yizhuo Gao
+     */
     @Override
     public AVLTree<T> insertByArtistName(Song song) {
         if (song == null)
@@ -142,6 +175,16 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return this;
     }
 
+    /**
+     * Inserts a song into the AVL tree by its release date while maintaining AVL balance.
+     * Rotates the tree if necessary to ensure balance.
+     *
+     * @param song The song to insert.
+     * @return The updated AVL tree after insertion.
+     * @throws IllegalArgumentException If the input song is null.
+     *
+     * @author: Yizhuo Gao
+     */
     @Override
     public AVLTree<T> insertByReleaseDate(Song song) {
         if (song == null)
@@ -175,6 +218,17 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return this;
     }
 
+    /**
+     * Inserts a song into the AVL tree by its genre while maintaining AVL balance.
+     * Rotates the tree if necessary to ensure balance.
+     *
+     * @param genre The genre to insert.
+     * @param song  The song to insert.
+     * @return The updated AVL tree after insertion.
+     * @throws IllegalArgumentException If the input song is null.
+     *
+     * @author: Yizhuo Gao
+     */
     @Override
     public AVLTree<T> insertByGenre(String genre, Song song) {
         if (song == null)
@@ -210,7 +264,13 @@ public class AVLTree<T> extends BinarySearchTree<T> {
     }
 
 
-
+    /**
+     * Code from lab4
+     * Performs a right rotation on the AVL tree, updating the structure to maintain balance.
+     * Returns the new parent node after rotation.
+     *
+     * @return The new parent node after the right rotation.
+     */
     public AVLTree<T> rightRotate() {
         AVLTree<T> newParent = (AVLTree<T>) this.leftNode;
         this.leftNode = newParent.rightNode;
@@ -220,6 +280,14 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return newParent;
     }
 
+
+    /**
+     * Code from lab4
+     * Performs a left rotation on the AVL tree, updating the structure to maintain balance.
+     * Returns the new parent node after rotation.
+     *
+     * @return The new parent node after the left rotation.
+     */
     public AVLTree<T> leftRotate() {
         AVLTree<T> newParent = (AVLTree<T>) this.rightNode;
         this.rightNode = newParent.leftNode;
@@ -231,10 +299,13 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
 
     /**
-     * Delete node by id
+     * Deletes a node with a given ID from the AVL tree, maintaining balance. Returns the updated tree structure after deletion.
      *
-     * @param song The element to be deleted
-     * @return
+     * @param song The song to be deleted.
+     * @return The updated tree structure after deletion.
+     * @throws IllegalArgumentException If the input song is null.
+     *
+     * @author: Oscar Wei
      */
     public Tree<T> deleteById(Song song) {
         if (song == null)
@@ -268,7 +339,15 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return balanceTree(newTree);
     }
 
-
+    /**
+     * Deletes a song node by name from the AVL tree, maintaining balance.
+     * Returns the updated tree structure after deletion.
+     *
+     * @param song The song to be deleted by name.
+     * @return The updated tree structure after deletion.
+     * @throws IllegalArgumentException If the input song or its attributes are null.
+     * Oscar Wei
+     */
     public Tree<T> deleteByName(Song song) {
         if (song == null || song.getSongName() == null || song.getId() == null)
             throw new IllegalArgumentException("Deletion arguments cannot be null");
@@ -320,6 +399,16 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return balanceTree(newTree);
     }
 
+    /**
+     * Deletes a song node by artist name from the AVL tree, maintaining balance.
+     * Returns the updated tree structure after deletion.
+     *
+     * @param song The song to be deleted by artist name.
+     * @return The updated tree structure after deletion.
+     * @throws IllegalArgumentException If the input song or its artist name is null.
+     *
+     * @author: Oscar Wei
+     */
     public Tree<T> deleteByArtistName(Song song) {
         if (song == null || song.getArtistName() == null)
             throw new IllegalArgumentException("Deletion arguments cannot be null");
@@ -369,6 +458,16 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return balanceTree(newTree);
     }
 
+    /**
+     * Deletes a song node by release date from the AVL tree, maintaining balance.
+     * Returns the updated tree structure after deletion.
+     *
+     * @param song The song to be deleted by release date.
+     * @return The updated tree structure after deletion.
+     * @throws IllegalArgumentException If the input song or its release date is null.
+     *
+     * @author: Oscar Wei
+     */
     public Tree<T> deleteByReleaseDate(Song song) {
         if (song == null || song.getReleaseDate() == null)
             throw new IllegalArgumentException("Deletion arguments cannot be null");
@@ -416,6 +515,17 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return balanceTree(newTree);
     }
 
+    /**
+     * Deletes a song node by genre from the AVL tree, maintaining balance.
+     * Returns the updated tree structure after deletion.
+     *
+     * @param genre The genre to filter songs for deletion.
+     * @param song The song used to identify the specific song to delete within the genre.
+     * @return The updated tree structure after deletion.
+     * @throws IllegalArgumentException If the input song, genre, or its ID is null.
+     *
+     * @author: Oscar Wei
+     */
     public Tree<T> deleteByGenre(String genre, Song song) {
         if (song == null || song.getId() == null || genre == null)
             throw new IllegalArgumentException("Deletion arguments cannot be null");
@@ -458,6 +568,15 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return balanceTree(newTree);
     }
 
+    /**
+     * Balances an AVL tree node to maintain its structural integrity.
+     * Returns the balanced tree structure.
+     *
+     * @param tree The AVL tree node to balance.
+     * @return The balanced tree structure.
+     *
+     * @author: Oscar Wei
+     */
     private Tree<T> balanceTree(Tree<T> tree) {
 
         int balanceFactor = tree.getBalanceFactor();
@@ -472,6 +591,16 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return tree; // Already balanced
     }
 
+
+    /**
+     * Balances an AVL tree node to maintain its structural integrity. If needed, performs left and right rotations
+     * to ensure balanced height. Returns the balanced AVL tree node.
+     *
+     * @param tree The AVL tree node to balance.
+     * @return The balanced AVL tree node.
+     *
+     * @author: Oscar Wei
+     */
     private AVLTree<T> balanceRightHeavy(AVLTree<T> tree) {
         AVLTree<T> rightNode = (AVLTree<T>) tree.rightNode;
         //Right left rotate
@@ -483,6 +612,26 @@ public class AVLTree<T> extends BinarySearchTree<T> {
         return tree.leftRotate();
     }
 
+    /**
+     * Balances a left-heavy AVL tree node to maintain its structural integrity.
+     * If needed, performs left and right rotations
+     * to ensure balanced height. Returns the balanced AVL tree node.
+     *
+     * @param tree The non-null left-heavy AVL tree node to balance.
+     * @return The balanced AVL tree node.
+     *
+     * @author: Oscar Wei
+     */
+
+    /**
+     * Balances a left-heavy AVL tree node to maintain its structural integrity. If necessary, this method performs a left-right rotation
+     * to ensure balanced height. Returns the balanced AVL tree node.
+     *
+     * @param tree The non-null left-heavy AVL tree node to balance.
+     * @return The balanced AVL tree node.
+     *
+     * @author: Oscar Wei
+     */
     private AVLTree<T> balanceLeftHeavy(AVLTree<T> tree) {
         AVLTree<T> leftNode = (AVLTree<T>) tree.leftNode;
         //Left right rotate
@@ -497,11 +646,10 @@ public class AVLTree<T> extends BinarySearchTree<T> {
 
     /**
      * Helper for deleteById()
-     * To find the
      * Finds the rightmost (largest) element in the left subtree
      *
      * @return the rightmost element
-     * @author
+     * @author Oscar Wei
      */
         public AVLTree<T> findMaxNode() {
             if (this.rightNode instanceof EmptyAVL ) {

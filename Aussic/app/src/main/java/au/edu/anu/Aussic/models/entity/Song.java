@@ -120,7 +120,6 @@ public class Song implements Cloneable, Comparable<Song> {
 
     public String getAlbumName() {
         return attributes.getAlbumName();
-        // ... getters and setters
     }
 
 
@@ -140,7 +139,6 @@ public class Song implements Cloneable, Comparable<Song> {
         return attributes.getName();
     }
 
-        // ... getters and setters
     public List<String> getGenre() {
         return attributes.getGenreNames();
     }

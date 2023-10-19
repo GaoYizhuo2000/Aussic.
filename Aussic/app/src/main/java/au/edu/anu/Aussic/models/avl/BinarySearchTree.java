@@ -11,6 +11,7 @@ import au.edu.anu.Aussic.models.entity.Song;
  */
 
 /**
+ * Edited codes from lab 4
  * An AVL tree is actually an extension of a Binary Search Tree
  * with self balancing properties. Hence, our AVL trees will 'extend'
  * this Binary Search tree data structure.

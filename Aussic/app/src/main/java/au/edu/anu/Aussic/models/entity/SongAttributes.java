@@ -197,6 +197,12 @@ public class SongAttributes implements Cloneable{
         this.artistName = artistName;
     }
 
+    /**
+     * Creates a deep clone of this SongAttributes object.
+     *
+     * @return A new SongAttributes object that is a deep copy of this instance.
+     * @author: Oscar Wei
+     */
     @Override
     public SongAttributes clone() {
         try {
