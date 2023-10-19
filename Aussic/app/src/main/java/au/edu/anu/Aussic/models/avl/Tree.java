@@ -115,4 +115,11 @@ public abstract class Tree<T> {
 
 
     protected abstract AVLTree<T> findMaxNode();
+
+    protected void updateHeight() {
+    }
+
+    protected int getBalanceFactor() {
+        return 0;
+    }
 }
