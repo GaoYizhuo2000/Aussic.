@@ -17,6 +17,7 @@ public class ParserAndTokenizerTest {
         Token token = new Token("\\a",Token.Type.ARTISTNAME);
         assertEquals("\\a", token.getToken());
         assertEquals(Token.Type.ARTISTNAME, token.getType());
+
     }
 
     @Test
