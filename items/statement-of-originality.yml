@@ -23,33 +23,20 @@ declaration: >-
   own work, with the following exceptions:
   
 
-# add as many "name+comment" entries as necessary
-# (or remove it altogether if you haven't collaborated with anyone outside your group)
-collaboration:
-  - name:
-    comment: >-
-  
-
-# add as many "url+licence+comment" entries as necessary
-# (or remove it altogether if you haven't used any external code)
-code:
-  - comment:
-    url:
-    licence:
 
 
 # add as many "url+licence+comment" entries as necessary
 # (or remove it altogether if you haven't used any external assets)
 assets:
   # NOTE: "Bliss" is just here as an example, you SHOULD REMOVE IT
-  - comment: "_Bliss_ by Charles O'Rear"
-    url: https://en.wikipedia.org/wiki/Bliss_(image)
+  - comment: "User profile image"
+    url: https://emojikitchen.dev/
     licence: fair use
 
 
 ### Questions (answer before final submission):
 1. You (as a group) completed this work (tick the most appropriate option):
-  - [ ] by yourself (as a group) without the help of others;
+  - [x] by yourself (as a group) without the help of others;
       [ ] with Gen AI tools (e.g., ChatGPT, Co-Pilot).
       [ ] using online resources (e.g., Stackoverflow, blogs)
 
@@ -60,16 +47,16 @@ assets:
   - <your answer here>
 
 4. How long did it take to complete this assignment (approximately, in hours)?
-  - <your answer here> hours
+  - <your answer here> 120 hours
 
 
 
 # for each member, sign by inputting your name and uid here (remove any empty "name+uid" entries)
 members:
-  - name:
-    uid:
-  - name:
-    uid:
+  - name: Evan Cheung
+    uid: u7516507
+  - name: Oscar Wei
+    uid: u7581818
   - name:
     uid:
   - name:

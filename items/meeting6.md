@@ -31,29 +31,19 @@ Lead/scribe:
 ## Agenda Items
 
 | Number | Item |
-
 | :----- | :----------------------------------------------------------------------- |
-
 | 1 | Report the current progress (product backlog). |
-
 | 2 | Determine the features to be developed in the next sprint. |
-
 | 3 | Discuss the p2p features |
-
 | 4 | Determine the next steps for everyone |
 
 ## Action Items
 
 | Task | Assigned To | Due Date |
-
 | :----------------------------------------------------------------------------- | :---------: | :--------: |
-
 | Debug the login and sign-in features. And complete the User pages| Jiawei | 18/10/2023 |
-
 | Connect the backend logic to firestore | Yizhuo | 18/10/2023 |
-
 | Finish listenes, p2p page, genre page and artist page. | Evan | 18/10/2023 |
-
 | Write test for all method and activities. Finish the delete method for AVL Tree  | Oscar | 18/10/2023 |
 
 ## Meeting Minutes
@@ -106,13 +96,8 @@ Lead/scribe:
 The following dictates who will scribe in this and the next meeting.
 
 | Name |
-
 | :---------: |
-
 | Evan Cheung |
-
 | Yizhuo Gao |
-
 | Jiawei Niu |
-
 | Oscar Wei |
