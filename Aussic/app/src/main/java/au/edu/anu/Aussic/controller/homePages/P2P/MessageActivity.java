@@ -74,10 +74,10 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
                 String messageText = input.getText().toString().trim();
 
                 if (!messageText.isEmpty()) {
-                    //update message in firestore
+                    // Update message in firestore
                     FirestoreDao firestoreDao = new FirestoreDaoImpl();
                     firestoreDao.updateHistory(RuntimeObserver.currentMessagingSession.getName(), messageText);
-                    // Optional: Clear the EditText after sending the comment
+                    // Clear the EditText after sending the comment
                     input.setText("");
 
                 } else {
@@ -121,7 +121,8 @@ public class MessageActivity extends AppCompatActivity implements OnDataChangeLi
             }
 
             if(recyclerView.getAdapter() == null) this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new MessagesAdapter(messages));
+            if(recyclerView.getAdapter() == null) recyclerView.setAdapter(new MessagesAdapter(messages));
+            else if(recyclerView.getAdapter().getItemCount() != messages.size()) recyclerView.setAdapter(new MessagesAdapter(messages));
         }
     }
 }

@@ -19,6 +19,7 @@ import au.edu.anu.Aussic.R;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.CardGenreAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.GeneralItem;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.ListUsrAdapter;
+import au.edu.anu.Aussic.controller.Runtime.Adapter.MessagesAdapter;
 import au.edu.anu.Aussic.controller.Runtime.Adapter.OnGeneralItemClickListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.OnDataChangeListener;
 import au.edu.anu.Aussic.controller.Runtime.observer.RuntimeObserver;
@@ -101,8 +102,9 @@ public class MessagesFragment extends Fragment implements OnGeneralItemClickList
 
             for (User user : RuntimeObserver.currentSessionsAvailableUsers)  sessionList.add(new GeneralItem(user));
 
-            this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            this.recyclerView.setAdapter(new ListUsrAdapter(sessionList, this));
+            if (this.recyclerView.getAdapter() == null) this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+            if(recyclerView.getAdapter() == null)  this.recyclerView.setAdapter(new ListUsrAdapter(sessionList, this));
+            else if(recyclerView.getAdapter().getItemCount() != sessionList.size()) this.recyclerView.setAdapter(new ListUsrAdapter(sessionList, this));
         }
     }
 }
