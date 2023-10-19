@@ -31,6 +31,10 @@ import com.google.firebase.auth.FirebaseUser;
  * @author: u7552399, Yizhuo Gao
  * @author: u7516507, Evan Cheung
  */
+
+/**
+ * SignUpActivity facilitates the user registration using email and password through Firebase Auth.
+ */
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonSignUp, buttonGoBack;
     private EditText usernameSignUp, passwordSignUp, comfirmPassword;
@@ -48,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp=findViewById(R.id.SignUp);
         buttonGoBack=findViewById(R.id.goBack);
 
+        // Initialize Firebase Auth
         mAuth=FirebaseAuth.getInstance();
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String password= passwordSignUp.getText().toString().trim();
                 String comfirmPwd = comfirmPassword.getText().toString().trim();
 
+                // Input validations
                 if(email.isEmpty())
                 {
                     usernameSignUp.setError("Email is empty");
@@ -85,7 +91,8 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "The passwords are inconsistent!", Toast.LENGTH_LONG).show();
                     return;
                 }
-//
+
+                // Create a new user using Firebase
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -94,8 +101,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    //create userdata and upload to firestore
 
+                                    //create userdata and upload to firestore
                                     User newUsr = new User(email, "https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media");
                                     FirestoreDao firestoreDao = new FirestoreDaoImpl();
                                     firestoreDao.addUserdata(new User(email, "https://firebasestorage.googleapis.com/v0/b/aussic-52582.appspot.com/o/icon%2Fdefault.jpg?alt=media"));
@@ -118,6 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // Go Back button click, navigate to Login Activity
         buttonGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +136,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Update the UI based on the user registration state.
+     *
+     * @param user Firebase authenticated user.
+     */
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(this, LoadingActivity.class);

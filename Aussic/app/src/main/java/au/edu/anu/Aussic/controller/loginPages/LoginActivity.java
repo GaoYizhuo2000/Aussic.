@@ -30,6 +30,10 @@ import au.edu.anu.Aussic.R;
  * @author: u7516507, Evan Cheung
  */
 
+
+/**
+ * LoginActivity facilitates the user authentication via email and password using Firebase Auth.
+ */
 public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
     private Button buttonSignIn, buttonSignUp;
@@ -41,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         super.onCreate(savedInstanceState);
@@ -54,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         viewable = (ToggleButton) findViewById(R.id.toggleButton);
 
 
+        // Toggle visibility of the password input field
         viewable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -66,11 +71,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        // Sign In button click
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String user_name = username.getText().toString().trim();
                 String pass_word = password.getText().toString().trim();
+
+                // Input validations
                 if (user_name.isEmpty()) {
                     username.setError("Email is empty");
                     username.requestFocus();
@@ -91,6 +99,8 @@ public class LoginActivity extends AppCompatActivity {
                     password.requestFocus();
                     return;
                 }
+
+                // Authenticate using Firebase
                 mAuth.signInWithEmailAndPassword(user_name, pass_word).addOnCompleteListener(
                                 new OnCompleteListener<AuthResult>() {
                             @Override
@@ -115,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Sign Up button click
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +135,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Update the UI based on the user authentication state.
+     *
+     * @param user Firebase authenticated user.
+     */
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             Intent intent = new Intent(this, LoadingActivity.class);

@@ -62,6 +62,7 @@ import au.edu.anu.Aussic.models.userAction.Comment;
 /**
  * @author: u7516507, Evan Cheung
  * @author: u7603590, Jiawei Niu
+ * @author: u7581818, Oscar Wei
  */
 
 /**
@@ -112,6 +113,8 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve arguments passed to the fragment if available.
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -153,6 +156,8 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
                 }
             }
         };
+
+        // Get Location button click
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,17 +176,15 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
 
         setUpDialogue();
 
+        // Change user photo button click
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getContext(), "Change profile image feature not implemented yet.", Toast.LENGTH_SHORT).show();
-                //showbottom()
                 showProfile();
             }
         });
 
-
-
+        // Favourite song list button click
         favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,10 +196,12 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-
         return rootView;
     }
 
+    /**
+     * Starts requesting location updates.
+     */
     private void startLocationUpdates() {
         try {
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
@@ -206,37 +211,27 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         }
     }
 
-//    private void getLastLocation() {
-//        try {
-//            fusedLocationProviderClient.getLastLocation()
-//                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-//                        @Override
-//                        public void onSuccess(Location location) {
-//                            if (location != null) {
-//                                String cityName = getCityNameByCoordinates(location.getLatitude(), location.getLongitude());
-//                                updateLocationInUI(cityName);
-//                            }
-//                        }
-//                    })
-//                    .addOnFailureListener(getActivity(), new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Toast.makeText(getActivity(), "Failed to get location.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//        } catch (SecurityException e) {
-//            Toast.makeText(getActivity(), "Location permission was revoked by the user.", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
+    /**
+     * Update the displayed city name based on location.
+     *
+     * @param cityName The name of the city.
+     */
     private void updateLocationInUI(String cityName) {
         location.setText("Location: " + cityName);
     }
 
+    /**
+     * Checks if location permission is granted.
+     *
+     * @return true if location permission is granted, false otherwise.
+     */
     private boolean checkLocationPermission() {
         return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * Requests location permission from the user.
+     */
     private void requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
             Toast.makeText(getActivity(), "Please allow location permission for proper functioning.", Toast.LENGTH_SHORT).show();
@@ -256,6 +251,13 @@ public class UserPageFragment extends Fragment implements OnDataChangeListener {
         }
     }
 
+    /**
+     * Determines the city name based on given latitude and longitude coordinates.
+     *
+     * @param lat Latitude of the location.
+     * @param lon Longitude of the location.
+     * @return The name of the city or an empty string if the city name couldn't be determined.
+     */
     private String getCityNameByCoordinates(double lat, double lon) {
         String cityName = "";
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
